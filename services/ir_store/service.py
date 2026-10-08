@@ -96,6 +96,13 @@ def empty_ir(process: dict) -> dict:
             "scope": {"in": [], "out": [], "assumptions": [], "constraints": [], "confirmed_none": []}}
 
 
+def content_view(ir: dict) -> dict:
+    """The IR without derived stories and the Patch Service's managed fields: what a revert restores."""
+    view = {k: v for k, v in ir.items() if k != "stories"}
+    view["process"] = {k: v for k, v in ir["process"].items() if k not in ("version", "updated_at")}
+    return view
+
+
 def to_be_id_for(as_is_id: str) -> str:
     """M11 convention: <as-is id>_to_be, dropping a trailing _as_is (proc_client_kyc_as_is → proc_client_kyc_to_be)."""
     return as_is_id.removesuffix("_as_is") + "_to_be"
@@ -295,6 +302,29 @@ class PatchService:
                           target=row.id, process_id=row.process_id, after={"reason": reason})
         await self.s.flush()
         return row
+
+    async def revert(self, patch_id: str, *, actor: Actor, reason: str | None = None) -> PatchResult:
+        """Undo an applied patch with its inverse, as a new patch (history is never rewritten).
+
+        Conflicts (409) when a later patch changed the same paths: undo that one first.
+        """
+        original = await self.get_patch(patch_id)
+        if original.status != "applied":
+            raise Conflict("/problems/patch-not-applied", f"patch {patch_id} is {original.status}",
+                           patch_status=original.status)
+        before = await self.s.get(IrVersion, (original.process_id, original.applied_version - 1))
+        after = await self.s.get(IrVersion, (original.process_id, original.applied_version))
+        ops = jsonpatch.make_patch(content_view(after.snapshot), content_view(before.snapshot)).patch
+        if not ops:
+            raise Conflict("/problems/nothing-to-undo", f"patch {patch_id} changed nothing")
+        result = await self.submit({
+            "patch_id": f"undo_{patch_id}"[:60] + f"_{uuid7_str()[-8:]}", "process_id": original.process_id,
+            "base_version": original.applied_version, "ops": ops, "author": {"kind": "user", "id": actor.id},
+            "reason": reason or f"Undo {patch_id}", "auto_apply": True, "status": "proposed"}, actor=actor)
+        if result.status == "applied":
+            await write_audit(self.s, actor_kind=actor.kind, actor_id=actor.id, action="patch.reverted",
+                              target=patch_id, process_id=original.process_id, after={"by_patch": result.patch_id})
+        return result
 
     # ------------------------------------------------------------------ fork (M11)
     async def fork(self, as_is_id: str, *, actor: Actor, to_process_id: str | None = None,

@@ -46,6 +46,40 @@ jobs:
       - name: Tests
         run: uv run pytest -q
 
+  web:
+    # Typecheck, build and the Playwright UI tests (M12) against the real API in LLM replay mode.
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: rs
+          POSTGRES_PASSWORD: rs
+          POSTGRES_DB: rs
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U rs -d rs" --health-interval 2s --health-timeout 3s --health-retries 30
+    env:
+      E2E_DATABASE_URL: postgresql+asyncpg://rs:rs@localhost:5432/rs
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked
+        working-directory: .
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test
+
   mermaid:
     # AC-M10-4: the Mermaid flows compile with @mermaid-js/mermaid-cli.
     runs-on: ubuntu-latest

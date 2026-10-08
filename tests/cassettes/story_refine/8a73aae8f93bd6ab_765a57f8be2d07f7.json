@@ -1,0 +1,13 @@
+{
+  "prompt_file": "story_refine",
+  "prompt_sha256": "8a73aae8f93bd6ab39bcd6589049afb89df0e47ecce46dce8b72333adf1dd8a4",
+  "variables_sha256": "765a57f8be2d07f744d717434b1730f0fcb1f13a97c96f272d716ac473f76ee4",
+  "responses": [
+    {
+      "text": "{\"ops\": [{\"op\": \"replace\", \"path\": \"/nodes/node_request_docs/name\", \"value\": \"Send KYC document request\"}, {\"op\": \"add\", \"path\": \"/nodes/node_handle_replies\", \"value\": {\"type\": \"task\", \"name\": \"Handle client replies\", \"description\": \"File each document the client uploads through the portal and check the set is complete.\", \"actor_id\": \"act_onboarding_analyst\", \"system_ids\": [\"act_client_portal\"], \"inputs\": [\"ent_kyc_documents\"], \"hitl\": {\"mode\": \"automated\"}, \"goal_ids\": [\"goal_faster_kyc\"], \"priority\": \"must\", \"outcome\": \"every document the client sends is filed and ready to verify\", \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T21\"}, \"excerpt\": \"handling replies\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}, {\"op\": \"replace\", \"path\": \"/edges/edge_await_verify/to\", \"value\": \"node_handle_replies\"}, {\"op\": \"add\", \"path\": \"/edges/edge_replies_verify\", \"value\": {\"from\": \"node_handle_replies\", \"to\": \"node_verify_id\", \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T21\"}, \"excerpt\": \"handling replies\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}, {\"op\": \"add\", \"path\": \"/acceptance_criteria/ac_handle_replies\", \"value\": {\"title\": \"Uploaded documents are filed\", \"kind\": \"happy_path\", \"applies_to\": [\"node_handle_replies\"], \"given\": [\"a client uploads a passport through the portal\"], \"when\": [\"the upload is received\"], \"then\": [\"the passport is filed to the client's KYC documents\"], \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T21\"}, \"excerpt\": \"handling replies\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}], \"summary\": [\"Split 'Request KYC documents' into 'Send KYC document request' and 'Handle client replies'\", \"New acceptance criterion: Uploaded documents are filed\"], \"clarifying_question\": null, \"answer\": null}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

@@ -7,15 +7,12 @@ and changes the IR only through the Patch Service.
 import copy
 import re
 from dataclasses import dataclass, field
-from datetime import timedelta
 from typing import Any
 
-import jsonpatch
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from confidence_dor import DEFAULT_AUTHORITY_WEIGHTS, closure_hash, evaluate_dor
-from gap_rules import fingerprint
 from ir_core import Issue, PatchRejected
 from ir_core.graph import live
 from ir_core.ids import ELEMENT_COLLECTIONS, PREFIX_TO_COLLECTION
@@ -28,9 +25,19 @@ from services.gaps.db import GapRow
 from services.gaps.store import stored_gaps, sync_gaps
 from services.ideas.db import Idea
 from services.identity_audit.audit import write_audit
-from services.interviewer.db import Question, Sme
-from services.ir_store.db import IrPatch, IrVersion
-from services.ir_store.service import Actor, Conflict, NotFound, PatchService, empty_ir, iso, to_be_id_for
+from services.interviewer.ask import NewGap, ask_someone
+from services.interviewer.db import Question
+from services.ir_store.db import IrPatch
+from services.ir_store.service import (
+    Actor,
+    Conflict,
+    NotFound,
+    PatchService,
+    content_view,
+    empty_ir,
+    iso,
+    to_be_id_for,
+)
 from services.llm_gateway import LLMGateway
 from story_renderer import derive_stories
 
@@ -49,7 +56,6 @@ SLOT_SECTION = {"C01": "/goals", "C02": "/goals", "C03": "/personas", "C04": "/n
                 "C06": "/nodes", "C07": "/actors", "C08": "/decision_rules", "C09": "/exceptions",
                 "C10": "/entities", "C11": "/actors", "C12": "/nfrs", "C13": "/slas", "C14": "/nfrs",
                 "C15": "/scope", "C16": "/nodes", "C17": "/nodes"}
-QUESTION_DUE = timedelta(days=2)
 INTAKE_AGENT = Actor("agent", "agent:intake")
 
 
@@ -89,9 +95,7 @@ def _slug(text: str, limit: int = 40) -> str:
 
 def ir_view(ir: dict) -> dict:
     """The IR as the LLM sees it: no derived stories and no version/clock fields (so cassettes stay stable)."""
-    view = {k: v for k, v in ir.items() if k != "stories"}
-    view["process"] = {k: v for k, v in ir["process"].items() if k not in ("version", "updated_at")}
-    return view
+    return content_view(ir)
 
 
 def provenance_refs(value: Any):
@@ -340,50 +344,23 @@ class IntakeService:
     async def _ask_someone(self, sess: IntakeSession, turn: IntakeTurn, text: str | None,
                            sme_id: str | None) -> str:
         """Create the SME question and the intake gap behind it; the target is parked by the caller."""
-        if not sme_id:
-            raise PatchRejected([Issue("envelope", "/ask_sme_id",
-                                       "name the person to ask (automatic SME routing arrives with M6)")])
-        sme = await self.s.get(Sme, sme_id)
-        if sme is None:
-            raise PatchRejected([Issue("envelope", "/ask_sme_id", f"unknown SME {sme_id}")])
         ir = await self.patches.get_ir(sess.process_id)
         target = Target(**turn.target)
         question = turn.question or {}
-        options = [o for o in question.get("suggested_answers", []) if o not in STANDARD_OPTIONS]
-        answer_type = {"multi_choice": "choice"}.get(question.get("answer_type"), question.get("answer_type"))
-        answer_type = answer_type or "free_text"
-
-        if target.kind == "gap" and (gap := await self.s.get(GapRow, target.id)):
-            gap.status = "asked"
-        else:
-            refs = [SLOT_SECTION.get(target.id, "/nodes")]
-            gap_type = "integration_capability_unknown" if target.id == "C11" else "unclear_business_rule"
-            gap = GapRow(id=f"gap_intake_{sess.id.removeprefix('is_')}_{turn.turn.lower()}"[:64],
-                         process_id=sess.process_id, fingerprint=fingerprint(gap_type, refs), type=gap_type,
-                         severity="major", detector="intake", target_refs=refs,
-                         title=question.get("text", "Question for an expert")[:200],
-                         why_it_matters=question.get("why", ""),
-                         question={"text": question.get("text", ""), "answer_type": answer_type,
-                                   "suggested_answers": options},
-                         routing={"topic_tags": [SLOT_KEY.get(target.id, target.kind)],
-                                  "candidate_actor_ids": list(sme.actor_ids)},
-                         priority=4, status="asked", ir_version_detected=ir["process"]["version"])
-            self.s.add(gap)
-        now = self.clock()
-        q = Question(id=f"q_{uuid7().hex}", process_id=sess.process_id, origin="intake_ask_someone",
-                     asked_by=sess.requester_user_id, gap_ids=[gap.id], sme_id=sme.id,
-                     channel="email" if "email" in sme.channels else "in_app",  # email or portal (no Teams yet)
-                     text=question.get("text", "")[:400], context_snippet=(text or "")[:600],
-                     answer_type=answer_type, suggested_answers=options, status="sent", sent_at=now,
-                     due_at=now + QUESTION_DUE)
-        self.s.add(q)
-        await self.s.flush()
+        refs = [SLOT_SECTION.get(target.id, "/nodes")]
+        new_gap = NewGap(gap_id=f"gap_intake_{sess.id.removeprefix('is_')}_{turn.turn.lower()}",
+                         type="integration_capability_unknown" if target.id == "C11" else "unclear_business_rule",
+                         target_refs=refs, title=question.get("text", "Question for an expert"),
+                         why_it_matters=question.get("why", ""), topic=SLOT_KEY.get(target.id, target.kind))
+        q, gap, captured = await ask_someone(
+            self.s, process_id=sess.process_id, ir_version=ir["process"]["version"], sme_id=sme_id,
+            asked_by=sess.requester_user_id, text=question.get("text", ""), context=text,
+            answer_type=question.get("answer_type"),
+            options=[o for o in question.get("suggested_answers", []) if o not in STANDARD_OPTIONS],
+            now=self.clock(), existing_gap_id=target.id if target.kind == "gap" else None, new_gap=new_gap,
+            correlation_id=self.correlation_id)
         turn.payload = {**turn.payload, "question_id": q.id, "parked": [gap.id]}
-        await enqueue_event(self.s, self._event("question.sent", sess, {"question_id": q.id, "sme_id": sme.id}))
-        await write_audit(self.s, actor_kind="user", actor_id=sess.requester_user_id, action="question.sent",
-                          target=q.id, process_id=sess.process_id, after={"sme_id": sme.id, "gap_id": gap.id})
-        role = f" ({sme.role_title})" if sme.role_title else ""
-        return f"Asked {sme.name}{role}: {q.text}"
+        return captured
 
     async def record_sme_answer(self, session_id: str, *, question_id: str, patch_id: str, answered_by: str,
                                 answer_text: str, captured: list[str]) -> None:
@@ -415,15 +392,8 @@ class IntakeService:
             raise NotFound(f"entry {n} of {session_id} has no change to undo")
         if entry.undone_by_patch_id:
             raise Conflict("/problems/already-undone", f"entry {n} was already undone")
-        patch = await self.s.get(IrPatch, entry.patch_id)
-        before = await self.s.get(IrVersion, (patch.process_id, patch.applied_version - 1))
-        after = await self.s.get(IrVersion, (patch.process_id, patch.applied_version))
-        ops = [op for op in jsonpatch.make_patch(ir_view(after.snapshot), ir_view(before.snapshot)).patch]
-        undo = {"patch_id": f"patch_{sess.id}_undo_{uuid7().hex[:12]}", "process_id": patch.process_id,
-                "base_version": patch.applied_version, "ops": ops,
-                "author": {"kind": "user", "id": sess.requester_user_id},
-                "reason": f"Undo {entry.turn or entry.kind} (entry {n})", "auto_apply": True, "status": "proposed"}
-        result = await self.patches.submit(undo, actor=Actor("user", sess.requester_user_id))
+        result = await self.patches.revert(entry.patch_id, actor=Actor("user", sess.requester_user_id),
+                                           reason=f"Undo {entry.turn or entry.kind} (entry {n})")
         if result.status != "applied":
             raise Conflict("/problems/undo-conflict", "later changes touch the same elements; undo those first",
                            conflicting_paths=result.conflicting_paths)
@@ -613,7 +583,7 @@ class IntakeService:
             context["slot_key"] = SLOT_KEY[target.id]
         elif target.kind == "follow_up":
             context["question"] = self._state(sess).get("follow_up_question")
-        elif target.kind == "gap" and (gap := await self.s.get(GapRow, target.id)):
+        elif target.kind == "gap" and (gap := await self.s.get(GapRow, (sess.process_id, target.id))):
             context["gap"] = self._gap_context(gap.as_gap())
         return context
 
@@ -728,7 +698,7 @@ class IntakeService:
             if r.coverage_after:
                 e["coverage_after"] = r.coverage_after
             for key in ("playback_text", "from_phase", "to_phase", "question_id", "parked", "fork", "story_ids",
-                        "author", "suggestion_ids", "suggestion_id", "decision"):
+                        "author", "suggestion_ids", "suggestion_id", "decision", "story_id"):
                 if key in r.payload:
                     e[key] = r.payload[key]
             timeline.append(e)

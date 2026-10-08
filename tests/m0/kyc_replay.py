@@ -107,6 +107,10 @@ class SampleProvider:
         elif kind == "SuggestionList":
             body = {"suggestions": [_proposal(s) for s in load(KYC / "suggestions_client_kyc.json")],
                     "not_suggested": []}
+        elif kind == "StoryRefinement":
+            from tests.m12.refinements import RESPONSES
+            instruction = re.search(r"instruction: (.*?)\nstory: ", prompt, re.S).group(1)
+            body = RESPONSES[instruction]
         elif kind == "SuggestedChange":  # Edit: the requester asks for review of every auto-approval
             s = next(x for x in load(KYC / "suggestions_client_kyc.json") if f'"suggestion_id": "{x["suggestion_id"]}"'
                      in prompt)
@@ -173,7 +177,8 @@ async def answer_next(replay: Replay) -> bool:
         return False
     gap_type = None
     if question.target["kind"] == "gap":
-        gap_type = (await svc.s.get(GapRow, question.target["id"])).type
+        sess = await svc.s.get(IntakeSession, SESSION["session_id"])
+        gap_type = (await svc.s.get(GapRow, (sess.process_id, question.target["id"]))).type
     entry = sample_turn_for(question.target, gap_type)
     if question.target == {"kind": "playback_confirm", "id": "as_is"}:
         await sme_answer_arrives(svc)

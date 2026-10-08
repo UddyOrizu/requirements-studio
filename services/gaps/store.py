@@ -19,7 +19,7 @@ async def sync_gaps(session: AsyncSession, ir: dict, *, patch_id: str | None, do
     """Detect, reconcile with what is stored, write the changes; returns every gap of the process (schema shape)."""
     rows = await stored_gaps(session, ir["process"]["id"])
     result = reconcile([r.as_gap() for r in rows], detect_gaps(ir, document_led=document_led), patch_id=patch_id)
-    by_id = {r.id: r for r in rows}
+    by_id = {r.id: r for r in rows}  # one process: ids are unique
     for g in result.resolved:
         by_id[g["gap_id"]].status, by_id[g["gap_id"]].resolved_by_patch_id = "resolved", patch_id
     for g in result.opened:

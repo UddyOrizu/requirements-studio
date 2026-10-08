@@ -179,3 +179,8 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+# Web app
+node_modules/
+apps/web/dist/
+apps/web/test-results/
+apps/web/playwright-report/

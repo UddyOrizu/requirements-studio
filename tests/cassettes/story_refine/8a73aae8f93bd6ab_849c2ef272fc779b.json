@@ -1,0 +1,13 @@
+{
+  "prompt_file": "story_refine",
+  "prompt_sha256": "8a73aae8f93bd6ab39bcd6589049afb89df0e47ecce46dce8b72333adf1dd8a4",
+  "variables_sha256": "849c2ef272fc779bd90df8e85ab38f60bcf17035f44abd7b76c1602db942d71f",
+  "responses": [
+    {
+      "text": "{\"ops\": [{\"op\": \"replace\", \"path\": \"/nodes/node_decline/name\", \"value\": \"Reject client\"}], \"summary\": [\"Renamed 'Decline client' to 'Reject client'\"], \"clarifying_question\": null, \"answer\": null}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

@@ -143,3 +143,11 @@ def test_ir_core_changed_paths():
     ops = [{"op": "move", "from": "/nodes/a", "path": "/nodes/b"}, {"op": "test", "path": "/x"},
            {"op": "replace", "path": "/nodes/c/name", "value": 1}, {"op": "add", "path": "/glossary/t/-", "value": 1}]
     assert changed_paths(ops) == ["/glossary/t", "/nodes/a", "/nodes/b", "/nodes/c/name"]
+
+
+def test_ir_core_apply_patch_does_not_alias_op_values(onboarding_ir):
+    value = {"term": "KYC", "ambiguous": False,
+             "meta": {"status": "proposed", "confidence": 0.0, "provenance": []}}
+    after = apply_patch(onboarding_ir, _patch([{"op": "add", "path": "/glossary/term_kyc", "value": value}]))
+    after["glossary"]["term_kyc"]["meta"]["confidence"] = 0.72
+    assert value["meta"]["confidence"] == 0.0

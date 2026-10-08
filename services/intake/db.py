@@ -73,3 +73,19 @@ class Signoff(Timestamps, Base):
     closure_hash: Mapped[str] = mapped_column(CHAR(64))
     signed_by: Mapped[str] = mapped_column(Text)
     signed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
+class StoryRefinementRow(Timestamps, Base):
+    """M12 refine chat: the instruction, the previewed ops and story before/after, and the patch once applied."""
+
+    __tablename__ = "story_refinements"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid7)
+    process_id: Mapped[str] = mapped_column(ForeignKey("processes.id"))
+    story_id: Mapped[str] = mapped_column(Text)
+    instruction: Mapped[str] = mapped_column(Text)
+    preview: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
+    patch_id: Mapped[str | None] = mapped_column(ForeignKey("ir_patches.id"))
+    status: Mapped[str] = mapped_column(Text)  # previewed | applied | discarded
+    by: Mapped[str] = mapped_column(Text)
+    at: Mapped[datetime] = mapped_column(DateTime(timezone=True))

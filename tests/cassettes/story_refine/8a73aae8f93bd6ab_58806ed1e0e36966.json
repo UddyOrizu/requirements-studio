@@ -1,0 +1,13 @@
+{
+  "prompt_file": "story_refine",
+  "prompt_sha256": "8a73aae8f93bd6ab39bcd6589049afb89df0e47ecce46dce8b72333adf1dd8a4",
+  "variables_sha256": "58806ed1e0e3696638aae262df6ae0a3dc87460ec42228d37d290f8bf9568899",
+  "responses": [
+    {
+      "text": "{\"ops\": [], \"summary\": [], \"clarifying_question\": null, \"answer\": \"Nobody approves recording: it runs automatically once a low-risk client is rated, or after the analyst or MLRO has approved a medium- or high-risk client.\"}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

@@ -17,8 +17,9 @@ class GapRow(Timestamps, Base):
         Index("ix_gaps_process_id_status_priority", "process_id", "status", text("priority DESC")),
     )
 
+    # Gap ids are unique per process (migration 0007): an as-is and its to-be share element ids.
+    process_id: Mapped[str] = mapped_column(ForeignKey("processes.id"), primary_key=True)
     id: Mapped[str] = mapped_column(Text, primary_key=True)
-    process_id: Mapped[str] = mapped_column(ForeignKey("processes.id"))
     fingerprint: Mapped[str] = mapped_column(CHAR(40))
     type: Mapped[str] = mapped_column(Text)
     severity: Mapped[str] = mapped_column(Text)

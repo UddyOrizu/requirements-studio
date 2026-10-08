@@ -7,6 +7,8 @@ from fastapi import APIRouter, FastAPI
 
 from services.common.db import make_engine, make_sessionmaker, utcnow
 from services.common.settings import Settings, get_settings
+from services.ideas.api import dev_router
+from services.ideas.api import router as ideas_router
 from services.identity_audit.auth import JwksVerifier
 from services.identity_audit.dev_oidc import DevOidc
 from services.improve.api import router as improve_router
@@ -58,7 +60,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     api.include_router(ir_store_router)
     api.include_router(intake_router)
     api.include_router(improve_router)
+    api.include_router(ideas_router)
     app.include_router(api)
+    if settings.env != "prod":
+        app.include_router(dev_router)  # POST /dev/seed: reset to a sample scenario (demo and UI tests)
     return app
 
 

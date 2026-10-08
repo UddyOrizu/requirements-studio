@@ -1,0 +1,13 @@
+{
+  "prompt_file": "story_refine",
+  "prompt_sha256": "8a73aae8f93bd6ab39bcd6589049afb89df0e47ecce46dce8b72333adf1dd8a4",
+  "variables_sha256": "8e604e59d9b6c8b66d386c4c6aeb31fb65fe6a31206e77d60c518e56073b990d",
+  "responses": [
+    {
+      "text": "{\"ops\": [{\"op\": \"add\", \"path\": \"/nodes/node_record_kyc/exception_ids\", \"value\": [\"exc_crm_unavailable\"]}, {\"op\": \"add\", \"path\": \"/exceptions/exc_crm_unavailable\", \"value\": {\"name\": \"CRM unavailable\", \"trigger\": \"The CRM cannot be reached when recording the KYC outcome\", \"trigger_kind\": \"system_failure\", \"applies_to\": [\"node_record_kyc\"], \"handling\": {\"action\": \"manual_review\", \"max_attempts\": 3, \"notify_actor_id\": \"act_onboarding_analyst\", \"notes\": \"Retried automatically up to 3 times, then queued for an analyst.\"}, \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T21\"}, \"excerpt\": \"if the CRM is down: retry a few times, then put it in the analyst's queue\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}, {\"op\": \"add\", \"path\": \"/acceptance_criteria/ac_crm_unavailable\", \"value\": {\"title\": \"CRM outage retries, then goes to an analyst\", \"kind\": \"edge_case\", \"applies_to\": [\"node_record_kyc\", \"exc_crm_unavailable\"], \"given\": [\"the CRM is unavailable when a KYC outcome is ready to record\"], \"when\": [\"the outcome is recorded\"], \"then\": [\"recording is retried up to 3 times\", \"after the third failure the case is placed in the analyst's queue\", \"nothing is marked KYC complete until the CRM write succeeds\"], \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T21\"}, \"excerpt\": \"retry a few times, then put it in the analyst's queue\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}], \"summary\": [\"Story 'Record KYC outcome' refined: new exception 'CRM unavailable' (retry 3 times, then analyst queue)\", \"New edge-case acceptance criterion: CRM outage retries, then goes to an analyst\"], \"clarifying_question\": null, \"answer\": null}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

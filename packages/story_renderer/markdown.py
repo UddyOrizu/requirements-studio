@@ -266,6 +266,12 @@ def _story(ir: dict, sid: str, s: dict, dor_row: dict | None, variant: str | Non
     return out
 
 
+def render_story(ir: dict, sid: str, dor_row: dict | None) -> str:
+    """One story's section, exactly as in the stories file (for story detail and refinement previews)."""
+    lines = _story(ir, sid, ir["stories"][sid], dor_row, ir["process"].get("variant"))
+    return "\n".join(lines[:-3]) + "\n"  # without the trailing "---" separator
+
+
 def render_markdown(ir: dict, dor_rows: list[dict], *, as_is: dict | None = None, origin: str | None = None) -> str:
     """Stories markdown for an IR whose `stories` are derived and DoR-evaluated.
 

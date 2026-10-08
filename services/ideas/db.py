@@ -1,8 +1,8 @@
 """M12 ideas table (docs/04). The ideas service arrives in P6; M3 uses this to link an idea's as-is and to-be."""
 from typing import Any
 
-from sqlalchemy import ARRAY, ForeignKey, Text, text
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy import ForeignKey, Text, text
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
 from services.common.db import Base, Timestamps

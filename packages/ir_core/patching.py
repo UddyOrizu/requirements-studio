@@ -74,7 +74,9 @@ def apply_patch(ir: dict, patch: dict | BaseModel) -> dict:
                                    f"patch is for {patch['process_id']}, IR is {ir['process']['id']}")])
 
     try:
-        doc = jsonpatch.apply_patch(copy.deepcopy(ir), ops)
+        # Copy the ops too: jsonpatch inserts op values by reference, so later changes to the new IR (re-scoring
+        # confidence) would otherwise change the caller's patch.
+        doc = jsonpatch.apply_patch(copy.deepcopy(ir), copy.deepcopy(ops))
     except (jsonpatch.JsonPatchException, jsonpointer.JsonPointerException) as e:
         raise PatchRejected([Issue("patch_op", "/ops", str(e))]) from e
 
