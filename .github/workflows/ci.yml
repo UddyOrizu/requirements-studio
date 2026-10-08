@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: rs
+          POSTGRES_PASSWORD: rs
+          POSTGRES_DB: rs
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U rs -d rs" --health-interval 2s --health-timeout 3s --health-retries 30
+    env:
+      RS_ENV: test
+      RS_OIDC_ISSUER: https://issuer.invalid/ci
+      RS_DATABASE_URL: postgresql+asyncpg://rs:rs@localhost:5432/rs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - name: Lint
+        run: uv run ruff check .
+      - name: Fixtures match schemas and the reference oracle
+        run: uv run python tools/validate_samples.py
+      - name: Migrations apply, roll back and re-apply
+        run: |
+          uv run alembic upgrade head
+          uv run alembic downgrade base
+          uv run alembic upgrade head
+      - name: Tests
+        run: uv run pytest -q

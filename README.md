@@ -110,3 +110,38 @@ tools/
   render_exports.py             reference export renderer: python tools/render_exports.py <to_be.json> <out_dir> [as_is.json suggestions.json]
   validate_samples.py           schema, integrity, replay, suggestion, flow and export checks
 ```
+
+## Local development
+
+Requires Python 3.12, [uv](https://docs.astral.sh/uv/) and Docker.
+
+```bash
+uv sync                                   # install dependencies (incl. dev tools)
+cp .env.example .env
+docker compose up -d                      # Postgres 16 + pgvector, Redis, MinIO (+ buckets)
+uv run alembic upgrade head               # create the schema (docs/04)
+uv run uvicorn apps.api.main:app --factory --reload   # API on :8000, docs at /docs
+uv run arq apps.worker.main.WorkerSettings            # worker
+```
+
+If a port is taken, move it: `RS_PG_PORT=5434 docker compose up -d` and set `RS_DATABASE_URL` to match
+(`RS_REDIS_PORT`, `RS_MINIO_PORT` and `RS_MINIO_CONSOLE_PORT` work the same way).
+
+**Sign-in in dev.** With `RS_ENV=dev` and no `RS_OIDC_ISSUER`, the API serves a stub OIDC provider at `/dev/oidc`
+(discovery, JWKS, password-grant token endpoint; any password). Users: `GET /dev/oidc/users`.
+
+```bash
+TOKEN=$(curl -s -X POST localhost:8000/dev/oidc/token -d username=user_sarah_lin -d password=x | jq -r .access_token)
+curl -H "Authorization: Bearer $TOKEN" localhost:8000/api/v1/me
+```
+
+**Checks** (CI runs the same):
+
+```bash
+uv run ruff check .
+uv run python tools/validate_samples.py
+RS_DATABASE_URL=postgresql+asyncpg://rs:rs@localhost:5432/rs uv run pytest   # DB tests skip without RS_DATABASE_URL
+```
+
+DB tests create and drop their own `rs_test_*` database. The application's DB login should be granted the `rs_app`
+role, which cannot UPDATE, DELETE or TRUNCATE `audit_log`; a trigger also blocks those for every role.

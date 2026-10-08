@@ -1,0 +1,53 @@
+# Local infrastructure for Requirements Studio. The API and worker run on the host: see README "Local development".
+# Host ports can be moved if taken, e.g. RS_PG_PORT=5434 docker compose up -d (then update RS_DATABASE_URL).
+name: requirements-studio
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: rs
+      POSTGRES_PASSWORD: rs
+      POSTGRES_DB: rs
+    ports: ["${RS_PG_PORT:-5432}:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rs -d rs"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: redis:7-alpine
+    ports: ["${RS_REDIS_PORT:-6379}:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: rs-minio
+      MINIO_ROOT_PASSWORD: rs-minio-secret
+    ports: ["${RS_MINIO_PORT:-9000}:9000", "${RS_MINIO_CONSOLE_PORT:-9001}:9001"]
+    volumes: [miniodata:/data]
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      minio: { condition: service_healthy }
+    entrypoint: >
+      /bin/sh -c "mc alias set local http://minio:9000 rs-minio rs-minio-secret &&
+                  mc mb --ignore-existing local/rs-sources local/rs-exports"
+
+volumes:
+  pgdata:
+  miniodata:
