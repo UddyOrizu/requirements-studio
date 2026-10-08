@@ -45,3 +45,13 @@ jobs:
           uv run alembic upgrade head
       - name: Tests
         run: uv run pytest -q
+
+  mermaid:
+    # AC-M10-4: the Mermaid flows compile with @mermaid-js/mermaid-cli.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: tools/check_mermaid.sh
