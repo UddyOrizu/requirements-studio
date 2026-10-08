@@ -39,6 +39,12 @@ def changed_paths(ops: Iterable[dict]) -> list[str]:
     return sorted(out)
 
 
+def conflicting_paths(ops: Iterable[dict], touched: Iterable[str]) -> list[str]:
+    """Paths of `ops` (incl. `from`) that overlap a path changed since the patch's base version (M3 rebase)."""
+    touched = list(touched)
+    return sorted({p for op in ops for p in _touched(op) if any(paths_overlap(p, t) for t in touched)})
+
+
 def forbidden_ops(ops: Iterable[dict]) -> list[Issue]:
     issues = []
     for i, op in enumerate(ops):

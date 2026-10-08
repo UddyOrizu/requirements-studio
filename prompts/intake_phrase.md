@@ -16,3 +16,10 @@ Write the next interview question for a {{requester_role}} describing their own 
 - For human_controls (C16), list the steps briefly and ask which can run automatically, which a person must review, and
   where someone must approve before the flow continues.
 Return {text, why, answer_type, suggested_answers}.
+<data>
+target: {{ target }}
+slot_key: {{ slot_key }}
+gap: {{ gap }}
+ir_summary: {{ ir_summary }}
+recent_turns: {{ recent_turns }}
+</data>

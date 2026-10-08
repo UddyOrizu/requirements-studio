@@ -34,3 +34,6 @@ effort (minutes per case): {{effort}}
 SME answers: {{sme_answers}}
 scope: {{scope}}
 cases per month: {{cases_per_month}}</data>
+<data>
+id_conventions: {{ id_conventions }}
+</data>

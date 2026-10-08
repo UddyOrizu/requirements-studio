@@ -22,3 +22,6 @@ story: {{story}}
 closure: {{closure}}
 neighbours: {{neighbours}}
 allowed: {{allowed_paths}}</data>
+<data>
+id_conventions: {{ id_conventions }}
+</data>

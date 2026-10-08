@@ -12,3 +12,6 @@ Convert the SME's answer into JSON Patch (RFC 6902) operations on the process mo
 - Return {ops, interpretation_confidence (0–1), follow_up_question|null, summary (1 sentence)}.
 Do not add meta.status / confirmed_by — the system adds confirmation ops.
 <data>{{gap}} {{question}} answer: {{answer}} {{target_elements}} allowed: {{allowed_paths}}</data>
+<data>
+id_conventions: {{ id_conventions }}
+</data>

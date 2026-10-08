@@ -18,10 +18,16 @@ jobs:
         ports: ["5432:5432"]
         options: >-
           --health-cmd "pg_isready -U rs -d rs" --health-interval 2s --health-timeout 3s --health-retries 30
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping" --health-interval 2s --health-timeout 3s --health-retries 30
     env:
       RS_ENV: test
       RS_OIDC_ISSUER: https://issuer.invalid/ci
       RS_DATABASE_URL: postgresql+asyncpg://rs:rs@localhost:5432/rs
+      RS_REDIS_URL: redis://localhost:6379/0
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6

@@ -1,18 +1,23 @@
 """Transactional outbox: events are written in the same transaction as the state change they announce.
 
-A relay (P1) publishes unpublished rows to Redis Streams and sets published_at, so delivery is at-least-once.
+`relay_outbox` (run by the worker) publishes unpublished rows to a Redis Stream and sets published_at. Delivery is
+at-least-once: a crash between XADD and commit republishes, so consumers dedupe on event_id.
 """
+import json
 from datetime import datetime
 from typing import Any
 from uuid import UUID
 
-from sqlalchemy import DateTime, Index, Text, text
+from redis.asyncio import Redis
+from sqlalchemy import DateTime, Index, Text, select, text
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from sqlalchemy.orm import Mapped, mapped_column
 
-from .db import Base, Timestamps
+from .db import Base, Timestamps, utcnow
 from .events import EventEnvelope
+
+EVENT_STREAM = "rs:events"
 
 
 class EventOutbox(Timestamps, Base):
@@ -33,3 +38,20 @@ async def enqueue_event(session: AsyncSession, event: EventEnvelope) -> EventOut
     session.add(row)
     await session.flush()
     return row
+
+
+async def relay_outbox(sessionmaker: async_sessionmaker[AsyncSession], redis: Redis, *,
+                       stream: str = EVENT_STREAM, batch: int = 100) -> int:
+    """Publish up to `batch` unpublished events in commit order; returns how many were published.
+
+    SKIP LOCKED lets several workers relay at once without publishing the same row twice.
+    """
+    async with sessionmaker() as session:
+        q = (select(EventOutbox).where(EventOutbox.published_at.is_(None)).order_by(EventOutbox.created_at)
+             .limit(batch).with_for_update(skip_locked=True))
+        rows = list((await session.execute(q)).scalars())
+        for row in rows:
+            await redis.xadd(stream, {"event_id": str(row.id), "type": row.type, "event": json.dumps(row.payload)})
+            row.published_at = utcnow()
+        await session.commit()
+        return len(rows)

@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     oidc_audience: str = "requirements-studio"
     public_base_url: str = "http://localhost:8000"
     llm_model: str = ""
+    llm_mode: Literal["live", "record", "replay"] = "replay"
+    llm_cassette_dir: str = ""  # default: tests/cassettes
+    prompt_dir: str = ""  # default: prompts/
 
     @property
     def use_dev_oidc(self) -> bool:

@@ -26,3 +26,6 @@ model view: {{ir_view}}
 allowed: {{allowed_paths}}</data>
 
 {# Note: For turn 0 (`target.kind = "idea"`), extract a first goal, roles and candidate steps without edges unless the order is explicit. #}
+<data>
+id_conventions: {{ id_conventions }}
+</data>

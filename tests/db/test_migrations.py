@@ -4,8 +4,10 @@ from alembic.migration import MigrationContext
 from sqlalchemy import inspect, text
 
 import services.common.outbox  # noqa: F401
+import services.ideas.db  # noqa: F401
 import services.identity_audit.db  # noqa: F401
 import services.ir_store.db  # noqa: F401
+import services.llm_gateway.db  # noqa: F401
 from services.common.db import Base
 
 # Every table in docs/04-data-model.md.
@@ -57,8 +59,8 @@ async def test_db_vector_indexes_use_hnsw(engine, index):
 
 async def test_db_open_gap_fingerprint_unique_until_resolved(sessionmaker):
     async with sessionmaker() as s:
-        await s.execute(text("INSERT INTO processes (id, name, owner_user_id, status) "
-                             "VALUES ('proc_gap_test', 'p', 'u', 'draft')"))
+        await s.execute(text("INSERT INTO processes (id, name, owner_user_id, status, variant) "
+                             "VALUES ('proc_gap_test', 'p', 'u', 'draft', 'as_is')"))
 
         async def gap(gid: str, status: str):
             await s.execute(text(

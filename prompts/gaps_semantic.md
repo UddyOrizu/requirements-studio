@@ -14,3 +14,7 @@ Return an empty list if the model is clear. Do not report issues already listed 
 Also report hitl_undefined (a step whose human involvement is unclear) and approval_gate_incomplete (an approval with no
 approver, no criteria, or no rejected path).
 <data>{{subgraph}}</data>
+<data>
+allowed_ids: {{ allowed_ids }}
+existing_gaps: {{ existing_gaps }}
+</data>
