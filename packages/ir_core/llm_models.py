@@ -220,7 +220,8 @@ class SuggestedChange(Strict):
     change_summary: str
     rationale: str
     evidence: Annotated[list[SuggestionEvidence], Field(min_length=1, max_length=3)]
-    minutes_saved_per_case: float | None
+    minutes_saved_per_case: float | None  # recomputed by the guardrails from the effort data
+    qualitative: str | None = None  # the benefit in words, when there is no effort figure
     controls: str
     risk: str
     confidence: Certainty
@@ -242,4 +243,5 @@ class SuggestionList(Strict):
 LLM_OUTPUT_MODELS: dict[str, type[BaseModel]] = {m.__name__: m for m in (
     ExtractionResult, MatchDecision, SemanticGapList, PhrasedQuestion, AnswerInterpretation, InterviewTurn,
     IntakeQuestion, IntakeInterpretation, Playback, DraftedACs, PolishedStory, StoryRefinement, SuggestionList,
+    SuggestedChange,
 )}

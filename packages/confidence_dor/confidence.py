@@ -8,7 +8,7 @@ from ir_core.ids import ELEMENT_COLLECTIONS, INFERRED_SOURCE_ID, collection_for
 # the weight stored on the source, so per-process overrides live in processes.settings.authority_weights.
 DEFAULT_AUTHORITY_WEIGHTS = {
     "interview_answer": 0.9, "sop": 0.8, "document": 0.7, "transcript": 0.6, "spreadsheet": 0.6, "email": 0.5,
-    "recording": 0.5, "manual": 0.7, "intake": 0.8,
+    "recording": 0.5, "manual": 0.7, "intake": 0.8, "suggestion": 0.7,
 }
 INFERRED_WEIGHT = 0.3
 CERTAINTY_CAP = 0.9

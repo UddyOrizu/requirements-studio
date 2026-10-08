@@ -18,6 +18,9 @@ STEP_CONTROL = {"automated": "Automated", "hitl_review": "Automated + human revi
                 "approval": "Approval gate", "human_queue": "Human queue (exception)", "unset": "Not set"}
 WHEN = {"always": "always", "on_exception": "on exception", "low_confidence": "low confidence", "sample": "sample"}
 CHANGE_WAS = {"human_task": "manual", "approval": "an approval", "hitl_review": "reviewed"}
+# NFRs are listed by category in schema order, then id (not by insertion order, which a replay need not keep).
+NFR_ORDER = ["volume", "performance", "availability", "security", "privacy", "audit", "compliance", "accessibility",
+             "retention", "usability"]
 INFERRED_SOURCE_TITLE = "Studio assumption (confirmed by requester)"
 FLOW_NOTE = ("_Shown on the process flow diagram (`flow/to_be_process_flow.drawio` for Lucidchart import, `.mmd` for "
              "Mermaid; for a document-led as-is: `flow/as_is_process_flow.drawio`)._")
@@ -105,9 +108,9 @@ def _context(ir: dict, stories: dict, as_is: dict | None) -> list[str]:
     scope = _scope_lines(ir["scope"])
     if scope:
         out += ["", "**Scope**", ""] + scope
-    nfrs = live(ir, "nfrs")
+    nfrs = sorted(live(ir, "nfrs").items(), key=lambda kv: (NFR_ORDER.index(kv[1]["category"]), kv[0]))
     if nfrs:
-        out += ["", "**Non-functional requirements**", ""] + [_nfr_line(ir, k, v) for k, v in nfrs.items()]
+        out += ["", "**Non-functional requirements**", ""] + [_nfr_line(ir, k, v) for k, v in nfrs]
     if as_is is not None:
         out += ["", "**What changes from today**", "", IMPROVEMENTS_NOTE, ""] + _changes_table(ir, as_is, stories)
     out += [""] + _hitl_section(ir)

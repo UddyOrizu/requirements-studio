@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_interpret",
+  "prompt_sha256": "6180e2cddc8e35be192757ac9792645b010a4d2e51acc9b04d51ed6f1aabf057",
+  "variables_sha256": "6024ee6ee51fef69b5c19217c2c75c055ac1bbcecef277117cc89c0db93cd6bf",
+  "responses": [
+    {
+      "text": "{\"ops\": [{\"op\": \"add\", \"path\": \"/slas/sla_kyc_checks/meta/provenance/1\", \"value\": {\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T19\"}, \"excerpt\": \"The MLRO should be told\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}}, {\"op\": \"add\", \"path\": \"/slas/sla_kyc_checks/breach_action/notify_actor_id\", \"value\": \"act_mlro\"}, {\"op\": \"replace\", \"path\": \"/slas/sla_kyc_checks/breach_action/action\", \"value\": \"notify\"}], \"captured\": [\"SLA breach: if checks take over 3 working days, the MLRO is notified\"], \"assumptions\": [], \"follow_up_question\": null}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

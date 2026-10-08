@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "fefae7fe62671397959f2e00027d58166f4c5dfc9afa9d40ac9b62d34a2121c4",
+  "responses": [
+    {
+      "text": "{\"text\": \"How does the analyst decide the risk rating today?\", \"why\": \"An explicit rule can be automated and tested instead of left to judgement.\", \"answer_type\": \"multi_choice\", \"suggested_answers\": [\"Sanctions match → high\", \"PEP → high\", \"Adverse media → medium\", \"High-risk country → medium\"]}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

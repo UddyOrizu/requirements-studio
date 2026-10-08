@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "4053ba10cc4d5f042da9c49b75930d0f6fdd0bedd12d15960b24858965b1f89d",
+  "responses": [
+    {
+      "text": "{\"text\": \"That's the improved process: 9 stories, 12 acceptance criteria I drafted as assumptions. Confirm, or tell me what to change.\", \"why\": \"Confirming turns proposed (amber) items green and makes the stories ready.\", \"answer_type\": \"choice\", \"suggested_answers\": [\"Confirm all\", \"Change something\"]}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

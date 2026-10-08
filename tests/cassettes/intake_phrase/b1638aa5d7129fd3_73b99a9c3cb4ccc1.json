@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "73b99a9c3cb4ccc1c8f1ed1260d07307cb58424fd9754a2462e5297d58b34f46",
+  "responses": [
+    {
+      "text": "{\"text\": \"How do you know KYC is finished for a client?\", \"why\": \"This defines the end points, and what 'done' means.\", \"answer_type\": \"choice\", \"suggested_answers\": [\"Outcome recorded on the client file\", \"Client approved by compliance\"]}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

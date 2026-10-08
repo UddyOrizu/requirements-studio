@@ -9,6 +9,7 @@ from services.common.db import make_engine, make_sessionmaker, utcnow
 from services.common.settings import Settings, get_settings
 from services.identity_audit.auth import JwksVerifier
 from services.identity_audit.dev_oidc import DevOidc
+from services.improve.api import router as improve_router
 from services.intake.api import router as intake_router
 from services.ir_store.api import router as ir_store_router
 from services.llm_gateway import build_gateway
@@ -56,6 +57,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     api.include_router(ir_store_router)
     api.include_router(intake_router)
+    api.include_router(improve_router)
     app.include_router(api)
     return app
 

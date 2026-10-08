@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "eb4370bb76cd81b5a147ace4044b314db0a2f3847ee01c3334d813471453ae1d",
+  "responses": [
+    {
+      "text": "{\"text\": \"Where does the time go today? Roughly how many minutes does each step take an analyst per client?\", \"why\": \"Effort per step lets me estimate what each improvement would save.\", \"answer_type\": \"free_text\", \"suggested_answers\": []}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

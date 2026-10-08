@@ -1,0 +1,13 @@
+{
+  "prompt_file": "improve_edit",
+  "prompt_sha256": "19525b4e656a3e3aca8a767e74ea33fc6489329f048388ea76a99b23fa838305",
+  "variables_sha256": "12278407dbec42a33d1ce1ed5c47ee865289ab9e33d5088a1a09cac578ba9c1b",
+  "responses": [
+    {
+      "text": "{\"title\": \"Auto-approve medium risk when the only flag is the country\", \"kind\": \"automate_step\", \"target_refs\": [\"/nodes/node_analyst_review\"], \"change_summary\": \"Medium-risk clients flagged only for a high-risk country, with no adverse media, are approved automatically.\", \"rationale\": \"About a third of medium-risk cases may be country-only; automating them would cut analyst approvals further.\", \"evidence\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": \"T6\", \"excerpt\": \"Adverse media or a high-risk country makes it medium\"}], \"minutes_saved_per_case\": null, \"qualitative\": \"Fewer analyst approvals for medium risk (volume not yet known)\", \"controls\": \"An analyst reviews every auto-approved case before it takes effect.\", \"risk\": \"Removes a person's judgement from some medium-risk decisions.\", \"confidence\": 0.55, \"ops\": [{\"op\": \"replace\", \"path\": \"/nodes/node_analyst_review/hitl\", \"value\": {\"mode\": \"hitl_review\", \"actor_id\": \"act_onboarding_analyst\", \"trigger\": \"sample\", \"criteria\": \"Weekly sample of auto-approved country-only cases\"}}], \"source\": \"heuristic\"}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

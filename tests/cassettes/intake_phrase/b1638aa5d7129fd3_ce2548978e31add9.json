@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "ce2548978e31add98650068411165cd9729189e5f5d75deca4f8712b439ed01b",
+  "responses": [
+    {
+      "text": "{\"text\": \"Here's how it works today as I understand it: client record created → request documents → verify IDs → screen → risk rating → record the outcome, or decline. What's missing or in the wrong order?\", \"why\": \"The main path is the backbone everything else hangs off.\", \"answer_type\": \"choice\", \"suggested_answers\": [\"That's right\", \"Something's missing\", \"The order is wrong\"]}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

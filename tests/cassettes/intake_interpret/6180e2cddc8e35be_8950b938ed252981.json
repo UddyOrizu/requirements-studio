@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_interpret",
+  "prompt_sha256": "6180e2cddc8e35be192757ac9792645b010a4d2e51acc9b04d51ed6f1aabf057",
+  "variables_sha256": "8950b938ed2529819b29dbe2bbca1882bf8a39d458dbf8e7f5f36a7e1c5184ae",
+  "responses": [
+    {
+      "text": "{\"ops\": [], \"captured\": [], \"assumptions\": [], \"follow_up_question\": null}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

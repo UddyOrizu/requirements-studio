@@ -15,6 +15,7 @@ from datetime import UTC, datetime, timedelta
 from sqlalchemy import select
 
 from services.gaps.db import GapRow
+from services.improve.service import ImproveService
 from services.intake.db import IntakeSession
 from services.intake.service import STANDARD_OPTIONS, IntakeService
 from services.interviewer.db import Question, Sme
@@ -60,6 +61,15 @@ def _asked_line(captured: list[str]) -> list[str]:
     return [c for c in captured if not c.startswith("Asked ")]
 
 
+def _proposal(s: dict) -> dict:
+    """A recorded suggestion as improve_suggest returns it (benefit is recomputed by the guardrails)."""
+    return {"title": s["title"], "kind": s["kind"], "target_refs": s["target_refs"],
+            "change_summary": s["change_summary"], "rationale": s["rationale"], "evidence": s["evidence"],
+            "minutes_saved_per_case": s["benefit"].get("minutes_saved_per_case"),
+            "qualitative": s["benefit"].get("qualitative"), "controls": s["controls"], "risk": s.get("risk"),
+            "confidence": s["confidence"], "ops": s["ops"], "source": "heuristic"}
+
+
 def _drafted_acs() -> dict:
     """The Deepen system patch, expressed as the intake_draft_acs output that produces it."""
     entry = next(e for e in TIMELINE if e["kind"] == "system_patch")
@@ -94,6 +104,13 @@ class SampleProvider:
             body = {"summary": entries[0 if '"variant": "as_is"' in prompt else 1]["playback_text"]}
         elif kind == "DraftedACs":
             body = _drafted_acs()
+        elif kind == "SuggestionList":
+            body = {"suggestions": [_proposal(s) for s in load(KYC / "suggestions_client_kyc.json")],
+                    "not_suggested": []}
+        elif kind == "SuggestedChange":  # Edit: the requester asks for review of every auto-approval
+            s = next(x for x in load(KYC / "suggestions_client_kyc.json") if f'"suggestion_id": "{x["suggestion_id"]}"'
+                     in prompt)
+            body = {**_proposal(s), "controls": "An analyst reviews every auto-approved case before it takes effect."}
         else:
             raise AssertionError(f"unexpected prompt for {kind}")
         return ProviderResponse(text=json.dumps(body, ensure_ascii=False), model="sample-replay")
@@ -193,20 +210,28 @@ async def sme_answer_arrives(svc: IntakeService) -> None:
                                 captured=entry["captured"])
 
 
+SUGGESTIONS = load(KYC / "suggestions_client_kyc.json")
+REJECT_REASON = next(e for e in TIMELINE if e.get("decision") == "rejected")["answer"]["text"]
+
+
 async def improve(replay: Replay) -> None:
-    """M11 stand-in: the recorded suggestion patches go onto the to-be, then every suggestion is decided."""
+    """M11 on the forked to-be: accept S01–S06, reject S07 with the sample's reason. The last decision moves M0 on."""
     svc = replay.service
-    for entry in TIMELINE:
-        if entry["kind"] in ("suggestions", "suggestion_decision") and entry.get("ops"):
-            await _user_patch(svc, "proc_client_kyc_to_be", entry["patch_id"], entry["ops"])
     seed = next(g for g in load(KYC / "gaps_client_kyc.json") if g["gap_id"] == "gap_match_threshold")
     svc.s.add(GapRow(id=seed["gap_id"], process_id=seed["process_id"], fingerprint=seed["fingerprint"],
                      type=seed["type"], severity=seed["severity"], detector=seed["detector"],
                      target_refs=seed["target_refs"], title=seed["title"], why_it_matters=seed["why_it_matters"],
                      question=seed["question"], routing=seed["routing"], priority=seed["priority"], status="open",
-                     ir_version_detected=seed["ir_version_detected"]))
+                     ir_version_detected=seed["ir_version_detected"]))  # stand-in for the M5 semantic detector
     await svc.s.flush()
-    replay.results.append(await svc.complete_improve(replay.session_id))
+    improve_svc = ImproveService(svc.s, svc.llm, clock=svc.clock, correlation_id=svc.correlation_id)
+    for s in SUGGESTIONS:
+        if s["status"] == "accepted":
+            await improve_svc.accept(SESSION["idea_id"], s["suggestion_id"], user_id=REQUESTER.id)
+        else:
+            await improve_svc.reject(SESSION["idea_id"], s["suggestion_id"], user_id=REQUESTER.id,
+                                     reason=REJECT_REASON)
+    replay.results.append(await svc.current(replay.session_id))
 
 
 async def refine_story(svc: IntakeService) -> None:

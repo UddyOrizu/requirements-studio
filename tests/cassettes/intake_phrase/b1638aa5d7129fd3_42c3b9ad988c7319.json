@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "42c3b9ad988c7319f5be1862efb35832852e929971a750e91a971f3d3f4bf98a",
+  "responses": [
+    {
+      "text": "{\"text\": \"Who does each step today?\", \"why\": \"Each story needs a role, and it shows where people spend time today.\", \"answer_type\": \"choice\", \"suggested_answers\": [\"The onboarding analyst does most of it\", \"Split between onboarding and compliance\"]}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

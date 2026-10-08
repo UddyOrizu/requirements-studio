@@ -49,6 +49,7 @@ Jinja2 template body. Variables as {{ name }}. Source text always inside <data> 
 
 - `extract_process.md`
 - `improve_suggest.md` (M11)
+- `improve_edit.md` (M11): revise one suggestion from the requester's instruction (Edit)
 - `story_refine.md` (M12)
 - `gaps_semantic.md`
 - `intake_draft_acs.md`

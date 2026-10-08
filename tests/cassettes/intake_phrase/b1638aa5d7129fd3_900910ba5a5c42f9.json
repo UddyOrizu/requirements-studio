@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "900910ba5a5c42f9b2e8cca1e4948dd5f14a548b17e70d7584fc88e7098c9b39",
+  "responses": [
+    {
+      "text": "{\"text\": \"What time limits apply today: how long does the client have to send documents, and how long should the checks take?\", \"why\": \"Waiting needs a time limit, otherwise an automated workflow could wait forever.\", \"answer_type\": \"choice\", \"suggested_answers\": [\"5 working days for documents\", \"Checks within 3 working days\"]}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

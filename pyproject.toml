@@ -46,6 +46,7 @@ packages = [
     "packages/flow_renderer",
     "packages/exporters",
     "packages/gap_rules",
+    "packages/improve",
     "services",
     "apps",
 ]
@@ -69,5 +70,5 @@ extend-exclude = ["tools"]
 select = ["E", "F", "I", "UP", "B"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["ir_core", "confidence_dor", "story_renderer", "flow_renderer", "exporters", "gap_rules",
+known-first-party = ["ir_core", "confidence_dor", "story_renderer", "flow_renderer", "exporters", "gap_rules", "improve",
                      "services", "apps", "tests"]

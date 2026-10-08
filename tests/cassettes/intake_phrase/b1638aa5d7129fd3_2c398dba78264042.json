@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "2c398dba78264042b06c45539c41c6c195736ba849cfc8c49d742b92144a98cc",
+  "responses": [
+    {
+      "text": "{\"text\": \"Which steps are done by hand today, and where does someone approve before the case moves on?\", \"why\": \"Today's controls are the starting point for deciding where AI agents can help and where people must stay.\", \"answer_type\": \"multi_choice\", \"suggested_answers\": [\"All done by hand\", \"Some steps already automated\", \"Approvals for medium and high risk\"]}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

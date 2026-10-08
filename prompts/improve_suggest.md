@@ -14,7 +14,9 @@ For each candidate (and any clear opportunity the candidates missed, flagged "so
 - change_summary: what the to-be does differently, in 1–2 sentences
 - rationale: why, in the requester's own terms (their pain points)
 - evidence: 1–3 quotes copied VERBATIM from the pain points, answers or SME answers, each with its locator
+- target_refs: the node path(s) the candidate is for, e.g. "/nodes/node_screen"
 - minutes_saved_per_case: from the effort data only; null if the step has no effort figure
+- qualitative: when there is no effort figure, the benefit in words (else null)
 - controls: the human control kept or added (review, queue, approval, sample). Say "None needed: <why>" if none
 - risk: the main risk in one sentence
 - confidence 0–1

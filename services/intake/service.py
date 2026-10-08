@@ -106,6 +106,16 @@ def provenance_refs(value: Any):
             yield from provenance_refs(v)
 
 
+AS_IS_SUFFIX, TO_BE_SUFFIX = ", as done today.", ", improved with AI agents where they help."
+
+
+def to_be_description(as_is_description: str | None) -> str | None:
+    """'…, as done today.' → '…, improved with AI agents where they help.'; anything else is kept."""
+    if as_is_description and as_is_description.endswith(AS_IS_SUFFIX):
+        return as_is_description.removesuffix(AS_IS_SUFFIX) + TO_BE_SUFFIX
+    return as_is_description
+
+
 def confirm_all_ops(ir: dict, user_id: str) -> list[dict]:
     """Playback "Yes": every proposed element becomes confirmed by the requester (M0 Playback)."""
     ops = []
@@ -199,6 +209,14 @@ class IntakeService:
         await write_audit(self.s, actor_kind="user", actor_id=requester_id, action="intake.started", target=sess.id,
                           process_id=process_id, after={"mode": mode, "idea_id": idea_id})
         return await self._answer(sess, turn0, text=idea_text, special=None, ask_sme_id=None)
+
+    async def current(self, session_id: str) -> TurnResult:
+        """Where the session stands: phase, coverage and the open question (if any)."""
+        sess = await self._session(session_id)
+        pending = await self._pending_turn(sess)
+        nq = self._as_question(pending) if pending else (
+            NextQuestion(None, sess.current_target) if (sess.current_target or {}).get("kind") == "signoff" else None)
+        return TurnResult(sess.id, sess.phase, None, [], [], None, sess.coverage, nq)
 
     # ================================================================== answers
     async def answer(self, session_id: str, *, text: str | None = None, special: str | None = None,
@@ -380,6 +398,14 @@ class IntakeService:
                                        "answer_by": answered_by})
 
     # ================================================================== undo, jump, sign-off
+    async def record_suggestion_decision(self, sess: IntakeSession, suggestion_id: str, decision: str, answer: str,
+                                         user_id: str, patch_id: str | None, captured: list[str],
+                                         ops: list[dict] | None) -> None:
+        """M11 hook: each accept/reject is a timeline entry (accepted ones carry their patch)."""
+        await self._new_entry(sess, "suggestion_decision", target={"kind": "suggestion", "id": suggestion_id},
+                              answer_text=answer, patch_id=patch_id, captured=captured,
+                              payload={"suggestion_id": suggestion_id, "decision": decision, "answer_by": user_id})
+
     async def undo(self, session_id: str, n: int) -> TurnResult:
         """Inverse patch of entry n (M0 §3). 409 when later changes touched the same paths."""
         sess = await self._session(session_id, lock=True)
@@ -518,12 +544,26 @@ class IntakeService:
                                                 {"session_id": sess.id, "from": frm, "to": to}))
         idea = await self.s.get(Idea, sess.idea_id) if sess.idea_id else None
         if to == "improve":
+            as_is = await self.patches.get_ir(sess.process_id)
             fork = await self.patches.fork(sess.process_id, actor=Actor("user", sess.requester_user_id),
-                                           to_process_id=to_be_id_for(sess.process_id))
+                                           to_process_id=to_be_id_for(sess.process_id),
+                                           description=to_be_description(as_is["process"].get("description")))
             sess.process_id = fork.to_be_process_id
             await self._new_entry(sess, "fork", payload={"fork": fork.fork}, process_variant="to_be")
             if idea:
                 idea.status = "improving"
+                idea.to_be_process_id = fork.to_be_process_id
+            await self.s.flush()
+            from services.improve.service import ImproveService  # M11 decides; it calls back into M0
+            generated = await ImproveService(self.s, self.llm, clock=self.clock,
+                                             correlation_id=self.correlation_id).generate(
+                sess.idea_id, requester_name=self._state(sess).get("requester_name"))
+            await self._new_entry(sess, "suggestions", patch_id=generated.patch_id, captured=generated.captured,
+                                  payload={"suggestion_ids": [s["suggestion_id"] for s in generated.suggestions],
+                                           "not_suggested": generated.not_suggested})
+            if not generated.suggestions:
+                await self._enter_phase(sess, "deepen")
+                return
         elif to == "deepen":
             await self._draft_acs(sess)
             await sync_gaps(self.s, await self.patches.get_ir(sess.process_id), patch_id=None)
@@ -688,7 +728,7 @@ class IntakeService:
             if r.coverage_after:
                 e["coverage_after"] = r.coverage_after
             for key in ("playback_text", "from_phase", "to_phase", "question_id", "parked", "fork", "story_ids",
-                        "author"):
+                        "author", "suggestion_ids", "suggestion_id", "decision"):
                 if key in r.payload:
                     e[key] = r.payload[key]
             timeline.append(e)

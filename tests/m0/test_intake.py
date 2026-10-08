@@ -85,6 +85,9 @@ async def test_M0_AC_M0_3(svc):
             [ref] = [p for p in want["slas"]["sla_kyc_checks"]["meta"]["provenance"]
                      if p["locator"] == {"kind": "turn", "value": "T18"}]
             ref["locator"]["value"] = "T19"
+            # M11 records its source when it generates suggestions: the time is this replay's clock.
+            want["sources"]["src_improve_is_client_kyc"]["ingested_at"] = \
+                got["sources"]["src_improve_is_client_kyc"]["ingested_at"]
         for coll in [*ELEMENT_COLLECTIONS, "sources", "scope"]:
             assert got[coll] == want[coll], f"{pid}.{coll}"
         assert got["process"]["version"] == want["process"]["version"]
@@ -215,8 +218,10 @@ async def test_m0_as_is_is_confirmed_then_forked(svc):
     to_be = await svc.patches.get_ir("proc_client_kyc_to_be")
     assert to_be["process"]["derived_from"] == {"process_id": "proc_client_kyc_as_is", "version": 19}
     timeline = (await svc.export(replay.session_id))["timeline"]
-    assert [e["kind"] for e in timeline[-6:]] == ["turn", "playback", "turn", "sme_answer", "phase_change", "fork"]
-    assert timeline[-4]["target"] == {"kind": "playback_confirm", "id": "as_is"}
+    assert [e["kind"] for e in timeline[-7:]] == ["turn", "playback", "turn", "sme_answer", "phase_change", "fork",
+                                                  "suggestions"]
+    assert timeline[-5]["target"] == {"kind": "playback_confirm", "id": "as_is"}
+    assert timeline[-1]["suggestion_ids"] == [f"S0{i}" for i in range(1, 8)]
 
 
 async def test_m0_skip_parks_the_slot(svc):

@@ -4,7 +4,7 @@ from decimal import Decimal
 from typing import Any
 
 from sqlalchemy import ARRAY, CHAR, DateTime, ForeignKey, Index, Integer, Numeric, Text, text
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import JSON, JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
 from services.common.db import Base, Timestamps
@@ -65,6 +65,7 @@ class IrVersion(Timestamps, Base):
 
     process_id: Mapped[str] = mapped_column(ForeignKey("processes.id"), primary_key=True)
     version: Mapped[int] = mapped_column(Integer, primary_key=True)
-    snapshot: Mapped[dict[str, Any]] = mapped_column(JSONB)
+    # json, not jsonb: jsonb reorders keys, and IR maps are rendered in insertion order (migration 0006).
+    snapshot: Mapped[dict[str, Any]] = mapped_column(JSON)
     ir_hash: Mapped[str] = mapped_column(CHAR(64))  # ir_core.ir_hash(snapshot)
     patch_id: Mapped[str | None] = mapped_column(ForeignKey("ir_patches.id"))

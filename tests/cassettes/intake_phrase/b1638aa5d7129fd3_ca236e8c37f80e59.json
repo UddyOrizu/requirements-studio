@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "ca236e8c37f80e59b5f1b15f6ae1646fe67aaab9f8cf617cc916b82772898c20",
+  "responses": [
+    {
+      "text": "{\"text\": \"Roughly how many new clients go through KYC, and are there busy periods?\", \"why\": \"Volume turns minutes saved into hours saved.\", \"answer_type\": \"free_text\", \"suggested_answers\": []}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

@@ -59,7 +59,7 @@ def gateway(mode, provider=None, cassette_dir=None, prompts=PROMPTS, sessionmake
 
 def test_s1_every_prompt_file_loads_and_names_a_model():
     registry = PromptRegistry(PROMPTS)
-    assert len(registry.names()) == 13
+    assert len(registry.names()) == 14
     for name in registry.names():
         assert registry.get(name).output_model in LLM_OUTPUT_MODELS
 

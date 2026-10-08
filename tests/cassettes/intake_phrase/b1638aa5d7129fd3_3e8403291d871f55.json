@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "3e8403291d871f5591ef53a19753d8ae18f1cc256292b4bccc25f59f94193e92",
+  "responses": [
+    {
+      "text": "{\"text\": \"What match score counts as a possible match that an analyst must review?\", \"why\": \"The threshold decides how many cases reach a person, which drives the 30% target.\", \"answer_type\": \"number\", \"suggested_answers\": [\"80 and above\", \"70 and above\"]}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

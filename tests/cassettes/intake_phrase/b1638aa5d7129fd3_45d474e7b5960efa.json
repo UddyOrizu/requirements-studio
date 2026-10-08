@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "45d474e7b5960efa14012079eac8c33389785bc9de24f6431333ff437758f18e",
+  "responses": [
+    {
+      "text": "{\"text\": \"If KYC isn't finished within 3 working days of the documents arriving, who should be told?\", \"why\": \"A time limit without an action can't be monitored.\", \"answer_type\": \"actor\", \"suggested_answers\": [\"MLRO\", \"Onboarding team lead\", \"No one, report only\"]}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}
