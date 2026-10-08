@@ -1,0 +1,374 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bdo.internal/requirements-studio/schemas/intake-session/1.0",
+  "title": "Intake Session (M0)",
+  "description": "A discovery conversation from idea to ready stories. The timeline is an ordered log; entries with ops are IR patches applied in order from IR v0.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "session_id",
+    "process_id",
+    "requester_user_id",
+    "idea_text",
+    "phase",
+    "status",
+    "timeline",
+    "parked_questions",
+    "final_coverage",
+    "mode",
+    "to_be_process_id"
+  ],
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "pattern": "^is_[a-z0-9_]{1,60}$"
+    },
+    "process_id": {
+      "type": "string",
+      "pattern": "^proc_[a-z0-9_]{1,60}$"
+    },
+    "requester_user_id": {
+      "type": "string"
+    },
+    "source_id": {
+      "type": "string",
+      "pattern": "^src_[a-z0-9_]{1,60}$",
+      "description": "The intake source that provenance from this session cites (locator kind 'turn')."
+    },
+    "idea_text": {
+      "type": "string"
+    },
+    "phase": {
+      "enum": [
+        "discover",
+        "improve",
+        "deepen",
+        "validate",
+        "done"
+      ]
+    },
+    "status": {
+      "enum": [
+        "active",
+        "paused",
+        "completed"
+      ]
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "seq",
+          "kind",
+          "phase"
+        ],
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "kind": {
+            "enum": [
+              "turn",
+              "system_patch",
+              "sme_answer",
+              "phase_change",
+              "playback",
+              "signoff",
+              "fork",
+              "suggestions",
+              "suggestion_decision",
+              "story_refinement"
+            ]
+          },
+          "turn": {
+            "type": "string",
+            "pattern": "^T[0-9]+$"
+          },
+          "phase": {
+            "enum": [
+              "discover",
+              "improve",
+              "deepen",
+              "validate",
+              "done"
+            ]
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "target": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "id"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "idea",
+                  "slot",
+                  "follow_up",
+                  "gap",
+                  "playback_confirm",
+                  "signoff",
+                  "suggestion",
+                  "story"
+                ]
+              },
+              "id": {
+                "type": "string"
+              }
+            }
+          },
+          "question": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "text",
+              "why"
+            ],
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "why": {
+                "type": "string",
+                "description": "Shown to the requester: why this question matters."
+              },
+              "answer_type": {
+                "enum": [
+                  "free_text",
+                  "choice",
+                  "duration",
+                  "number",
+                  "yes_no",
+                  "actor",
+                  "multi_choice"
+                ]
+              },
+              "suggested_answers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "answer": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "by": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "special": {
+                "enum": [
+                  "not_sure_ask",
+                  "skip"
+                ]
+              },
+              "ask_sme_id": {
+                "type": "string"
+              }
+            }
+          },
+          "captured": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Plain-English change summary shown on the Captured card."
+          },
+          "assumptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "follow_up_question": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "parked": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Targets parked by this entry."
+          },
+          "question_id": {
+            "type": "string",
+            "description": "For not_sure_ask and sme_answer entries."
+          },
+          "author": {
+            "type": "string"
+          },
+          "ops": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "op",
+                "path"
+              ]
+            }
+          },
+          "coverage_after": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "percent",
+              "filled",
+              "unfilled",
+              "parked"
+            ],
+            "properties": {
+              "percent": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "filled": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "unfilled": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "parked": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "playback_text": {
+            "type": "string"
+          },
+          "from_phase": {
+            "type": "string"
+          },
+          "to_phase": {
+            "type": "string"
+          },
+          "story_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "patch_id": {
+            "type": "string"
+          },
+          "ir_version_after": {
+            "type": "integer"
+          },
+          "process": {
+            "enum": [
+              "as_is",
+              "to_be"
+            ],
+            "description": "Which process model this entry's ops apply to (default as_is in as-is mode, to_be in idea mode)."
+          },
+          "fork": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "from_process_id",
+              "from_version",
+              "to_process_id",
+              "process_overrides"
+            ],
+            "properties": {
+              "from_process_id": {
+                "type": "string"
+              },
+              "from_version": {
+                "type": "integer"
+              },
+              "to_process_id": {
+                "type": "string"
+              },
+              "process_overrides": {
+                "type": "object"
+              }
+            }
+          },
+          "suggestion_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "suggestion_id": {
+            "type": "string"
+          },
+          "decision": {
+            "enum": [
+              "accepted",
+              "rejected",
+              "edited"
+            ]
+          },
+          "story_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "parked_questions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Each item validates against question.schema.json (checked separately)."
+    },
+    "final_coverage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "stats": {
+      "type": "object"
+    },
+    "mode": {
+      "enum": [
+        "idea",
+        "as_is"
+      ],
+      "description": "as_is: a process exists today; the interview captures it, then M11 suggests improvements."
+    },
+    "idea_id": {
+      "type": "string"
+    },
+    "as_is_process_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "to_be_process_id": {
+      "type": "string"
+    }
+  }
+}

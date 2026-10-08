@@ -1,0 +1,2128 @@
+{
+  "ir_version": "1.1",
+  "process": {
+    "id": "proc_client_kyc_as_is",
+    "name": "Client KYC checks",
+    "owner_user_id": "user_sarah_lin",
+    "status": "ready",
+    "version": 19,
+    "updated_at": "2026-10-05T13:43:00Z",
+    "variant": "as_is",
+    "idea_id": "idea_client_kyc",
+    "description": "Know-your-client checks for new corporate clients, as done today.",
+    "domain": "client_onboarding"
+  },
+  "sources": {
+    "src_intake_is_client_kyc": {
+      "title": "Intake session with Sarah Lin (Compliance Manager), 5–6 Oct 2026",
+      "kind": "intake",
+      "authority_weight": 0.8,
+      "uri": "rs://intake-sessions/is_client_kyc",
+      "ingested_at": "2026-10-05T09:00:00Z"
+    },
+    "src_answer_q_intake_01": {
+      "title": "SME answer q_intake_01 – James Patel (Head of Onboarding Technology), 5 Oct 2026",
+      "kind": "interview_answer",
+      "authority_weight": 0.9,
+      "uri": "rs://questions/q_intake_01/answer",
+      "ingested_at": "2026-10-05T13:40:00Z"
+    }
+  },
+  "goals": {
+    "goal_faster_kyc": {
+      "statement": "Cut the time it takes to complete KYC for a new client",
+      "metrics": [
+        {
+          "name": "KYC elapsed time per client",
+          "unit": "working days",
+          "baseline": 8,
+          "target": 3
+        }
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T0"
+            },
+            "excerpt": "Client KYC checks take us days",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T3"
+            },
+            "excerpt": "KYC takes about 8 working days per client today and I want it under 3",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "persona_ids": [
+        "pers_client",
+        "pers_analyst"
+      ]
+    },
+    "goal_focus_analysts": {
+      "statement": "Focus analyst time on the cases that need a human",
+      "metrics": [
+        {
+          "name": "Cases needing manual review",
+          "unit": "%",
+          "baseline": 100,
+          "target": 30
+        }
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T3"
+            },
+            "excerpt": "I'd like them to touch no more than 30% of cases",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "persona_ids": [
+        "pers_analyst",
+        "pers_mlro"
+      ]
+    }
+  },
+  "personas": {
+    "pers_analyst": {
+      "name": "Onboarding Analyst",
+      "actor_id": "act_onboarding_analyst",
+      "needs": [
+        "Stop chasing and rekeying"
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T14"
+            },
+            "excerpt": "Analysts stop chasing and rekeying",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "pers_mlro": {
+      "name": "MLRO",
+      "actor_id": "act_mlro",
+      "needs": [
+        "Only see the cases that matter"
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T14"
+            },
+            "excerpt": "the MLRO only sees the cases that matter",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "pers_client": {
+      "name": "Client",
+      "actor_id": "act_client",
+      "needs": [
+        "Get onboarded faster"
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T14"
+            },
+            "excerpt": "clients get onboarded faster",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    }
+  },
+  "actors": {
+    "act_onboarding_analyst": {
+      "name": "Onboarding Analyst",
+      "kind": "human_role",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T0"
+            },
+            "excerpt": "the onboarding team",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "act_client": {
+      "name": "Client",
+      "kind": "external_party",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T0"
+            },
+            "excerpt": "new clients",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "act_mlro": {
+      "name": "MLRO",
+      "kind": "human_role",
+      "description": "Money Laundering Reporting Officer.",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T5"
+            },
+            "excerpt": "The MLRO approves high-risk clients",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "act_engagement_manager": {
+      "name": "Engagement Manager",
+      "kind": "human_role",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T5"
+            },
+            "excerpt": "the engagement manager tells the client if we decline",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "act_email": {
+      "name": "Email",
+      "kind": "system",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T10"
+            },
+            "excerpt": "Documents come in by email",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "act_shared_drive": {
+      "name": "Shared drive",
+      "kind": "system",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T10"
+            },
+            "excerpt": "get saved to a shared drive",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "act_client_portal": {
+      "name": "Client portal",
+      "kind": "system",
+      "description": "Exists but not used for KYC today.",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T10"
+            },
+            "excerpt": "We have a client portal but don't use it for KYC yet",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "act_eid_service": {
+      "name": "e-ID verification service",
+      "kind": "system",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T10"
+            },
+            "excerpt": "checks IDs on the e-ID verification website",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "act_screening_tool": {
+      "name": "Screening tool",
+      "kind": "system",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T10"
+            },
+            "excerpt": "searches each name in the screening tool",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_answer_q_intake_01",
+            "locator": {
+              "kind": "message",
+              "value": "ans_q_intake_01"
+            },
+            "excerpt": "The screening tool has an API for single and batch checks",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "sme_james_patel"
+      },
+      "description": "Screening tool with an API for single and batch checks; returns possible matches with a match score."
+    },
+    "act_crm": {
+      "name": "CRM",
+      "kind": "system",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T10"
+            },
+            "excerpt": "types the outcome into the CRM",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    }
+  },
+  "entities": {
+    "ent_risk_assessment": {
+      "name": "Risk assessment",
+      "attributes": [
+        {
+          "name": "rating",
+          "type": "enum",
+          "required": true,
+          "pii": false,
+          "enum_values": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "required": true,
+          "pii": false
+        },
+        {
+          "name": "approved_by",
+          "type": "reference",
+          "required": false,
+          "pii": false
+        },
+        {
+          "name": "approved_at",
+          "type": "datetime",
+          "required": false,
+          "pii": false
+        }
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T0"
+            },
+            "excerpt": "a risk rating",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T9"
+            },
+            "excerpt": "the risk rating with the reason, who approved it and when",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "ent_client": {
+      "name": "Client",
+      "attributes": [
+        {
+          "name": "crm_id",
+          "type": "string",
+          "required": true,
+          "pii": false
+        },
+        {
+          "name": "legal_name",
+          "type": "string",
+          "required": true,
+          "pii": false
+        },
+        {
+          "name": "country_risk",
+          "type": "enum",
+          "required": true,
+          "pii": false,
+          "enum_values": [
+            "standard",
+            "high"
+          ]
+        }
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T1"
+            },
+            "excerpt": "the client record",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T6"
+            },
+            "excerpt": "a high-risk country",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "ent_kyc_documents": {
+      "name": "KYC documents",
+      "attributes": [
+        {
+          "name": "photo_ids",
+          "type": "document",
+          "required": true,
+          "pii": true
+        },
+        {
+          "name": "proof_of_address",
+          "type": "document",
+          "required": true,
+          "pii": true
+        },
+        {
+          "name": "received_at",
+          "type": "datetime",
+          "required": true,
+          "pii": false
+        }
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T4"
+            },
+            "excerpt": "the documents",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "ent_screening_result": {
+      "name": "Screening result",
+      "attributes": [
+        {
+          "name": "sanctions_match",
+          "type": "boolean",
+          "required": true,
+          "pii": false
+        },
+        {
+          "name": "pep_match",
+          "type": "boolean",
+          "required": true,
+          "pii": false
+        },
+        {
+          "name": "adverse_media",
+          "type": "boolean",
+          "required": true,
+          "pii": false
+        },
+        {
+          "name": "match_score",
+          "type": "number",
+          "required": false,
+          "pii": false,
+          "description": "Score returned for each possible match"
+        }
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T6"
+            },
+            "excerpt": "Any sanctions match or a PEP",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_answer_q_intake_01",
+            "locator": {
+              "kind": "message",
+              "value": "ans_q_intake_01"
+            },
+            "excerpt": "it returns possible matches with a match score",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    }
+  },
+  "nodes": {
+    "node_request_docs": {
+      "type": "task",
+      "name": "Request KYC documents",
+      "description": "Ask the new client for their ID documents by email.",
+      "automation_hint": "integration",
+      "as_is_effort": {
+        "pain_points": [
+          "ID documents gathered by email",
+          "Clients often send documents late"
+        ],
+        "minutes_per_case": 10
+      },
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.993,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T0"
+            },
+            "excerpt": "gathers ID documents by email",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T5"
+            },
+            "excerpt": "The onboarding analyst does everything up to the risk rating and records the outcome",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T15"
+            },
+            "excerpt": "Everything is done by hand by the analyst today",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T16"
+            },
+            "excerpt": "Sending the checklist takes about 10 minutes",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "inputs": [
+        "ent_client"
+      ],
+      "actor_id": "act_onboarding_analyst",
+      "system_ids": [
+        "act_email"
+      ],
+      "hitl": {
+        "mode": "human_task"
+      }
+    },
+    "node_verify_id": {
+      "type": "task",
+      "name": "Verify identity documents",
+      "description": "Check the identity documents by hand.",
+      "automation_hint": "integration",
+      "as_is_effort": {
+        "pain_points": [
+          "IDs checked by hand"
+        ],
+        "minutes_per_case": 20
+      },
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.993,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T0"
+            },
+            "excerpt": "checks them by hand",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T5"
+            },
+            "excerpt": "The onboarding analyst does everything up to the risk rating and records the outcome",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T15"
+            },
+            "excerpt": "Everything is done by hand by the analyst today",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T16"
+            },
+            "excerpt": "Checking IDs by hand takes about 20 minutes",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "inputs": [
+        "ent_kyc_documents"
+      ],
+      "actor_id": "act_onboarding_analyst",
+      "system_ids": [
+        "act_eid_service"
+      ],
+      "hitl": {
+        "mode": "human_task"
+      }
+    },
+    "node_screen": {
+      "type": "task",
+      "name": "Screen client and owners",
+      "description": "Run sanctions and PEP screening on the client and its owners.",
+      "automation_hint": "integration",
+      "as_is_effort": {
+        "pain_points": [
+          "Screening run separately from the other checks",
+          "Every director searched separately"
+        ],
+        "minutes_per_case": 25
+      },
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.993,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T0"
+            },
+            "excerpt": "runs screening separately",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T5"
+            },
+            "excerpt": "The onboarding analyst does everything up to the risk rating and records the outcome",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T15"
+            },
+            "excerpt": "Everything is done by hand by the analyst today",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T16"
+            },
+            "excerpt": "screening about 25 because every director is searched separately",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "actor_id": "act_onboarding_analyst",
+      "outputs": [
+        "ent_screening_result"
+      ],
+      "inputs": [
+        "ent_client"
+      ],
+      "system_ids": [
+        "act_screening_tool"
+      ],
+      "hitl": {
+        "mode": "human_task"
+      }
+    },
+    "node_risk_rate": {
+      "type": "task",
+      "name": "Assign risk rating",
+      "description": "Give the client a KYC risk rating.",
+      "outputs": [
+        "ent_risk_assessment"
+      ],
+      "automation_hint": "deterministic_code",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.993,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T0"
+            },
+            "excerpt": "gives a risk rating",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T5"
+            },
+            "excerpt": "The onboarding analyst does everything up to the risk rating and records the outcome",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T15"
+            },
+            "excerpt": "Everything is done by hand by the analyst today",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T16"
+            },
+            "excerpt": "the rating takes 10",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "rule_ids": [
+        "rule_risk_rating"
+      ],
+      "actor_id": "act_onboarding_analyst",
+      "inputs": [
+        "ent_screening_result",
+        "ent_client"
+      ],
+      "hitl": {
+        "mode": "human_task"
+      },
+      "as_is_effort": {
+        "minutes_per_case": 10
+      }
+    },
+    "node_start": {
+      "type": "start",
+      "name": "Client record created",
+      "description": "The engagement team has accepted the client and created the client record in the CRM.",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T1"
+            },
+            "excerpt": "creates the client record in the CRM",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "node_record_kyc": {
+      "type": "task",
+      "name": "Record KYC outcome",
+      "description": "Record the KYC outcome and evidence on the client file.",
+      "automation_hint": "integration",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.998,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T2"
+            },
+            "excerpt": "the outcome is recorded on the client file",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T5"
+            },
+            "excerpt": "The onboarding analyst does everything up to the risk rating and records the outcome",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T9"
+            },
+            "excerpt": "The documents received, the screening results",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T15"
+            },
+            "excerpt": "Everything is done by hand by the analyst today",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T16"
+            },
+            "excerpt": "typing it all into the CRM and filing takes another 15",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "actor_id": "act_onboarding_analyst",
+      "sla_ids": [
+        "sla_kyc_checks"
+      ],
+      "inputs": [
+        "ent_kyc_documents",
+        "ent_screening_result",
+        "ent_risk_assessment"
+      ],
+      "system_ids": [
+        "act_crm",
+        "act_shared_drive"
+      ],
+      "as_is_effort": {
+        "pain_points": [
+          "Outcome typed into the CRM by hand"
+        ],
+        "minutes_per_case": 15
+      },
+      "hitl": {
+        "mode": "human_task"
+      }
+    },
+    "node_decline": {
+      "type": "task",
+      "name": "Decline client",
+      "description": "Decline the client because the risk is too high.",
+      "automation_hint": "human",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T2"
+            },
+            "excerpt": "we decline the client if the risk is too high",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T15"
+            },
+            "excerpt": "Declining is always done by the engagement manager",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "actor_id": "act_engagement_manager",
+      "hitl": {
+        "mode": "human_task"
+      }
+    },
+    "node_end_complete": {
+      "type": "end",
+      "name": "KYC complete",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T2"
+            },
+            "excerpt": "the outcome is recorded on the client file",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "node_end_declined": {
+      "type": "end",
+      "name": "Client declined",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T2"
+            },
+            "excerpt": "we decline the client",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "node_await_docs": {
+      "type": "wait",
+      "name": "Await client documents",
+      "description": "Wait for the client to send the KYC documents.",
+      "outputs": [
+        "ent_kyc_documents"
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T4"
+            },
+            "excerpt": "wait for the documents",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "sla_ids": [
+        "sla_docs_due"
+      ],
+      "exception_ids": [
+        "exc_docs_overdue"
+      ],
+      "system_ids": [
+        "act_email",
+        "act_shared_drive"
+      ]
+    },
+    "node_risk_level": {
+      "type": "decision",
+      "name": "Risk level?",
+      "rule_ids": [
+        "rule_risk_rating"
+      ],
+      "inputs": [
+        "ent_risk_assessment"
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T4"
+            },
+            "excerpt": "low risk goes straight to recording, medium risk needs an analyst to review it, and high risk needs the MLRO",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "node_analyst_review": {
+      "type": "task",
+      "name": "Analyst approval of medium-risk client",
+      "description": "An analyst approves a medium-risk client, or escalates it to the MLRO.",
+      "inputs": [
+        "ent_risk_assessment"
+      ],
+      "automation_hint": "human",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.975,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T4"
+            },
+            "excerpt": "medium risk needs an analyst to review it",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T5"
+            },
+            "excerpt": "The onboarding analyst does everything up to the risk rating and records the outcome",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T15"
+            },
+            "excerpt": "Medium risk is approved by an analyst",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "actor_id": "act_onboarding_analyst",
+      "hitl": {
+        "mode": "approval",
+        "actor_id": "act_onboarding_analyst",
+        "criteria": "The reason for the medium rating is understood and acceptable"
+      }
+    },
+    "node_mlro_approval": {
+      "type": "task",
+      "name": "MLRO approval of high-risk client",
+      "description": "The MLRO decides whether to accept a high-risk client.",
+      "inputs": [
+        "ent_risk_assessment"
+      ],
+      "automation_hint": "human",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T4"
+            },
+            "excerpt": "high risk needs the MLRO",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T15"
+            },
+            "excerpt": "high risk by the MLRO",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "actor_id": "act_mlro",
+      "hitl": {
+        "mode": "approval",
+        "actor_id": "act_mlro",
+        "criteria": "The client's risk is acceptable to the firm"
+      }
+    },
+    "node_chase_docs": {
+      "type": "task",
+      "name": "Chase missing documents",
+      "description": "Remind the client by email, usually every 3 working days.",
+      "actor_id": "act_onboarding_analyst",
+      "inputs": [
+        "ent_client"
+      ],
+      "automation_hint": "ai_candidate",
+      "as_is_effort": {
+        "pain_points": [
+          "Chasing by email"
+        ],
+        "minutes_per_case": 30
+      },
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.978,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T7"
+            },
+            "excerpt": "the analyst chases by email, usually every 3 working days",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T15"
+            },
+            "excerpt": "Everything is done by hand by the analyst today",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T16"
+            },
+            "excerpt": "chasing about 30 minutes per client in emails",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "system_ids": [
+        "act_email"
+      ],
+      "hitl": {
+        "mode": "human_task"
+      }
+    }
+  },
+  "edges": {
+    "edge_start_request": {
+      "from": "node_start",
+      "to": "node_request_docs",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T1"
+            },
+            "excerpt": "the first step is asking the client for their documents",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "edge_record_end": {
+      "from": "node_record_kyc",
+      "to": "node_end_complete",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T2"
+            },
+            "excerpt": "the outcome is recorded on the client file",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "edge_decline_end": {
+      "from": "node_decline",
+      "to": "node_end_declined",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T2"
+            },
+            "excerpt": "we decline the client",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "edge_request_await": {
+      "from": "node_request_docs",
+      "to": "node_await_docs",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T4"
+            },
+            "excerpt": "We email the client a checklist and wait for the documents",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "edge_await_verify": {
+      "from": "node_await_docs",
+      "to": "node_verify_id",
+      "label": "Documents received",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_inferred",
+            "locator": {
+              "kind": "none",
+              "value": ""
+            },
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "edge_verify_screen": {
+      "from": "node_verify_id",
+      "to": "node_screen",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_inferred",
+            "locator": {
+              "kind": "none",
+              "value": ""
+            },
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "edge_screen_rate": {
+      "from": "node_screen",
+      "to": "node_risk_rate",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_inferred",
+            "locator": {
+              "kind": "none",
+              "value": ""
+            },
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "edge_rate_level": {
+      "from": "node_risk_rate",
+      "to": "node_risk_level",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T4"
+            },
+            "excerpt": "After the risk rating",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "edge_risk_low": {
+      "from": "node_risk_level",
+      "to": "node_record_kyc",
+      "label": "Low",
+      "condition": {
+        "rule_id": "rule_risk_rating",
+        "outcome": "low"
+      },
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T4"
+            },
+            "excerpt": "low risk goes straight to recording",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "edge_risk_medium": {
+      "from": "node_risk_level",
+      "to": "node_analyst_review",
+      "label": "Medium",
+      "condition": {
+        "rule_id": "rule_risk_rating",
+        "outcome": "medium"
+      },
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T4"
+            },
+            "excerpt": "medium risk needs an analyst to review it",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "edge_risk_high": {
+      "from": "node_risk_level",
+      "to": "node_mlro_approval",
+      "label": "High",
+      "condition": {
+        "rule_id": "rule_risk_rating",
+        "outcome": "high"
+      },
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T4"
+            },
+            "excerpt": "high risk needs the MLRO",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "is_default": true
+    },
+    "edge_analyst_record": {
+      "from": "node_analyst_review",
+      "to": "node_record_kyc",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_inferred",
+            "locator": {
+              "kind": "none",
+              "value": ""
+            },
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "label": "Approved",
+      "condition": {
+        "outcome": "approved"
+      }
+    },
+    "edge_mlro_record": {
+      "from": "node_mlro_approval",
+      "to": "node_record_kyc",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_inferred",
+            "locator": {
+              "kind": "none",
+              "value": ""
+            },
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "label": "Approved",
+      "condition": {
+        "outcome": "approved"
+      }
+    },
+    "edge_mlro_decline": {
+      "from": "node_mlro_approval",
+      "to": "node_decline",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_inferred",
+            "locator": {
+              "kind": "none",
+              "value": ""
+            },
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "label": "Rejected",
+      "condition": {
+        "outcome": "rejected"
+      }
+    },
+    "edge_chase_await": {
+      "from": "node_chase_docs",
+      "to": "node_await_docs",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_inferred",
+            "locator": {
+              "kind": "none",
+              "value": ""
+            },
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "edge_analyst_escalate": {
+      "from": "node_analyst_review",
+      "to": "node_mlro_approval",
+      "label": "Rejected: escalate to MLRO",
+      "condition": {
+        "outcome": "rejected"
+      },
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_inferred",
+            "locator": {
+              "kind": "none",
+              "value": ""
+            },
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    }
+  },
+  "decision_rules": {
+    "rule_risk_rating": {
+      "name": "KYC risk rating",
+      "outcomes": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "logic": {
+        "kind": "table",
+        "hit_policy": "first",
+        "columns": [
+          "ent_screening_result.sanctions_match",
+          "ent_screening_result.pep_match",
+          "ent_screening_result.adverse_media",
+          "ent_client.country_risk"
+        ],
+        "rows": [
+          {
+            "when": [
+              "true",
+              "*",
+              "*",
+              "*"
+            ],
+            "then": "high"
+          },
+          {
+            "when": [
+              "*",
+              "true",
+              "*",
+              "*"
+            ],
+            "then": "high"
+          },
+          {
+            "when": [
+              "*",
+              "*",
+              "true",
+              "*"
+            ],
+            "then": "medium"
+          },
+          {
+            "when": [
+              "*",
+              "*",
+              "*",
+              "high"
+            ],
+            "then": "medium"
+          },
+          {
+            "when": [
+              "*",
+              "*",
+              "*",
+              "*"
+            ],
+            "then": "low"
+          }
+        ]
+      },
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T4"
+            },
+            "excerpt": "After the risk rating",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T6"
+            },
+            "excerpt": "Any sanctions match or a PEP makes it high risk. Adverse media or a high-risk country makes it medium. Otherwise it's low.",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      },
+      "inputs": [
+        "ent_screening_result.sanctions_match",
+        "ent_screening_result.pep_match",
+        "ent_screening_result.adverse_media",
+        "ent_client.country_risk"
+      ]
+    }
+  },
+  "exceptions": {
+    "exc_docs_overdue": {
+      "name": "No documents after 10 working days",
+      "trigger": "The client has not sent the KYC documents 10 working days after the request",
+      "trigger_kind": "timeout",
+      "timeout": "P10D",
+      "applies_to": [
+        "node_await_docs"
+      ],
+      "handling": {
+        "action": "escalate",
+        "notify_actor_id": "act_engagement_manager",
+        "notes": "Onboarding is put on hold."
+      },
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T8"
+            },
+            "excerpt": "After 10 working days with no documents, the engagement manager is told and onboarding is put on hold.",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    }
+  },
+  "slas": {
+    "sla_docs_due": {
+      "name": "Client sends documents within 5 working days",
+      "applies_to": [
+        "node_await_docs"
+      ],
+      "duration": "P5D",
+      "calendar": "working_days",
+      "clock_starts": "KYC documents requested",
+      "clock_stops": "All KYC documents received",
+      "breach_action": {
+        "action": "route_to_node",
+        "target_node_id": "node_chase_docs"
+      },
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T7"
+            },
+            "excerpt": "The client has 5 working days to send their documents",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "sla_kyc_checks": {
+      "name": "KYC checks done within 3 working days of documents",
+      "applies_to": [
+        "node_record_kyc"
+      ],
+      "duration": "P3D",
+      "calendar": "working_days",
+      "clock_starts": "All KYC documents received",
+      "clock_stops": "KYC outcome recorded",
+      "breach_action": {
+        "action": "undefined"
+      },
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T7"
+            },
+            "excerpt": "The whole check should be done within 3 working days of receiving the documents",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    }
+  },
+  "acceptance_criteria": {
+    "ac_risk_low": {
+      "title": "Clean screening gives low risk",
+      "kind": "happy_path",
+      "applies_to": [
+        "node_risk_rate",
+        "node_risk_level",
+        "rule_risk_rating"
+      ],
+      "given": [
+        "a screening result with no sanctions match, no PEP and no adverse media",
+        "the client's country risk is standard"
+      ],
+      "when": [
+        "the risk rating is assigned"
+      ],
+      "then": [
+        "the risk rating is low",
+        "the case goes straight to recording"
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T6"
+            },
+            "excerpt": "Otherwise it's low",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "ac_risk_high": {
+      "title": "Sanctions match or PEP gives high risk",
+      "kind": "edge_case",
+      "applies_to": [
+        "node_risk_rate",
+        "node_risk_level",
+        "rule_risk_rating"
+      ],
+      "given": [
+        "a screening result where a director is a PEP"
+      ],
+      "when": [
+        "the risk rating is assigned"
+      ],
+      "then": [
+        "the risk rating is high",
+        "the case goes to the MLRO for approval"
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T6"
+            },
+            "excerpt": "Any sanctions match or a PEP makes it high risk",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "ac_risk_medium": {
+      "title": "Adverse media gives medium risk",
+      "kind": "edge_case",
+      "applies_to": [
+        "node_risk_rate",
+        "node_risk_level",
+        "rule_risk_rating"
+      ],
+      "given": [
+        "a screening result with adverse media but no sanctions match or PEP"
+      ],
+      "when": [
+        "the risk rating is assigned"
+      ],
+      "then": [
+        "the risk rating is medium",
+        "the case goes to an analyst for approval"
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T6"
+            },
+            "excerpt": "Adverse media or a high-risk country makes it medium",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "ac_docs_overdue": {
+      "title": "No documents after 10 working days puts onboarding on hold",
+      "kind": "edge_case",
+      "applies_to": [
+        "node_await_docs",
+        "exc_docs_overdue"
+      ],
+      "given": [
+        "a client who has not sent their KYC documents 10 working days after the request"
+      ],
+      "when": [
+        "the daily overdue check runs"
+      ],
+      "then": [
+        "the engagement manager is notified",
+        "onboarding for the client is set to on hold"
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T8"
+            },
+            "excerpt": "After 10 working days with no documents, the engagement manager is told and onboarding is put on hold.",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    }
+  },
+  "nfrs": {
+    "nfr_volume": {
+      "category": "volume",
+      "statement": "About 150 new clients a month, roughly double in April and May",
+      "measure": "~150 clients/month; ~300/month in April–May",
+      "applies_to": [],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T11"
+            },
+            "excerpt": "About 150 new clients a month, with roughly double that in April and May.",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "nfr_access": {
+      "category": "security",
+      "statement": "KYC documents are visible only to onboarding and compliance",
+      "applies_to": [],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T12"
+            },
+            "excerpt": "only onboarding and compliance can see them",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    },
+    "nfr_evidence": {
+      "category": "audit",
+      "statement": "Every check, result and approval is kept as evidence for 5 years after the relationship ends",
+      "measure": "Retention: relationship end + 5 years",
+      "applies_to": [],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T12"
+            },
+            "excerpt": "Every check, result and approval has to be kept as evidence for 5 years after the relationship ends",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    }
+  },
+  "glossary": {
+    "term_kyc": {
+      "term": "KYC",
+      "definition": "Know your client: checks that confirm who a client and its owners are, and the risk they pose.",
+      "ambiguous": false,
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_intake_is_client_kyc",
+            "locator": {
+              "kind": "turn",
+              "value": "T0"
+            },
+            "excerpt": "Client KYC checks",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          },
+          {
+            "source_id": "src_inferred",
+            "locator": {
+              "kind": "none",
+              "value": ""
+            },
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ],
+        "confirmed_by": "user_sarah_lin"
+      }
+    }
+  },
+  "scope": {
+    "in": [
+      "KYC for new corporate clients: documents, ID verification, screening, risk rating, approval and recording"
+    ],
+    "out": [
+      "The final decision on high-risk clients (stays with the MLRO)",
+      "Periodic KYC refresh for existing clients (later phase)",
+      "Individuals as clients"
+    ],
+    "assumptions": [
+      "New clients in scope are companies"
+    ],
+    "constraints": [],
+    "confirmed_none": []
+  }
+}

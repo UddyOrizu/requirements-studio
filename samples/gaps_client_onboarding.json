@@ -1,0 +1,726 @@
+[
+  {
+    "gap_id": "gap_story_priority",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "6c55fc02d26d098a290c3eef46688008c1aebeaf",
+    "type": "story_priority_missing",
+    "severity": "major",
+    "detector": "story",
+    "target_refs": [
+      "/nodes/node_capture_request",
+      "/nodes/node_request_docs",
+      "/nodes/node_id_verify",
+      "/nodes/node_screening",
+      "/nodes/node_risk_rate",
+      "/nodes/node_high_risk_approval",
+      "/nodes/node_conflict_check",
+      "/nodes/node_engagement_letter",
+      "/nodes/node_decline"
+    ],
+    "title": "Story priorities not set",
+    "why_it_matters": "Priority tells MOTHER what to build first.",
+    "question": {
+      "text": "Which of these steps are must-haves for the first automated release?",
+      "answer_type": "choice",
+      "suggested_answers": [
+        "All",
+        "Pick from the list"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "onboarding_sla"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_team"
+      ]
+    },
+    "priority": 192.29,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null
+  },
+  {
+    "gap_id": "gap_story_value",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "56bbf7715d3ff5afa7acd708659d99095e819440",
+    "type": "story_value_missing",
+    "severity": "major",
+    "detector": "story",
+    "target_refs": [
+      "/nodes/node_capture_request",
+      "/nodes/node_request_docs",
+      "/nodes/node_id_verify",
+      "/nodes/node_screening",
+      "/nodes/node_risk_rate",
+      "/nodes/node_high_risk_approval",
+      "/nodes/node_conflict_check",
+      "/nodes/node_engagement_letter",
+      "/nodes/node_decline"
+    ],
+    "title": "Stories are not linked to business goals",
+    "why_it_matters": "Each story's 'so that' should come from a goal; otherwise value and priority can't be judged.",
+    "question": {
+      "text": "Which goal does each step mainly serve — meeting AML obligations, or only accepting engagements we're independent to perform?",
+      "answer_type": "choice",
+      "suggested_answers": [
+        "AML obligations",
+        "Independence",
+        "Both"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "onboarding_sla"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_team"
+      ]
+    },
+    "priority": 192.29,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null
+  },
+  {
+    "gap_id": "gap_wait_docs_timeout",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "07daf9af963d00189c19575fd25e40ed509b7f84",
+    "type": "wait_without_timeout",
+    "severity": "blocking",
+    "detector": "structural",
+    "target_refs": [
+      "/nodes/node_wait_docs"
+    ],
+    "title": "No timeout while waiting for client documents",
+    "why_it_matters": "An automated workflow would wait forever for documents; staff currently chase inconsistently (3 days to a week).",
+    "question": {
+      "text": "If a client hasn't returned their KYC documents, how many working days do we wait, and what happens then?",
+      "answer_type": "choice",
+      "suggested_answers": [
+        "Chase after 3 working days, escalate to the Engagement Manager after 5",
+        "Chase after 5 working days, close the request after 10",
+        "Other"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "kyc_documents",
+        "chasing",
+        "onboarding_sla"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_team"
+      ]
+    },
+    "priority": 94.01,
+    "status": "asked",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null
+  },
+  {
+    "gap_id": "gap_risk_medium_branch",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "3b331b886ed07de83376b411d44acb98317e4e4d",
+    "type": "decision_missing_branch",
+    "severity": "blocking",
+    "detector": "structural",
+    "target_refs": [
+      "/decision_rules/rule_risk_rating",
+      "/nodes/node_risk_decision"
+    ],
+    "title": "Medium risk has no rule and no path",
+    "why_it_matters": "Medium-rated clients have no defined next step, so the workflow cannot route them and the rating is a judgement call.",
+    "question": {
+      "text": "When a client is rated Medium risk, what decides that rating and what happens next?",
+      "answer_type": "choice",
+      "suggested_answers": [
+        "Proceed to conflict check, no extra approval",
+        "MLRO approval required, same as High",
+        "Other"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "risk_rating",
+        "aml"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_team",
+        "act_mlro"
+      ]
+    },
+    "priority": 83.4,
+    "status": "asked",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null
+  },
+  {
+    "gap_id": "gap_high_risk_approver_conflict",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "57e0492fc64eb37bf682d8fe56d4e5edb1a4266d",
+    "type": "conflicting_sources",
+    "severity": "blocking",
+    "detector": "conflict",
+    "target_refs": [
+      "/nodes/node_high_risk_approval"
+    ],
+    "title": "Sources disagree on who approves high-risk clients",
+    "why_it_matters": "The approver is the person the workflow assigns and audits; the wrong role means an invalid AML approval.",
+    "question": {
+      "text": "The SOP says the Engagement Partner approves high-risk clients; in the 24 Sep workshop you said the MLRO does since July. Which is correct?",
+      "answer_type": "choice",
+      "suggested_answers": [
+        "MLRO approves; Engagement Partner is informed",
+        "Engagement Partner approves",
+        "Both must approve",
+        "Other"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "high_risk_approval",
+        "aml"
+      ],
+      "candidate_actor_ids": [
+        "act_mlro",
+        "act_engagement_partner"
+      ]
+    },
+    "priority": 76.15,
+    "status": "answered",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null,
+    "evidence": [
+      {
+        "source_id": "src_sop_onboarding_v4",
+        "locator": "§4.2",
+        "excerpt": "High-risk clients must be approved by the Engagement Partner"
+      },
+      {
+        "source_id": "src_workshop_2026_09_24",
+        "locator": "00:14:32",
+        "excerpt": "high-risk approval is done by me as MLRO, not the engagement partner"
+      }
+    ]
+  },
+  {
+    "gap_id": "gap_story_edge_cases",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "0c9c39e7c7a4b40a641f7422aa2023348c3331f6",
+    "type": "story_edge_cases_missing",
+    "severity": "major",
+    "detector": "story",
+    "target_refs": [
+      "/nodes/node_request_docs",
+      "/nodes/node_screening",
+      "/nodes/node_conflict_check"
+    ],
+    "title": "Edge-case acceptance criteria missing",
+    "why_it_matters": "These steps wait, branch or can fail, but only the happy path is specified.",
+    "question": {
+      "text": "For requesting documents, screening and the conflict check — what's the most common thing that goes wrong, and what should happen?",
+      "answer_type": "free_text",
+      "suggested_answers": []
+    },
+    "routing": {
+      "topic_tags": [
+        "onboarding_sla"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_team"
+      ]
+    },
+    "priority": 75.21,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null
+  },
+  {
+    "gap_id": "gap_request_docs_sla_breach",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "2b7ae6836ea40932af620c376673e879d752cde6",
+    "type": "sla_without_breach_action",
+    "severity": "major",
+    "detector": "structural",
+    "target_refs": [
+      "/slas/sla_request_docs"
+    ],
+    "title": "No action defined when the document request SLA is missed",
+    "why_it_matters": "Without a breach action the 1-day target cannot be monitored or escalated.",
+    "question": {
+      "text": "If the document request isn't sent within 1 working day, who should be told?",
+      "answer_type": "actor",
+      "suggested_answers": [
+        "Onboarding Lead",
+        "Engagement Manager",
+        "No action, report only"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "onboarding_sla",
+        "kyc_documents"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_team"
+      ]
+    },
+    "priority": 37.6,
+    "status": "asked",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null
+  },
+  {
+    "gap_id": "gap_screening_down_handling",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "f9bd9bfb4086e857c58779318d4aff308a678204",
+    "type": "exception_without_handling",
+    "severity": "major",
+    "detector": "structural",
+    "target_refs": [
+      "/exceptions/exc_screening_service_down"
+    ],
+    "title": "No handling defined when the screening service is down",
+    "why_it_matters": "Outages already caused two-day delays; automation needs a retry, fallback or escalation path.",
+    "question": {
+      "text": "If the screening service is unavailable, what should happen: retry later, use a manual fallback, or escalate to someone?",
+      "answer_type": "choice",
+      "suggested_answers": [
+        "Retry every 2 hours for 1 working day, then escalate to Onboarding Lead",
+        "Switch to manual screening",
+        "Other"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "screening_service",
+        "outage",
+        "systems"
+      ],
+      "candidate_actor_ids": [
+        "act_screening_service"
+      ]
+    },
+    "priority": 34.58,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null
+  },
+  {
+    "gap_id": "gap_significant_adverse_media",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "61bc30329c0f52a3899a037cda014c98ee165689",
+    "type": "undefined_threshold",
+    "severity": "major",
+    "detector": "semantic",
+    "target_refs": [
+      "/decision_rules/rule_risk_rating",
+      "/glossary/term_significant_adverse_media"
+    ],
+    "title": "'Significant adverse media' is not defined",
+    "why_it_matters": "The risk rule depends on this threshold; without a definition, automated screening outcomes cannot be mapped to a rating.",
+    "question": {
+      "text": "What counts as 'significant' adverse media for the risk rating?",
+      "answer_type": "choice",
+      "suggested_answers": [
+        "Any allegation of financial crime in the last 6 years",
+        "Any regulatory enforcement or criminal proceedings",
+        "Other"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "adverse_media",
+        "risk_rating"
+      ],
+      "candidate_actor_ids": [
+        "act_mlro"
+      ]
+    },
+    "priority": 33.36,
+    "status": "asked",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null
+  },
+  {
+    "gap_id": "gap_approval_refused",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "23ec6e59cd0347d0f633382ce9d212b0afa76eaa",
+    "type": "implied_missing_step",
+    "severity": "major",
+    "detector": "semantic",
+    "target_refs": [
+      "/nodes/node_high_risk_approval"
+    ],
+    "title": "No path if high-risk approval is refused",
+    "why_it_matters": "The model only shows approval; a refusal needs a defined outcome (decline, more information, or conditions).",
+    "question": {
+      "text": "If a high-risk client is not approved, what happens next?",
+      "answer_type": "choice",
+      "suggested_answers": [
+        "Decline the engagement",
+        "Request more information and re-review",
+        "Other"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "high_risk_approval",
+        "aml"
+      ],
+      "candidate_actor_ids": [
+        "act_mlro"
+      ]
+    },
+    "priority": 30.46,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null
+  },
+  {
+    "gap_id": "gap_accept_rule_nl",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "b068b60a0ee4d8a14a822fd583f61a790c9e6ce4",
+    "type": "natural_language_rule_gating_edge",
+    "severity": "major",
+    "detector": "structural",
+    "target_refs": [
+      "/decision_rules/rule_accept_engagement"
+    ],
+    "title": "Engagement acceptance rule is prose, not testable logic",
+    "why_it_matters": "'Risk is acceptable' cannot be evaluated by a workflow; MOTHER needs explicit inputs and outcomes.",
+    "question": {
+      "text": "What exactly makes the engagement acceptable after the conflict check — no conflict found, or conflicts that can be managed with safeguards?",
+      "answer_type": "choice",
+      "suggested_answers": [
+        "Accept only if no conflict is found",
+        "Accept if no conflict, or conflict managed with documented safeguards",
+        "Other"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "independence",
+        "conflicts",
+        "engagement_acceptance"
+      ],
+      "candidate_actor_ids": [
+        "act_independence_team"
+      ]
+    },
+    "priority": 26.58,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null
+  },
+  {
+    "gap_id": "gap_decline_no_ac",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "063e866631e41ff23c92051095ce2e3c1a7e5778",
+    "type": "node_without_acceptance_criteria",
+    "severity": "major",
+    "detector": "structural",
+    "target_refs": [
+      "/nodes/node_decline"
+    ],
+    "title": "Declining a client has no acceptance criteria",
+    "why_it_matters": "There is no testable definition of a correct decline notification.",
+    "question": {
+      "text": "When we decline a client, what must the notification include and within what time?",
+      "answer_type": "free_text",
+      "suggested_answers": []
+    },
+    "routing": {
+      "topic_tags": [
+        "engagement_acceptance"
+      ],
+      "candidate_actor_ids": [
+        "act_engagement_manager"
+      ]
+    },
+    "priority": 16.0,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null
+  },
+  {
+    "gap_id": "gap_promptly",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "095a92206ab22d48bac194be0da1e5cb6b80d20e",
+    "type": "ambiguous_term",
+    "severity": "minor",
+    "detector": "semantic",
+    "target_refs": [
+      "/nodes/node_high_risk_approval",
+      "/glossary/term_promptly"
+    ],
+    "title": "'Escalate promptly' has no time limit",
+    "why_it_matters": "A vague timescale cannot be monitored as an SLA.",
+    "question": {
+      "text": "When an approver has concerns about a high-risk client, within how many working days should they escalate?",
+      "answer_type": "duration",
+      "suggested_answers": [
+        "1 working day",
+        "2 working days",
+        "Other"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "high_risk_approval"
+      ],
+      "candidate_actor_ids": [
+        "act_mlro"
+      ]
+    },
+    "priority": 7.61,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null
+  },
+  {
+    "gap_id": "gap_cov_effort",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "acdf8e64547ae58f95b10e39c647756ec0c2ea4f",
+    "type": "coverage_missing",
+    "severity": "major",
+    "detector": "coverage",
+    "target_refs": [
+      "/nodes"
+    ],
+    "title": "Effort per step not captured",
+    "why_it_matters": "Without minutes per step, the improvement step can't estimate what automation would save.",
+    "question": {
+      "text": "Roughly how many minutes does each step take today, and where are the biggest delays?",
+      "answer_type": "free_text",
+      "suggested_answers": []
+    },
+    "routing": {
+      "topic_tags": [
+        "onboarding_sla"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_team"
+      ]
+    },
+    "priority": 4.0,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null,
+    "coverage_slot": "C17"
+  },
+  {
+    "gap_id": "gap_cov_human_controls",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "6c506303d472e7829700e6728da1e64175ed17d2",
+    "type": "coverage_missing",
+    "severity": "major",
+    "detector": "coverage",
+    "target_refs": [
+      "/nodes"
+    ],
+    "title": "Human checkpoints and approval gates not defined",
+    "why_it_matters": "The flow diagram and MOTHER need to know which steps are automated, which a person reviews, and where approval is required.",
+    "question": {
+      "text": "Which steps must a person review or approve before the process continues? For example, high-risk approval, the conflict check, the engagement letter.",
+      "answer_type": "free_text",
+      "suggested_answers": [
+        "MLRO approves high-risk clients",
+        "Independence team decides conflicts",
+        "Engagement Manager signs the letter"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "aml",
+        "onboarding_sla"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_team"
+      ]
+    },
+    "priority": 4.0,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null,
+    "coverage_slot": "C16"
+  },
+  {
+    "gap_id": "gap_cov_nfrs",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "8e5262d9b18885a98934487d189ead1e47c575af",
+    "type": "coverage_missing",
+    "severity": "major",
+    "detector": "coverage",
+    "target_refs": [
+      "/nfrs"
+    ],
+    "title": "No security or audit-trail requirements",
+    "why_it_matters": "KYC data is personal and regulated; MOTHER needs explicit handling and record-keeping rules.",
+    "question": {
+      "text": "What rules apply to storing KYC documents and recording decisions (retention period, who can see them, audit trail)?",
+      "answer_type": "free_text",
+      "suggested_answers": [
+        "Retain 5 years after relationship ends",
+        "Restricted to Onboarding + MLRO",
+        "Other"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "kyc_documents",
+        "aml"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_team"
+      ]
+    },
+    "priority": 4.0,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null,
+    "coverage_slot": "C14"
+  },
+  {
+    "gap_id": "gap_cov_scope",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "d4071c8c4c28c43d245acad374494b672429e645",
+    "type": "coverage_missing",
+    "severity": "major",
+    "detector": "coverage",
+    "target_refs": [
+      "/scope"
+    ],
+    "title": "Nothing is marked out of scope",
+    "why_it_matters": "Without explicit exclusions, stories grow and automation boundaries are unclear.",
+    "question": {
+      "text": "What should automation NOT cover in the first release, e.g. existing-client reviews, overseas entities, or the conflict check itself?",
+      "answer_type": "free_text",
+      "suggested_answers": [
+        "Existing-client periodic reviews",
+        "Overseas entities",
+        "Other"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "onboarding_sla"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_team"
+      ]
+    },
+    "priority": 4.0,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null,
+    "coverage_slot": "C15"
+  },
+  {
+    "gap_id": "gap_cov_success_metric",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "9f4b1f61914d0bb44a0e82a00988d9d6f2c43d2f",
+    "type": "coverage_missing",
+    "severity": "major",
+    "detector": "coverage",
+    "target_refs": [
+      "/goals"
+    ],
+    "title": "No success metric",
+    "why_it_matters": "Without a baseline and target nobody can show the automation improved onboarding.",
+    "question": {
+      "text": "How should we measure whether onboarding has improved — e.g. elapsed days, % completed within 10 days — and what is it today?",
+      "answer_type": "free_text",
+      "suggested_answers": [
+        "Elapsed working days per client",
+        "% onboarded within 10 working days",
+        "Other"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "onboarding_sla"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_team"
+      ]
+    },
+    "priority": 4.0,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null,
+    "coverage_slot": "C02"
+  },
+  {
+    "gap_id": "gap_cov_volume",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "35e2464af473edd61f82219e560f8b7fa68134ac",
+    "type": "coverage_missing",
+    "severity": "major",
+    "detector": "coverage",
+    "target_refs": [
+      "/nfrs"
+    ],
+    "title": "Volumes unknown",
+    "why_it_matters": "Volume and peaks decide where automation pays off and how it must scale.",
+    "question": {
+      "text": "Roughly how many new clients do we onboard a month, and are there peak periods?",
+      "answer_type": "free_text",
+      "suggested_answers": [
+        "Under 50 a month",
+        "50–200 a month",
+        "Over 200 a month"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "onboarding_sla"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_team"
+      ]
+    },
+    "priority": 4.0,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null,
+    "coverage_slot": "C12"
+  },
+  {
+    "gap_id": "gap_cov_personas",
+    "process_id": "proc_client_onboarding",
+    "fingerprint": "5332e8661577053653c17d8b7e5ac559913bb455",
+    "type": "coverage_missing",
+    "severity": "minor",
+    "detector": "coverage",
+    "target_refs": [
+      "/personas"
+    ],
+    "title": "Beneficiaries not identified",
+    "why_it_matters": "Knowing who benefits gives each story a real 'so that' instead of a mechanical one.",
+    "question": {
+      "text": "Who benefits most if onboarding is faster and more consistent — engagement teams, the MLRO, clients?",
+      "answer_type": "choice",
+      "suggested_answers": [
+        "Engagement teams",
+        "MLRO / compliance",
+        "Clients",
+        "Other"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "onboarding_sla"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_team"
+      ]
+    },
+    "priority": 1.0,
+    "status": "open",
+    "ir_version_detected": 3,
+    "resolved_by_patch_id": null,
+    "coverage_slot": "C03"
+  }
+]

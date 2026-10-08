@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bdo.internal/requirements-studio/schemas/gap/1.0",
+  "title": "Gap",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "gap_id",
+    "process_id",
+    "fingerprint",
+    "type",
+    "severity",
+    "detector",
+    "target_refs",
+    "title",
+    "why_it_matters",
+    "question",
+    "routing",
+    "priority",
+    "status",
+    "ir_version_detected"
+  ],
+  "properties": {
+    "gap_id": {
+      "type": "string",
+      "pattern": "^gap_[a-z0-9_]{1,60}$"
+    },
+    "process_id": {
+      "type": "string"
+    },
+    "fingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$",
+      "description": "sha1(type + ('#' + coverage_slot if present) + '|' + '|'.join(sorted(target_refs)))"
+    },
+    "type": {
+      "enum": [
+        "node_without_actor",
+        "decision_missing_branch",
+        "decision_missing_default",
+        "wait_without_timeout",
+        "unreachable_node",
+        "no_path_to_end",
+        "undefined_entity_reference",
+        "sla_without_breach_action",
+        "exception_without_handling",
+        "node_without_acceptance_criteria",
+        "natural_language_rule_gating_edge",
+        "low_confidence_element",
+        "conflicting_sources",
+        "ambiguous_term",
+        "undefined_threshold",
+        "implied_missing_step",
+        "unclear_ownership_of_data",
+        "missing_exception_path",
+        "coverage_missing",
+        "story_value_missing",
+        "story_priority_missing",
+        "story_edge_cases_missing",
+        "unclear_business_rule",
+        "integration_capability_unknown",
+        "hitl_undefined",
+        "approval_gate_incomplete"
+      ]
+    },
+    "severity": {
+      "enum": [
+        "blocking",
+        "major",
+        "minor"
+      ]
+    },
+    "detector": {
+      "enum": [
+        "structural",
+        "conflict",
+        "semantic",
+        "confidence",
+        "coverage",
+        "story",
+        "intake"
+      ]
+    },
+    "target_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^/"
+      }
+    },
+    "title": {
+      "type": "string"
+    },
+    "why_it_matters": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text",
+        "answer_type"
+      ],
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "answer_type": {
+          "enum": [
+            "free_text",
+            "choice",
+            "duration",
+            "number",
+            "yes_no",
+            "actor"
+          ]
+        },
+        "suggested_answers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "routing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "topic_tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "candidate_actor_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "priority": {
+      "type": "number",
+      "minimum": 0
+    },
+    "status": {
+      "enum": [
+        "open",
+        "asked",
+        "answered",
+        "resolved",
+        "dismissed",
+        "waived"
+      ],
+      "description": "'asked' covers both routed SME questions and intake questions parked with 'ask someone'."
+    },
+    "ir_version_detected": {
+      "type": "integer"
+    },
+    "resolved_by_patch_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "coverage_slot": {
+      "enum": [
+        "C01",
+        "C02",
+        "C03",
+        "C04",
+        "C05",
+        "C06",
+        "C07",
+        "C08",
+        "C09",
+        "C10",
+        "C11",
+        "C12",
+        "C13",
+        "C14",
+        "C15",
+        "C16",
+        "C17"
+      ],
+      "description": "Required when type = coverage_missing."
+    }
+  },
+  "if": {
+    "properties": {
+      "type": {
+        "const": "coverage_missing"
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "coverage_slot"
+    ]
+  }
+}

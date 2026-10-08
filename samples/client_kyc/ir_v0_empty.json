@@ -1,0 +1,43 @@
+{
+  "ir_version": "1.1",
+  "process": {
+    "id": "proc_client_kyc_as_is",
+    "name": "Client KYC checks",
+    "owner_user_id": "user_sarah_lin",
+    "status": "draft",
+    "version": 0,
+    "updated_at": "2026-10-05T09:00:00Z",
+    "variant": "as_is",
+    "idea_id": "idea_client_kyc",
+    "description": "Know-your-client checks for new corporate clients, as done today.",
+    "domain": "client_onboarding"
+  },
+  "sources": {
+    "src_intake_is_client_kyc": {
+      "title": "Intake session with Sarah Lin (Compliance Manager), 5–6 Oct 2026",
+      "kind": "intake",
+      "authority_weight": 0.8,
+      "uri": "rs://intake-sessions/is_client_kyc",
+      "ingested_at": "2026-10-05T09:00:00Z"
+    }
+  },
+  "actors": {},
+  "entities": {},
+  "nodes": {},
+  "edges": {},
+  "decision_rules": {},
+  "exceptions": {},
+  "slas": {},
+  "acceptance_criteria": {},
+  "glossary": {},
+  "goals": {},
+  "personas": {},
+  "nfrs": {},
+  "scope": {
+    "in": [],
+    "out": [],
+    "assumptions": [],
+    "constraints": [],
+    "confirmed_none": []
+  }
+}

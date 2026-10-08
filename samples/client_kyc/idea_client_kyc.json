@@ -1,0 +1,27 @@
+{
+  "idea_id": "idea_client_kyc",
+  "title": "Client KYC checks",
+  "summary": "Client KYC checks take us days because the onboarding team gathers ID documents by email, checks them by hand and runs screening separately. I want something that collects the KYC documents from new clients, verifies the IDs, runs the sanctions and PEP screening and gives a risk rating, so we only look at the cases that need a human.",
+  "owner_user_id": "user_sarah_lin",
+  "status": "ready",
+  "has_as_is": true,
+  "as_is_process_id": "proc_client_kyc_as_is",
+  "to_be_process_id": "proc_client_kyc_to_be",
+  "session_id": "is_client_kyc",
+  "tags": [
+    "kyc",
+    "onboarding",
+    "aml"
+  ],
+  "stats": {
+    "stories": 9,
+    "stories_ready": 9,
+    "open_questions": 1,
+    "suggestions_accepted": 6,
+    "suggestions_rejected": 1,
+    "hours_saved_per_month": 275.0,
+    "coverage": 1.0
+  },
+  "created_at": "2026-10-05T09:00:00Z",
+  "updated_at": "2026-10-06T09:12:00Z"
+}

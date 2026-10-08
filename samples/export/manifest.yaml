@@ -1,0 +1,85 @@
+# MOTHER export package manifest (example).
+# Illustrative: produced once all blocking gaps are resolved and stories signed off (IR version 11).
+# Hashes below are placeholders of the right shape; M9 computes real values.
+manifest_version: "1.0"
+export_id: exp_0192b1d0_client_onboarding_v11
+process:
+  id: proc_client_onboarding
+  name: "Client onboarding – KYC & engagement acceptance"
+  owner_user_id: user_daniel_okafor
+ir:
+  ir_version: "1.1"
+  version: 11
+  file: ir.json
+  ir_hash: 3f9c2a7e1b5d4c8f9a0e6b2d7c1f4a8e9b3d5c7f1a2e4b6d8c0f9e7a5b3c1d2e
+mode: full
+created_at: "2026-10-09T14:20:00Z"
+created_by: user_daniel_okafor
+target:
+  system: MOTHER
+  import_api_version: "1"
+  webhook: https://mother.internal/api/imports
+files:
+  - path: ir.json
+    sha256: 3f9c2a7e1b5d4c8f9a0e6b2d7c1f4a8e9b3d5c7f1a2e4b6d8c0f9e7a5b3c1d2e
+  - path: stories.md
+    sha256: a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90
+  - path: features/client_onboarding.feature
+    sha256: 0f1e2d3c4b5a69788796a5b4c3d2e1f00f1e2d3c4b5a69788796a5b4c3d2e1f0
+  - path: dor_report.json
+    sha256: 9a8b7c6d5e4f30211203f4e5d6c7b8a99a8b7c6d5e4f30211203f4e5d6c7b8a9
+  - path: gaps_open.json
+    sha256: 5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b
+  - path: sources_index.json
+    sha256: c0ffee00c0ffee00c0ffee00c0ffee00c0ffee00c0ffee00c0ffee00c0ffee00
+  - path: audit_summary.json
+    sha256: d00dfeedd00dfeedd00dfeedd00dfeedd00dfeedd00dfeedd00dfeedd00dfeed
+package_hash: 7e3a1c9b5d2f8e4a6c0b9d7f3e1a5c8b2d4f6e9a7c1b3d5f8e0a2c4b6d9f1e3a
+readiness:
+  stories_total: 9
+  ready: 7
+  waived: 2
+  waivers:
+    - story_id: story_engagement_letter
+      check_id: DOR-09
+      reason: "Engagement letter template owned by Legal; content out of scope for automation v1."
+      waived_by: user_daniel_okafor
+    - story_id: story_decline
+      check_id: DOR-09
+      reason: "Low-volume path; manual for v1."
+      waived_by: user_daniel_okafor
+  open_non_blocking_gaps: 1          # see gaps_open.json (gap_promptly, minor)
+excluded_stories: []                 # populated only when mode: partial
+mother_hints:                        # per task node; MOTHER builds agents + QC rubrics from these
+  - node_id: node_request_docs
+    automation_hint: ai_candidate
+    priority: must
+    single_goal_statement: "Draft and send the KYC document request for a newly logged client."
+    acceptance_criteria_ids: [ac_request_docs]
+    qc_rubric_seed:
+      - "the request is sent to the client within 1 working day of the CRM request being logged"
+      - "the request lists photo ID and proof of address for each director and beneficial owner holding 25% or more, and the certificate of incorporation"
+  - node_id: node_screening
+    automation_hint: integration
+    single_goal_statement: "Screen the company, directors and beneficial owners and file the results."
+    acceptance_criteria_ids: [ac_screening_complete]
+    qc_rubric_seed:
+      - "the company and every director and beneficial owner have been screened against sanctions, PEP and adverse media sources"
+      - "all screening results are saved to the client file"
+  - node_id: node_risk_rate
+    automation_hint: deterministic_code
+    single_goal_statement: "Assign the client risk rating using the risk rating matrix."
+    acceptance_criteria_ids: [ac_risk_rating_high, ac_risk_rating_low]
+    qc_rubric_seed:
+      - "the client risk rating is High"
+      - "the client risk rating is Low"
+      - "the case proceeds to the conflict check"
+  # … one entry per task node
+audit_summary:
+  elapsed_working_days: 8
+  sources: 3
+  patches_applied: 41
+  questions_asked: 14
+  questions_answered: 14
+  median_answer_hours: 6.5
+  elements_confirmed_by_sme: 52

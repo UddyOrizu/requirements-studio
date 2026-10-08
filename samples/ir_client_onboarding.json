@@ -1,0 +1,2821 @@
+{
+  "ir_version": "1.1",
+  "process": {
+    "id": "proc_client_onboarding",
+    "name": "Client onboarding – KYC & engagement acceptance",
+    "description": "Taking on new audit and advisory clients: due diligence, risk rating, independence and engagement letter.",
+    "domain": "client_onboarding",
+    "owner_user_id": "user_daniel_okafor",
+    "status": "in_review",
+    "version": 3,
+    "variant": "as_is",
+    "idea_id": "idea_client_onboarding",
+    "updated_at": "2026-09-30T15:42:00Z"
+  },
+  "sources": {
+    "src_sop_onboarding_v4": {
+      "title": "SOP OPS-ONB-004 Client Onboarding v4.0",
+      "kind": "sop",
+      "authority_weight": 0.8,
+      "uri": "blob://sources/proc_client_onboarding/src_sop_onboarding_v4/original.md",
+      "ingested_at": "2026-09-29T09:12:00Z"
+    },
+    "src_workshop_2026_09_24": {
+      "title": "Onboarding workshop 24 Sep 2026 (transcript)",
+      "kind": "transcript",
+      "authority_weight": 0.6,
+      "uri": "blob://sources/proc_client_onboarding/src_workshop_2026_09_24/original.vtt",
+      "ingested_at": "2026-09-29T09:13:00Z"
+    },
+    "src_email_docs_chase": {
+      "title": "Email thread: Chasing KYC docs – Northgate Logistics",
+      "kind": "email",
+      "authority_weight": 0.5,
+      "uri": "blob://sources/proc_client_onboarding/src_email_docs_chase/original.eml",
+      "ingested_at": "2026-09-29T09:13:30Z"
+    }
+  },
+  "goals": {
+    "goal_aml_compliance": {
+      "statement": "Meet our anti-money laundering obligations for every new client",
+      "metrics": [],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§1"
+            },
+            "excerpt": "so that the firm meets its anti-money laundering obligations",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      }
+    },
+    "goal_independence": {
+      "statement": "Only accept engagements we are independent to perform",
+      "metrics": [],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§1"
+            },
+            "excerpt": "only accepts engagements it is independent to perform",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      }
+    }
+  },
+  "personas": {},
+  "actors": {
+    "act_engagement_manager": {
+      "name": "Engagement Manager",
+      "kind": "human_role",
+      "description": "Receives new client requests, logs them, issues engagement letters.",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§2"
+            },
+            "excerpt": "The Engagement Manager logs the request in the CRM",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "sme_daniel_okafor"
+      }
+    },
+    "act_onboarding_team": {
+      "name": "Onboarding Team",
+      "kind": "team",
+      "sme_ids": [
+        "sme_daniel_okafor"
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.1"
+            },
+            "excerpt": "The Onboarding Team requests KYC documents from the client",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:02:05-00:02:31"
+            },
+            "excerpt": "my team sends the document request",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ],
+        "confirmed_by": "sme_daniel_okafor"
+      }
+    },
+    "act_mlro": {
+      "name": "MLRO",
+      "kind": "human_role",
+      "description": "Money Laundering Reporting Officer.",
+      "sme_ids": [
+        "sme_priya_shah",
+        "sme_tom_reed"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.51,
+        "provenance": [
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:14:32-00:15:10"
+            },
+            "excerpt": "high-risk approval is done by me as MLRO, not the engagement partner",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      }
+    },
+    "act_engagement_partner": {
+      "name": "Engagement Partner",
+      "kind": "human_role",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.72,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.2"
+            },
+            "excerpt": "High-risk clients must be approved by the Engagement Partner",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ]
+      }
+    },
+    "act_independence_team": {
+      "name": "Independence Team",
+      "kind": "team",
+      "sme_ids": [
+        "sme_hannah_cole"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.854,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§5.1"
+            },
+            "excerpt": "The Independence Team performs a conflict and independence check",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:21:15-00:21:50"
+            },
+            "excerpt": "The independence team then does the conflict check",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "act_client": {
+      "name": "Client",
+      "kind": "external_party",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.1"
+            },
+            "excerpt": "requests KYC documents from the client",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "act_screening_service": {
+      "name": "Screening Service",
+      "kind": "system",
+      "sme_ids": [
+        "sme_james_patel"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.834,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.3"
+            },
+            "excerpt": "using the screening service",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          },
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:05:48-00:06:20"
+            },
+            "excerpt": "through the screening tool",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "act_id_verification_service": {
+      "name": "Electronic ID Verification Service",
+      "kind": "system",
+      "sme_ids": [
+        "sme_james_patel"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.2"
+            },
+            "excerpt": "using the approved electronic ID verification service",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      }
+    },
+    "act_crm": {
+      "name": "CRM",
+      "kind": "system",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§2"
+            },
+            "excerpt": "logs the request in the CRM",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      }
+    }
+  },
+  "entities": {
+    "ent_client": {
+      "name": "Client",
+      "attributes": [
+        {
+          "name": "legal_name",
+          "type": "string",
+          "required": true,
+          "pii": false
+        },
+        {
+          "name": "company_number",
+          "type": "string",
+          "required": true,
+          "pii": false
+        },
+        {
+          "name": "requested_service",
+          "type": "string",
+          "required": true,
+          "pii": false
+        },
+        {
+          "name": "jurisdiction",
+          "type": "enum",
+          "required": false,
+          "pii": false,
+          "enum_values": [
+            "standard",
+            "high_risk"
+          ]
+        }
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§2"
+            },
+            "excerpt": "recording the client legal name, company number and the requested service",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "sme_daniel_okafor"
+      }
+    },
+    "ent_kyc_document_set": {
+      "name": "KYC Document Set",
+      "attributes": [
+        {
+          "name": "photo_ids",
+          "type": "document",
+          "required": true,
+          "pii": true
+        },
+        {
+          "name": "proofs_of_address",
+          "type": "document",
+          "required": true,
+          "pii": true
+        },
+        {
+          "name": "certificate_of_incorporation",
+          "type": "document",
+          "required": true,
+          "pii": false
+        },
+        {
+          "name": "received_at",
+          "type": "datetime",
+          "required": false,
+          "pii": false
+        },
+        {
+          "name": "complete",
+          "type": "boolean",
+          "required": false,
+          "pii": false
+        }
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.72,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.1"
+            },
+            "excerpt": "certified photo ID and proof of address for each director and beneficial owner",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ]
+      }
+    },
+    "ent_screening_result": {
+      "name": "Screening Result",
+      "attributes": [
+        {
+          "name": "sanctions_match",
+          "type": "boolean",
+          "required": true,
+          "pii": false
+        },
+        {
+          "name": "pep_match",
+          "type": "boolean",
+          "required": true,
+          "pii": false
+        },
+        {
+          "name": "adverse_media_severity",
+          "type": "enum",
+          "required": true,
+          "pii": false,
+          "enum_values": [
+            "none",
+            "minor",
+            "significant"
+          ]
+        }
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.834,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.3"
+            },
+            "excerpt": "against sanctions lists, PEP lists and adverse media",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          },
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:05:48-00:06:20"
+            },
+            "excerpt": "sanctions, PEPs, adverse media",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "ent_risk_assessment": {
+      "name": "Risk Assessment",
+      "attributes": [
+        {
+          "name": "rating",
+          "type": "enum",
+          "required": true,
+          "pii": false,
+          "enum_values": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        {
+          "name": "rationale",
+          "type": "string",
+          "required": false,
+          "pii": false
+        }
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.72,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.1"
+            },
+            "excerpt": "assigns a client risk rating of Low, Medium or High",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ]
+      }
+    },
+    "ent_engagement_letter": {
+      "name": "Engagement Letter",
+      "attributes": [
+        {
+          "name": "document",
+          "type": "document",
+          "required": true,
+          "pii": false
+        },
+        {
+          "name": "issued_at",
+          "type": "datetime",
+          "required": true,
+          "pii": false
+        }
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§6.1"
+            },
+            "excerpt": "the Engagement Manager issues the engagement letter",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      }
+    }
+  },
+  "nodes": {
+    "node_start": {
+      "type": "start",
+      "name": "Engagement request received",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§2"
+            },
+            "excerpt": "receives a request to act for a new client",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      },
+      "description": "An Engagement Manager receives a request to act for a new client."
+    },
+    "node_capture_request": {
+      "type": "task",
+      "name": "Log client request in CRM",
+      "description": "Log the new client request in the CRM with legal name, company number and requested service.",
+      "actor_id": "act_engagement_manager",
+      "outputs": [
+        "ent_client"
+      ],
+      "automation_hint": "human",
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§2"
+            },
+            "excerpt": "The Engagement Manager logs the request in the CRM",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "sme_daniel_okafor"
+      },
+      "outcome": "the client record is available for the KYC document request",
+      "system_ids": [
+        "act_crm"
+      ]
+    },
+    "node_request_docs": {
+      "type": "task",
+      "name": "Request KYC documents",
+      "description": "Request certified photo ID and proof of address for each director and beneficial owner (25%+) and the certificate of incorporation.",
+      "actor_id": "act_onboarding_team",
+      "inputs": [
+        "ent_client"
+      ],
+      "sla_ids": [
+        "sla_request_docs"
+      ],
+      "automation_hint": "ai_candidate",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.863,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.1"
+            },
+            "excerpt": "requests KYC documents from the client within one working day",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:02:05-00:02:31"
+            },
+            "excerpt": "Usually same day, worst case next day.",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      },
+      "outcome": "the KYC document set is available for identity verification"
+    },
+    "node_wait_docs": {
+      "type": "wait",
+      "name": "Await client documents",
+      "description": "Wait for the client to return the KYC document set.",
+      "outputs": [
+        "ent_kyc_document_set"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.736,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.2"
+            },
+            "excerpt": "On receipt, the Onboarding Team verifies identity documents",
+            "stance": "supports",
+            "extraction_certainty": 0.7
+          },
+          {
+            "source_id": "src_email_docs_chase",
+            "locator": {
+              "kind": "message",
+              "value": "#1"
+            },
+            "excerpt": "What do we do when the client doesn't reply? Do we keep chasing indefinitely?",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "node_id_verify": {
+      "type": "task",
+      "name": "Verify identity documents",
+      "description": "Verify each identity document through the electronic ID verification service.",
+      "actor_id": "act_onboarding_team",
+      "inputs": [
+        "ent_kyc_document_set"
+      ],
+      "exception_ids": [
+        "exc_id_expired"
+      ],
+      "automation_hint": "integration",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.72,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.2"
+            },
+            "excerpt": "verifies identity documents using the approved electronic ID verification service",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ]
+      },
+      "outcome": "verified identities are available for screening",
+      "system_ids": [
+        "act_id_verification_service"
+      ]
+    },
+    "node_screening": {
+      "type": "task",
+      "name": "Screen company and individuals",
+      "description": "Screen the company, directors and beneficial owners against sanctions, PEP and adverse media sources and save results to the client file.",
+      "actor_id": "act_onboarding_team",
+      "inputs": [
+        "ent_client",
+        "ent_kyc_document_set"
+      ],
+      "outputs": [
+        "ent_screening_result"
+      ],
+      "exception_ids": [
+        "exc_screening_service_down"
+      ],
+      "automation_hint": "integration",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.834,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.3"
+            },
+            "excerpt": "screens the company and every director and beneficial owner against sanctions lists",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          },
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:05:48-00:06:20"
+            },
+            "excerpt": "Then we run the screening – sanctions, PEPs, adverse media",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      },
+      "outcome": "the screening result is available for the client risk rating",
+      "system_ids": [
+        "act_screening_service"
+      ]
+    },
+    "node_risk_rate": {
+      "type": "task",
+      "name": "Assign client risk rating",
+      "description": "Apply the risk rating matrix to the screening result and client jurisdiction.",
+      "actor_id": "act_onboarding_team",
+      "inputs": [
+        "ent_screening_result",
+        "ent_client"
+      ],
+      "outputs": [
+        "ent_risk_assessment"
+      ],
+      "rule_ids": [
+        "rule_risk_rating"
+      ],
+      "automation_hint": "deterministic_code",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.814,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.1"
+            },
+            "excerpt": "assigns a client risk rating of Low, Medium or High using the risk rating matrix",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          },
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:09:43-00:10:05"
+            },
+            "excerpt": "it's the matrix for low and high",
+            "stance": "supports",
+            "extraction_certainty": 0.7
+          }
+        ]
+      },
+      "outcome": "the risk assessment decides whether approval is needed before the conflict check"
+    },
+    "node_risk_decision": {
+      "type": "decision",
+      "name": "Risk level?",
+      "inputs": [
+        "ent_risk_assessment"
+      ],
+      "rule_ids": [
+        "rule_risk_rating"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.2"
+            },
+            "excerpt": "Low-risk clients proceed directly to the conflict check",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "node_high_risk_approval": {
+      "type": "task",
+      "name": "Approve high-risk client",
+      "description": "Approve the engagement for a high-risk client before it proceeds. The Engagement Partner should escalate promptly if they have concerns.",
+      "actor_id": "act_engagement_partner",
+      "inputs": [
+        "ent_risk_assessment",
+        "ent_screening_result"
+      ],
+      "automation_hint": "human",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.36,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.2"
+            },
+            "excerpt": "High-risk clients must be approved by the Engagement Partner before the engagement can proceed",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:14:32-00:15:10"
+            },
+            "excerpt": "high-risk approval is done by me as MLRO, not the engagement partner",
+            "stance": "contradicts",
+            "extraction_certainty": 0.85,
+            "field": "actor_id"
+          }
+        ],
+        "notes": "Sources disagree on approver: SOP says Engagement Partner; MLRO (workshop) says MLRO since July policy change."
+      },
+      "outcome": "only approved high-risk clients proceed to the conflict check"
+    },
+    "node_conflict_check": {
+      "type": "task",
+      "name": "Perform conflict and independence check",
+      "description": "Check for conflicts of interest and independence issues for the new client.",
+      "actor_id": "act_independence_team",
+      "inputs": [
+        "ent_client"
+      ],
+      "automation_hint": "human",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.854,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§5.1"
+            },
+            "excerpt": "performs a conflict and independence check for every new client",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:21:15-00:21:50"
+            },
+            "excerpt": "The independence team then does the conflict check",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      },
+      "outcome": "only engagements without unmanageable conflicts are accepted"
+    },
+    "node_accept_decision": {
+      "type": "decision",
+      "name": "Accept engagement?",
+      "rule_ids": [
+        "rule_accept_engagement"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§5.2"
+            },
+            "excerpt": "If no conflict exists and the risk is acceptable, the engagement is accepted",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      }
+    },
+    "node_engagement_letter": {
+      "type": "task",
+      "name": "Issue engagement letter",
+      "description": "Issue the engagement letter to the client.",
+      "actor_id": "act_engagement_manager",
+      "outputs": [
+        "ent_engagement_letter"
+      ],
+      "sla_ids": [
+        "sla_onboarding_total"
+      ],
+      "automation_hint": "ai_candidate",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.846,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§6.1"
+            },
+            "excerpt": "Once accepted, the Engagement Manager issues the engagement letter",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:21:15-00:21:50"
+            },
+            "excerpt": "the engagement manager sends the letter",
+            "stance": "supports",
+            "extraction_certainty": 0.75
+          }
+        ]
+      },
+      "outcome": "the client is onboarded with an engagement letter"
+    },
+    "node_decline": {
+      "type": "task",
+      "name": "Notify client of decline",
+      "description": "Notify the client that the firm cannot act.",
+      "actor_id": "act_engagement_manager",
+      "automation_hint": "ai_candidate",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§5.2"
+            },
+            "excerpt": "the engagement is declined and the Engagement Manager notifies the client",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      },
+      "outcome": "the client knows the firm cannot act"
+    },
+    "node_end_onboarded": {
+      "type": "end",
+      "name": "Client onboarded",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§6.1"
+            },
+            "excerpt": "issues the engagement letter",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "node_end_declined": {
+      "type": "end",
+      "name": "Engagement declined",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§5.2"
+            },
+            "excerpt": "the engagement is declined",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    }
+  },
+  "edges": {
+    "edge_start_capture": {
+      "from": "node_start",
+      "to": "node_capture_request",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§2"
+            },
+            "excerpt": "The Engagement Manager logs the request in the CRM",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "edge_capture_request": {
+      "from": "node_capture_request",
+      "to": "node_request_docs",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.1"
+            },
+            "excerpt": "within one working day of the CRM request being logged",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "edge_request_wait": {
+      "from": "node_request_docs",
+      "to": "node_wait_docs",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.1"
+            },
+            "excerpt": "requests KYC documents from the client",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "edge_wait_verify": {
+      "from": "node_wait_docs",
+      "to": "node_id_verify",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.2"
+            },
+            "excerpt": "On receipt, the Onboarding Team verifies identity documents",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "edge_verify_screen": {
+      "from": "node_id_verify",
+      "to": "node_screening",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.56,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.3"
+            },
+            "excerpt": "The Onboarding Team screens the company",
+            "stance": "supports",
+            "extraction_certainty": 0.7
+          }
+        ]
+      }
+    },
+    "edge_screen_rate": {
+      "from": "node_screening",
+      "to": "node_risk_rate",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.56,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.1"
+            },
+            "excerpt": "assigns a client risk rating",
+            "stance": "supports",
+            "extraction_certainty": 0.7
+          }
+        ]
+      }
+    },
+    "edge_rate_decision": {
+      "from": "node_risk_rate",
+      "to": "node_risk_decision",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.1"
+            },
+            "excerpt": "Low, Medium or High",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "edge_risk_low": {
+      "from": "node_risk_decision",
+      "to": "node_conflict_check",
+      "label": "Low",
+      "condition": {
+        "rule_id": "rule_risk_rating",
+        "outcome": "low"
+      },
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.2"
+            },
+            "excerpt": "Low-risk clients proceed directly to the conflict check",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "edge_risk_high": {
+      "from": "node_risk_decision",
+      "to": "node_high_risk_approval",
+      "label": "High",
+      "condition": {
+        "rule_id": "rule_risk_rating",
+        "outcome": "high"
+      },
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.2"
+            },
+            "excerpt": "High-risk clients must be approved",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "edge_approval_conflict": {
+      "from": "node_high_risk_approval",
+      "to": "node_conflict_check",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.56,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.2"
+            },
+            "excerpt": "before the engagement can proceed",
+            "stance": "supports",
+            "extraction_certainty": 0.7
+          }
+        ]
+      }
+    },
+    "edge_conflict_accept": {
+      "from": "node_conflict_check",
+      "to": "node_accept_decision",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§5.2"
+            },
+            "excerpt": "If no conflict exists and the risk is acceptable",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "edge_accept_yes": {
+      "from": "node_accept_decision",
+      "to": "node_engagement_letter",
+      "label": "Accept",
+      "condition": {
+        "rule_id": "rule_accept_engagement",
+        "outcome": "accept"
+      },
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§5.2"
+            },
+            "excerpt": "the engagement is accepted",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "edge_accept_no": {
+      "from": "node_accept_decision",
+      "to": "node_decline",
+      "label": "Decline",
+      "condition": {
+        "rule_id": "rule_accept_engagement",
+        "outcome": "decline"
+      },
+      "is_default": true,
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§5.2"
+            },
+            "excerpt": "the engagement is declined",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "edge_letter_end": {
+      "from": "node_engagement_letter",
+      "to": "node_end_onboarded",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§6.1"
+            },
+            "excerpt": "issues the engagement letter",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "edge_decline_end": {
+      "from": "node_decline",
+      "to": "node_end_declined",
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§5.2"
+            },
+            "excerpt": "notifies the client",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    }
+  },
+  "decision_rules": {
+    "rule_risk_rating": {
+      "name": "Client risk rating matrix",
+      "description": "Rates client risk from screening results and jurisdiction.",
+      "inputs": [
+        "ent_screening_result.pep_match",
+        "ent_screening_result.adverse_media_severity",
+        "ent_client.jurisdiction"
+      ],
+      "outcomes": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "logic": {
+        "kind": "table",
+        "hit_policy": "first",
+        "columns": [
+          "ent_screening_result.pep_match",
+          "ent_screening_result.adverse_media_severity",
+          "ent_client.jurisdiction"
+        ],
+        "rows": [
+          {
+            "when": [
+              "true",
+              "*",
+              "*"
+            ],
+            "then": "high"
+          },
+          {
+            "when": [
+              "*",
+              "significant",
+              "*"
+            ],
+            "then": "high"
+          },
+          {
+            "when": [
+              "*",
+              "*",
+              "high_risk"
+            ],
+            "then": "high"
+          },
+          {
+            "when": [
+              "false",
+              "none",
+              "standard"
+            ],
+            "then": "low"
+          }
+        ]
+      },
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.814,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.1"
+            },
+            "excerpt": "A client is rated High where any director is a PEP, or where screening returns significant adverse media",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          },
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:09:43-00:10:05"
+            },
+            "excerpt": "Medium is a bit of a judgement call, honestly.",
+            "stance": "supports",
+            "extraction_certainty": 0.7
+          }
+        ]
+      }
+    },
+    "rule_accept_engagement": {
+      "name": "Engagement acceptance",
+      "outcomes": [
+        "accept",
+        "decline"
+      ],
+      "logic": {
+        "kind": "natural_language",
+        "text": "Accept if no conflict exists and the risk is acceptable; decline if a conflict cannot be managed."
+      },
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§5.2"
+            },
+            "excerpt": "If no conflict exists and the risk is acceptable, the engagement is accepted",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      }
+    }
+  },
+  "exceptions": {
+    "exc_id_expired": {
+      "name": "Expired ID document",
+      "trigger": "An identity document has expired",
+      "trigger_kind": "data_quality",
+      "applies_to": [
+        "node_id_verify"
+      ],
+      "handling": {
+        "action": "route_to_node",
+        "target_node_id": "node_request_docs",
+        "notes": "Ask the client for a valid replacement."
+      },
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.72,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.2"
+            },
+            "excerpt": "Where an ID document has expired, the client is asked to provide a valid replacement.",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ]
+      }
+    },
+    "exc_screening_service_down": {
+      "name": "Screening service unavailable",
+      "trigger": "The screening service cannot be reached",
+      "trigger_kind": "system_failure",
+      "applies_to": [
+        "node_screening"
+      ],
+      "handling": {
+        "action": "undefined"
+      },
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.667,
+        "provenance": [
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:26:02-00:26:40"
+            },
+            "excerpt": "What happens if the screening service is down? Last month we lost two days.",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          },
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:26:41-00:26:55"
+            },
+            "excerpt": "We just wait, I think. Nobody's written that down.",
+            "stance": "supports",
+            "extraction_certainty": 0.6
+          }
+        ]
+      }
+    }
+  },
+  "slas": {
+    "sla_request_docs": {
+      "name": "Document request sent within 1 working day",
+      "applies_to": [
+        "node_request_docs"
+      ],
+      "duration": "P1D",
+      "calendar": "working_days",
+      "clock_starts": "Client request logged in CRM",
+      "clock_stops": "Document request sent",
+      "breach_action": {
+        "action": "undefined"
+      },
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.854,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.1"
+            },
+            "excerpt": "within one working day of the CRM request being logged",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          },
+          {
+            "source_id": "src_workshop_2026_09_24",
+            "locator": {
+              "kind": "timestamp",
+              "value": "00:02:05-00:02:31"
+            },
+            "excerpt": "Usually same day, worst case next day.",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "sla_onboarding_total": {
+      "name": "Onboarding completed within 10 working days",
+      "applies_to": [
+        "node_engagement_letter"
+      ],
+      "duration": "P10D",
+      "calendar": "working_days",
+      "clock_starts": "Client request logged in CRM",
+      "clock_stops": "Engagement letter issued",
+      "breach_action": {
+        "action": "notify",
+        "notify_actor_id": "act_engagement_manager"
+      },
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§6.1"
+            },
+            "excerpt": "completed within 10 working days of the request being logged",
+            "stance": "supports",
+            "extraction_certainty": 0.9
+          }
+        ],
+        "confirmed_by": "sme_daniel_okafor",
+        "notes": "Breach action confirmed by Daniel Okafor during canvas walkthrough 30 Sep."
+      }
+    }
+  },
+  "acceptance_criteria": {
+    "ac_capture_request": {
+      "title": "New client request is logged",
+      "applies_to": [
+        "node_capture_request"
+      ],
+      "given": [
+        "an Engagement Manager has received a request to act for a new client"
+      ],
+      "when": [
+        "they log the request in the CRM"
+      ],
+      "then": [
+        "a client record exists with legal name, company number and requested service"
+      ],
+      "meta": {
+        "status": "confirmed",
+        "confidence": 0.95,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§2"
+            },
+            "excerpt": "recording the client legal name, company number and the requested service",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ],
+        "confirmed_by": "sme_daniel_okafor"
+      },
+      "kind": "happy_path"
+    },
+    "ac_request_docs": {
+      "title": "KYC documents requested on time",
+      "applies_to": [
+        "node_request_docs",
+        "sla_request_docs"
+      ],
+      "given": [
+        "a client request has been logged in the CRM"
+      ],
+      "when": [
+        "the Onboarding Team requests KYC documents"
+      ],
+      "then": [
+        "the request is sent to the client within 1 working day of the CRM request being logged",
+        "the request lists photo ID and proof of address for each director and beneficial owner holding 25% or more, and the certificate of incorporation"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.1"
+            },
+            "excerpt": "requests KYC documents from the client within one working day",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      },
+      "kind": "happy_path"
+    },
+    "ac_id_verified": {
+      "title": "Identity documents verified",
+      "applies_to": [
+        "node_id_verify"
+      ],
+      "given": [
+        "a complete KYC document set has been received"
+      ],
+      "when": [
+        "the Onboarding Team verifies the identity documents"
+      ],
+      "then": [
+        "a verification result is recorded for each director and beneficial owner"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.2"
+            },
+            "excerpt": "verifies identity documents using the approved electronic ID verification service",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      },
+      "kind": "happy_path"
+    },
+    "ac_id_expired": {
+      "title": "Expired ID triggers replacement request",
+      "applies_to": [
+        "node_id_verify",
+        "exc_id_expired"
+      ],
+      "given": [
+        "a KYC document set containing an expired photo ID"
+      ],
+      "when": [
+        "the identity documents are verified"
+      ],
+      "then": [
+        "the client is asked to provide a valid replacement",
+        "the case returns to the document request step"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.2"
+            },
+            "excerpt": "Where an ID document has expired, the client is asked to provide a valid replacement.",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      },
+      "kind": "edge_case"
+    },
+    "ac_screening_complete": {
+      "title": "Screening completed and filed",
+      "applies_to": [
+        "node_screening"
+      ],
+      "given": [
+        "identity documents have been verified"
+      ],
+      "when": [
+        "the Onboarding Team runs screening"
+      ],
+      "then": [
+        "the company and every director and beneficial owner have been screened against sanctions, PEP and adverse media sources",
+        "all screening results are saved to the client file"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.3"
+            },
+            "excerpt": "All screening results are saved to the client file.",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      },
+      "kind": "happy_path"
+    },
+    "ac_risk_rating_high": {
+      "title": "PEP director gives High rating",
+      "applies_to": [
+        "node_risk_rate",
+        "node_risk_decision",
+        "rule_risk_rating"
+      ],
+      "given": [
+        "a screening result where a director is a PEP"
+      ],
+      "when": [
+        "the client risk rating is assigned"
+      ],
+      "then": [
+        "the client risk rating is High"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.1"
+            },
+            "excerpt": "A client is rated High where any director is a PEP",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      },
+      "kind": "edge_case"
+    },
+    "ac_risk_rating_low": {
+      "title": "Clean screening gives Low rating",
+      "applies_to": [
+        "node_risk_rate",
+        "node_risk_decision",
+        "rule_risk_rating"
+      ],
+      "given": [
+        "a screening result with no PEP matches and no adverse media",
+        "the client jurisdiction is standard"
+      ],
+      "when": [
+        "the client risk rating is assigned"
+      ],
+      "then": [
+        "the client risk rating is Low",
+        "the case proceeds to the conflict check"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.1"
+            },
+            "excerpt": "A client is rated Low where there are no PEP matches, no adverse media",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      },
+      "kind": "happy_path"
+    },
+    "ac_high_risk_approval": {
+      "title": "High-risk client needs approval",
+      "applies_to": [
+        "node_high_risk_approval"
+      ],
+      "given": [
+        "a client rated High"
+      ],
+      "when": [
+        "approval is requested"
+      ],
+      "then": [
+        "the engagement does not proceed to the conflict check until approval is recorded",
+        "the approver's decision is saved to the client file"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.2"
+            },
+            "excerpt": "must be approved by the Engagement Partner before the engagement can proceed",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      },
+      "kind": "happy_path"
+    },
+    "ac_conflict_check": {
+      "title": "Conflict check gates acceptance",
+      "applies_to": [
+        "node_conflict_check",
+        "node_accept_decision"
+      ],
+      "given": [
+        "a client rated Low, or rated High and approved"
+      ],
+      "when": [
+        "the Independence Team performs the conflict and independence check"
+      ],
+      "then": [
+        "the check outcome is recorded",
+        "the engagement is accepted only if no unmanageable conflict exists"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§5.1"
+            },
+            "excerpt": "performs a conflict and independence check for every new client",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      },
+      "kind": "happy_path"
+    },
+    "ac_engagement_letter": {
+      "title": "Engagement letter issued within SLA",
+      "applies_to": [
+        "node_engagement_letter",
+        "sla_onboarding_total"
+      ],
+      "given": [
+        "the engagement has been accepted"
+      ],
+      "when": [
+        "the Engagement Manager issues the engagement letter"
+      ],
+      "then": [
+        "an engagement letter is issued to the client",
+        "the letter is issued within 10 working days of the request being logged"
+      ],
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§6.1"
+            },
+            "excerpt": "completed within 10 working days of the request being logged",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      },
+      "kind": "happy_path"
+    }
+  },
+  "nfrs": {},
+  "glossary": {
+    "term_beneficial_owner": {
+      "term": "Beneficial owner",
+      "definition": "An individual holding 25% or more of the client.",
+      "ambiguous": false,
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.68,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§3.1"
+            },
+            "excerpt": "beneficial owner holding 25% or more",
+            "stance": "supports",
+            "extraction_certainty": 0.85
+          }
+        ]
+      }
+    },
+    "term_promptly": {
+      "term": "promptly",
+      "ambiguous": true,
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.2"
+            },
+            "excerpt": "should escalate promptly if they have concerns",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    },
+    "term_significant_adverse_media": {
+      "term": "significant adverse media",
+      "ambiguous": true,
+      "meta": {
+        "status": "proposed",
+        "confidence": 0.64,
+        "provenance": [
+          {
+            "source_id": "src_sop_onboarding_v4",
+            "locator": {
+              "kind": "paragraph",
+              "value": "§4.1"
+            },
+            "excerpt": "where screening returns significant adverse media",
+            "stance": "supports",
+            "extraction_certainty": 0.8
+          }
+        ]
+      }
+    }
+  },
+  "scope": {
+    "in": [
+      "Taking on new audit and advisory clients"
+    ],
+    "out": [],
+    "assumptions": [],
+    "constraints": [],
+    "confirmed_none": []
+  },
+  "stories": {
+    "story_capture_request": {
+      "title": "Log client request in CRM",
+      "as_a": "act_engagement_manager",
+      "i_want": "log the new client request in the CRM with legal name, company number and requested service",
+      "so_that": "the client record is available for the KYC document request",
+      "priority": null,
+      "goal_ids": [],
+      "persona_ids": [],
+      "node_ids": [
+        "node_capture_request"
+      ],
+      "ac_ids": [
+        "ac_capture_request"
+      ],
+      "edge_cases": [],
+      "nfr_ids": [],
+      "data_requirements": [
+        {
+          "entity_id": "ent_client",
+          "access": "write",
+          "attributes": [
+            "legal_name",
+            "company_number",
+            "requested_service",
+            "jurisdiction"
+          ]
+        }
+      ],
+      "dependencies": {
+        "upstream_story_ids": [],
+        "downstream_story_ids": [
+          "story_request_docs"
+        ],
+        "system_actor_ids": [
+          "act_crm"
+        ]
+      },
+      "open_questions": [
+        {
+          "gap_id": "gap_story_priority",
+          "text": "Which of these steps are must-haves for the first automated release?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_story_value",
+          "text": "Which goal does each step mainly serve — meeting AML obligations, or only accepting engagements we're independent to perform?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        }
+      ],
+      "human_control": {
+        "mode": null,
+        "actor_id": null,
+        "trigger": null,
+        "criteria": null,
+        "queues": []
+      },
+      "automation_hint": "human",
+      "change": null,
+      "confidence": 0.89,
+      "dor_status": "not_ready",
+      "open_gap_ids": [
+        "gap_story_priority",
+        "gap_story_value"
+      ],
+      "rendered_from_version": 3
+    },
+    "story_request_docs": {
+      "title": "Request KYC documents",
+      "as_a": "act_onboarding_team",
+      "i_want": "request certified photo ID and proof of address for each director and beneficial owner (25%+) and the certificate of incorporation",
+      "so_that": "the KYC document set is available for identity verification",
+      "priority": null,
+      "goal_ids": [],
+      "persona_ids": [],
+      "node_ids": [
+        "node_request_docs",
+        "node_wait_docs"
+      ],
+      "ac_ids": [
+        "ac_request_docs"
+      ],
+      "edge_cases": [],
+      "nfr_ids": [],
+      "data_requirements": [
+        {
+          "entity_id": "ent_client",
+          "access": "read",
+          "attributes": [
+            "legal_name",
+            "company_number",
+            "requested_service",
+            "jurisdiction"
+          ]
+        },
+        {
+          "entity_id": "ent_kyc_document_set",
+          "access": "write",
+          "attributes": [
+            "photo_ids",
+            "proofs_of_address",
+            "certificate_of_incorporation",
+            "received_at",
+            "complete"
+          ]
+        }
+      ],
+      "dependencies": {
+        "upstream_story_ids": [
+          "story_capture_request",
+          "story_id_verify"
+        ],
+        "downstream_story_ids": [
+          "story_id_verify"
+        ],
+        "system_actor_ids": []
+      },
+      "open_questions": [
+        {
+          "gap_id": "gap_story_priority",
+          "text": "Which of these steps are must-haves for the first automated release?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_story_value",
+          "text": "Which goal does each step mainly serve — meeting AML obligations, or only accepting engagements we're independent to perform?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_wait_docs_timeout",
+          "text": "If a client hasn't returned their KYC documents, how many working days do we wait, and what happens then?",
+          "severity": "blocking",
+          "status": "asked",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_story_edge_cases",
+          "text": "For requesting documents, screening and the conflict check — what's the most common thing that goes wrong, and what should happen?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_request_docs_sla_breach",
+          "text": "If the document request isn't sent within 1 working day, who should be told?",
+          "severity": "major",
+          "status": "asked",
+          "asked_to": null
+        }
+      ],
+      "human_control": {
+        "mode": null,
+        "actor_id": null,
+        "trigger": null,
+        "criteria": null,
+        "queues": []
+      },
+      "automation_hint": "ai_candidate",
+      "change": null,
+      "confidence": 0.46,
+      "dor_status": "not_ready",
+      "open_gap_ids": [
+        "gap_story_priority",
+        "gap_story_value",
+        "gap_wait_docs_timeout",
+        "gap_story_edge_cases",
+        "gap_request_docs_sla_breach"
+      ],
+      "rendered_from_version": 3
+    },
+    "story_id_verify": {
+      "title": "Verify identity documents",
+      "as_a": "act_onboarding_team",
+      "i_want": "verify each identity document through the electronic ID verification service",
+      "so_that": "verified identities are available for screening",
+      "priority": null,
+      "goal_ids": [],
+      "persona_ids": [],
+      "node_ids": [
+        "node_id_verify"
+      ],
+      "ac_ids": [
+        "ac_id_expired",
+        "ac_id_verified"
+      ],
+      "edge_cases": [
+        {
+          "ref": "exc_id_expired",
+          "title": "Expired ID document",
+          "handling": "go to 'Request KYC documents'"
+        },
+        {
+          "ref": "ac_id_expired",
+          "title": "Expired ID triggers replacement request",
+          "handling": "see acceptance criterion"
+        }
+      ],
+      "nfr_ids": [],
+      "data_requirements": [
+        {
+          "entity_id": "ent_kyc_document_set",
+          "access": "read",
+          "attributes": [
+            "photo_ids",
+            "proofs_of_address",
+            "certificate_of_incorporation",
+            "received_at",
+            "complete"
+          ]
+        }
+      ],
+      "dependencies": {
+        "upstream_story_ids": [
+          "story_request_docs"
+        ],
+        "downstream_story_ids": [
+          "story_request_docs",
+          "story_screening"
+        ],
+        "system_actor_ids": [
+          "act_id_verification_service"
+        ]
+      },
+      "open_questions": [
+        {
+          "gap_id": "gap_story_priority",
+          "text": "Which of these steps are must-haves for the first automated release?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_story_value",
+          "text": "Which goal does each step mainly serve — meeting AML obligations, or only accepting engagements we're independent to perform?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        }
+      ],
+      "human_control": {
+        "mode": null,
+        "actor_id": null,
+        "trigger": null,
+        "criteria": null,
+        "queues": []
+      },
+      "automation_hint": "integration",
+      "change": null,
+      "confidence": 0.62,
+      "dor_status": "not_ready",
+      "open_gap_ids": [
+        "gap_story_priority",
+        "gap_story_value"
+      ],
+      "rendered_from_version": 3
+    },
+    "story_screening": {
+      "title": "Screen company and individuals",
+      "as_a": "act_onboarding_team",
+      "i_want": "screen the company, directors and beneficial owners against sanctions, PEP and adverse media sources and save results to the client file",
+      "so_that": "the screening result is available for the client risk rating",
+      "priority": null,
+      "goal_ids": [],
+      "persona_ids": [],
+      "node_ids": [
+        "node_screening"
+      ],
+      "ac_ids": [
+        "ac_screening_complete"
+      ],
+      "edge_cases": [
+        {
+          "ref": "exc_screening_service_down",
+          "title": "Screening service unavailable",
+          "handling": "UNDEFINED"
+        }
+      ],
+      "nfr_ids": [],
+      "data_requirements": [
+        {
+          "entity_id": "ent_client",
+          "access": "read",
+          "attributes": [
+            "legal_name",
+            "company_number",
+            "requested_service",
+            "jurisdiction"
+          ]
+        },
+        {
+          "entity_id": "ent_kyc_document_set",
+          "access": "read",
+          "attributes": [
+            "photo_ids",
+            "proofs_of_address",
+            "certificate_of_incorporation",
+            "received_at",
+            "complete"
+          ]
+        },
+        {
+          "entity_id": "ent_screening_result",
+          "access": "write",
+          "attributes": [
+            "sanctions_match",
+            "pep_match",
+            "adverse_media_severity"
+          ]
+        }
+      ],
+      "dependencies": {
+        "upstream_story_ids": [
+          "story_id_verify"
+        ],
+        "downstream_story_ids": [
+          "story_risk_rate"
+        ],
+        "system_actor_ids": [
+          "act_screening_service"
+        ]
+      },
+      "open_questions": [
+        {
+          "gap_id": "gap_story_priority",
+          "text": "Which of these steps are must-haves for the first automated release?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_story_value",
+          "text": "Which goal does each step mainly serve — meeting AML obligations, or only accepting engagements we're independent to perform?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_story_edge_cases",
+          "text": "For requesting documents, screening and the conflict check — what's the most common thing that goes wrong, and what should happen?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_screening_down_handling",
+          "text": "If the screening service is unavailable, what should happen: retry later, use a manual fallback, or escalate to someone?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        }
+      ],
+      "human_control": {
+        "mode": null,
+        "actor_id": null,
+        "trigger": null,
+        "criteria": null,
+        "queues": []
+      },
+      "automation_hint": "integration",
+      "change": null,
+      "confidence": 0.547,
+      "dor_status": "not_ready",
+      "open_gap_ids": [
+        "gap_story_priority",
+        "gap_story_value",
+        "gap_story_edge_cases",
+        "gap_screening_down_handling"
+      ],
+      "rendered_from_version": 3
+    },
+    "story_risk_rate": {
+      "title": "Assign client risk rating",
+      "as_a": "act_onboarding_team",
+      "i_want": "apply the risk rating matrix to the screening result and client jurisdiction",
+      "so_that": "the risk assessment decides whether approval is needed before the conflict check",
+      "priority": null,
+      "goal_ids": [],
+      "persona_ids": [],
+      "node_ids": [
+        "node_risk_rate",
+        "node_risk_decision"
+      ],
+      "ac_ids": [
+        "ac_risk_rating_high",
+        "ac_risk_rating_low"
+      ],
+      "edge_cases": [
+        {
+          "ref": "ac_risk_rating_high",
+          "title": "PEP director gives High rating",
+          "handling": "see acceptance criterion"
+        }
+      ],
+      "nfr_ids": [],
+      "data_requirements": [
+        {
+          "entity_id": "ent_client",
+          "access": "read",
+          "attributes": [
+            "legal_name",
+            "company_number",
+            "requested_service",
+            "jurisdiction"
+          ]
+        },
+        {
+          "entity_id": "ent_risk_assessment",
+          "access": "read_write",
+          "attributes": [
+            "rating",
+            "rationale"
+          ]
+        },
+        {
+          "entity_id": "ent_screening_result",
+          "access": "read",
+          "attributes": [
+            "sanctions_match",
+            "pep_match",
+            "adverse_media_severity"
+          ]
+        }
+      ],
+      "dependencies": {
+        "upstream_story_ids": [
+          "story_screening"
+        ],
+        "downstream_story_ids": [
+          "story_conflict_check",
+          "story_high_risk_approval"
+        ],
+        "system_actor_ids": []
+      },
+      "open_questions": [
+        {
+          "gap_id": "gap_story_priority",
+          "text": "Which of these steps are must-haves for the first automated release?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_story_value",
+          "text": "Which goal does each step mainly serve — meeting AML obligations, or only accepting engagements we're independent to perform?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_risk_medium_branch",
+          "text": "When a client is rated Medium risk, what decides that rating and what happens next?",
+          "severity": "blocking",
+          "status": "asked",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_significant_adverse_media",
+          "text": "What counts as 'significant' adverse media for the risk rating?",
+          "severity": "major",
+          "status": "asked",
+          "asked_to": null
+        }
+      ],
+      "human_control": {
+        "mode": null,
+        "actor_id": null,
+        "trigger": null,
+        "criteria": null,
+        "queues": []
+      },
+      "automation_hint": "deterministic_code",
+      "change": null,
+      "confidence": 0.45,
+      "dor_status": "not_ready",
+      "open_gap_ids": [
+        "gap_story_priority",
+        "gap_story_value",
+        "gap_risk_medium_branch",
+        "gap_significant_adverse_media"
+      ],
+      "rendered_from_version": 3
+    },
+    "story_conflict_check": {
+      "title": "Perform conflict and independence check",
+      "as_a": "act_independence_team",
+      "i_want": "check for conflicts of interest and independence issues for the new client",
+      "so_that": "only engagements without unmanageable conflicts are accepted",
+      "priority": null,
+      "goal_ids": [],
+      "persona_ids": [],
+      "node_ids": [
+        "node_conflict_check",
+        "node_accept_decision"
+      ],
+      "ac_ids": [
+        "ac_conflict_check"
+      ],
+      "edge_cases": [],
+      "nfr_ids": [],
+      "data_requirements": [
+        {
+          "entity_id": "ent_client",
+          "access": "read",
+          "attributes": [
+            "legal_name",
+            "company_number",
+            "requested_service",
+            "jurisdiction"
+          ]
+        }
+      ],
+      "dependencies": {
+        "upstream_story_ids": [
+          "story_high_risk_approval",
+          "story_risk_rate"
+        ],
+        "downstream_story_ids": [
+          "story_decline",
+          "story_engagement_letter"
+        ],
+        "system_actor_ids": []
+      },
+      "open_questions": [
+        {
+          "gap_id": "gap_story_priority",
+          "text": "Which of these steps are must-haves for the first automated release?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_story_value",
+          "text": "Which goal does each step mainly serve — meeting AML obligations, or only accepting engagements we're independent to perform?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_story_edge_cases",
+          "text": "For requesting documents, screening and the conflict check — what's the most common thing that goes wrong, and what should happen?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_accept_rule_nl",
+          "text": "What exactly makes the engagement acceptable after the conflict check — no conflict found, or conflicts that can be managed with safeguards?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        }
+      ],
+      "human_control": {
+        "mode": null,
+        "actor_id": null,
+        "trigger": null,
+        "criteria": null,
+        "queues": []
+      },
+      "automation_hint": "human",
+      "change": null,
+      "confidence": 0.56,
+      "dor_status": "not_ready",
+      "open_gap_ids": [
+        "gap_story_priority",
+        "gap_story_value",
+        "gap_story_edge_cases",
+        "gap_accept_rule_nl"
+      ],
+      "rendered_from_version": 3
+    },
+    "story_high_risk_approval": {
+      "title": "Approve high-risk client",
+      "as_a": "act_engagement_partner",
+      "i_want": "approve the engagement for a high-risk client before it proceeds. The Engagement Partner should escalate promptly if they have concerns",
+      "so_that": "only approved high-risk clients proceed to the conflict check",
+      "priority": null,
+      "goal_ids": [],
+      "persona_ids": [],
+      "node_ids": [
+        "node_high_risk_approval"
+      ],
+      "ac_ids": [
+        "ac_high_risk_approval"
+      ],
+      "edge_cases": [],
+      "nfr_ids": [],
+      "data_requirements": [
+        {
+          "entity_id": "ent_risk_assessment",
+          "access": "read",
+          "attributes": [
+            "rating",
+            "rationale"
+          ]
+        },
+        {
+          "entity_id": "ent_screening_result",
+          "access": "read",
+          "attributes": [
+            "sanctions_match",
+            "pep_match",
+            "adverse_media_severity"
+          ]
+        }
+      ],
+      "dependencies": {
+        "upstream_story_ids": [
+          "story_risk_rate"
+        ],
+        "downstream_story_ids": [
+          "story_conflict_check"
+        ],
+        "system_actor_ids": []
+      },
+      "open_questions": [
+        {
+          "gap_id": "gap_story_priority",
+          "text": "Which of these steps are must-haves for the first automated release?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_story_value",
+          "text": "Which goal does each step mainly serve — meeting AML obligations, or only accepting engagements we're independent to perform?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_high_risk_approver_conflict",
+          "text": "The SOP says the Engagement Partner approves high-risk clients; in the 24 Sep workshop you said the MLRO does since July. Which is correct?",
+          "severity": "blocking",
+          "status": "answered",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_approval_refused",
+          "text": "If a high-risk client is not approved, what happens next?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_promptly",
+          "text": "When an approver has concerns about a high-risk client, within how many working days should they escalate?",
+          "severity": "minor",
+          "status": "open",
+          "asked_to": null
+        }
+      ],
+      "human_control": {
+        "mode": null,
+        "actor_id": null,
+        "trigger": null,
+        "criteria": null,
+        "queues": []
+      },
+      "automation_hint": "human",
+      "change": null,
+      "confidence": 0.17,
+      "dor_status": "not_ready",
+      "open_gap_ids": [
+        "gap_story_priority",
+        "gap_story_value",
+        "gap_high_risk_approver_conflict",
+        "gap_approval_refused",
+        "gap_promptly"
+      ],
+      "rendered_from_version": 3
+    },
+    "story_decline": {
+      "title": "Notify client of decline",
+      "as_a": "act_engagement_manager",
+      "i_want": "notify the client that the firm cannot act",
+      "so_that": "the client knows the firm cannot act",
+      "priority": null,
+      "goal_ids": [],
+      "persona_ids": [],
+      "node_ids": [
+        "node_decline"
+      ],
+      "ac_ids": [],
+      "edge_cases": [],
+      "nfr_ids": [],
+      "data_requirements": [],
+      "dependencies": {
+        "upstream_story_ids": [
+          "story_conflict_check"
+        ],
+        "downstream_story_ids": [],
+        "system_actor_ids": []
+      },
+      "open_questions": [
+        {
+          "gap_id": "gap_story_priority",
+          "text": "Which of these steps are must-haves for the first automated release?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_story_value",
+          "text": "Which goal does each step mainly serve — meeting AML obligations, or only accepting engagements we're independent to perform?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_decline_no_ac",
+          "text": "When we decline a client, what must the notification include and within what time?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        }
+      ],
+      "human_control": {
+        "mode": null,
+        "actor_id": null,
+        "trigger": null,
+        "criteria": null,
+        "queues": []
+      },
+      "automation_hint": "ai_candidate",
+      "change": null,
+      "confidence": 0.59,
+      "dor_status": "not_ready",
+      "open_gap_ids": [
+        "gap_story_priority",
+        "gap_story_value",
+        "gap_decline_no_ac"
+      ],
+      "rendered_from_version": 3
+    },
+    "story_engagement_letter": {
+      "title": "Issue engagement letter",
+      "as_a": "act_engagement_manager",
+      "i_want": "issue the engagement letter to the client",
+      "so_that": "the client is onboarded with an engagement letter",
+      "priority": null,
+      "goal_ids": [],
+      "persona_ids": [],
+      "node_ids": [
+        "node_engagement_letter"
+      ],
+      "ac_ids": [
+        "ac_engagement_letter"
+      ],
+      "edge_cases": [],
+      "nfr_ids": [],
+      "data_requirements": [
+        {
+          "entity_id": "ent_engagement_letter",
+          "access": "write",
+          "attributes": [
+            "document",
+            "issued_at"
+          ]
+        }
+      ],
+      "dependencies": {
+        "upstream_story_ids": [
+          "story_conflict_check"
+        ],
+        "downstream_story_ids": [],
+        "system_actor_ids": []
+      },
+      "open_questions": [
+        {
+          "gap_id": "gap_story_priority",
+          "text": "Which of these steps are must-haves for the first automated release?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        },
+        {
+          "gap_id": "gap_story_value",
+          "text": "Which goal does each step mainly serve — meeting AML obligations, or only accepting engagements we're independent to perform?",
+          "severity": "major",
+          "status": "open",
+          "asked_to": null
+        }
+      ],
+      "human_control": {
+        "mode": null,
+        "actor_id": null,
+        "trigger": null,
+        "criteria": null,
+        "queues": []
+      },
+      "automation_hint": "ai_candidate",
+      "change": null,
+      "confidence": 0.62,
+      "dor_status": "not_ready",
+      "open_gap_ids": [
+        "gap_story_priority",
+        "gap_story_value"
+      ],
+      "rendered_from_version": 3
+    }
+  }
+}

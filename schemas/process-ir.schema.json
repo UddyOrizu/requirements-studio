@@ -1,0 +1,1605 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bdo.internal/requirements-studio/schemas/process-ir/1.1",
+  "title": "Process IR",
+  "description": "Machine view of a business process. Source of truth for Requirements Studio and input contract for MOTHER.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ir_version",
+    "process",
+    "sources",
+    "actors",
+    "entities",
+    "nodes",
+    "edges",
+    "decision_rules",
+    "exceptions",
+    "slas",
+    "acceptance_criteria",
+    "glossary",
+    "goals",
+    "personas",
+    "nfrs",
+    "scope"
+  ],
+  "properties": {
+    "ir_version": {
+      "const": "1.1"
+    },
+    "process": {
+      "$ref": "#/$defs/Process"
+    },
+    "sources": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^src_[a-z0-9_]{1,60}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/Source"
+      }
+    },
+    "actors": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^act_[a-z0-9_]{1,60}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/Actor"
+      }
+    },
+    "entities": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^ent_[a-z0-9_]{1,60}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/Entity"
+      }
+    },
+    "nodes": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^node_[a-z0-9_]{1,60}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/Node"
+      }
+    },
+    "edges": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^edge_[a-z0-9_]{1,60}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/Edge"
+      }
+    },
+    "decision_rules": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^rule_[a-z0-9_]{1,60}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/DecisionRule"
+      }
+    },
+    "exceptions": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^exc_[a-z0-9_]{1,60}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/ExceptionCase"
+      }
+    },
+    "slas": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^sla_[a-z0-9_]{1,60}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/SLA"
+      }
+    },
+    "acceptance_criteria": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^ac_[a-z0-9_]{1,60}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/AcceptanceCriterion"
+      }
+    },
+    "glossary": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^term_[a-z0-9_]{1,60}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/GlossaryTerm"
+      }
+    },
+    "goals": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^goal_[a-z0-9_]{1,60}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/Goal"
+      }
+    },
+    "personas": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^pers_[a-z0-9_]{1,60}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/Persona"
+      }
+    },
+    "nfrs": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^nfr_[a-z0-9_]{1,60}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/NFR"
+      }
+    },
+    "scope": {
+      "$ref": "#/$defs/Scope"
+    },
+    "stories": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^story_[a-z0-9_]{1,60}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/Story"
+      },
+      "description": "DERIVED by M7. Never patched."
+    }
+  },
+  "$defs": {
+    "Id": {
+      "type": "string",
+      "pattern": "^(src|act|ent|node|edge|rule|exc|sla|ac|term|story|goal|pers|nfr)_[a-z0-9_]{1,60}$"
+    },
+    "Confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "Duration": {
+      "type": "string",
+      "pattern": "^P(?!$)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$"
+    },
+    "Process": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "status",
+        "version",
+        "owner_user_id",
+        "updated_at",
+        "variant"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^proc_[a-z0-9_]{1,60}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "owner_user_id": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "draft",
+            "in_review",
+            "ready",
+            "exported"
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "variant": {
+          "enum": [
+            "as_is",
+            "to_be"
+          ],
+          "description": "as_is = how the work is done today; to_be = the improved design that stories are written for."
+        },
+        "idea_id": {
+          "type": "string",
+          "pattern": "^idea_[a-z0-9_]{1,60}$"
+        },
+        "derived_from": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "process_id",
+            "version"
+          ],
+          "properties": {
+            "process_id": {
+              "type": "string"
+            },
+            "version": {
+              "type": "integer"
+            }
+          },
+          "description": "For a to-be: the as-is process and version it was forked from."
+        }
+      }
+    },
+    "Source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "kind",
+        "authority_weight"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "sop",
+            "document",
+            "transcript",
+            "email",
+            "spreadsheet",
+            "recording",
+            "interview_answer",
+            "intake",
+            "suggestion",
+            "manual"
+          ]
+        },
+        "authority_weight": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "uri": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "ingested_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "ProvenanceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "locator",
+        "stance",
+        "extraction_certainty"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "pattern": "^src_[a-z0-9_]{1,60}$"
+        },
+        "locator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "value"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "page",
+                "paragraph",
+                "line_range",
+                "timestamp",
+                "message",
+                "cell",
+                "turn",
+                "suggestion",
+                "none"
+              ]
+            },
+            "value": {
+              "type": "string"
+            }
+          }
+        },
+        "excerpt": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "stance": {
+          "enum": [
+            "supports",
+            "contradicts"
+          ]
+        },
+        "extraction_certainty": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "field": {
+          "type": "string",
+          "description": "For contradicts: the field in dispute, e.g. actor_id"
+        }
+      }
+    },
+    "Meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "confidence",
+        "provenance"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "proposed",
+            "confirmed",
+            "rejected",
+            "superseded"
+          ]
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "provenance": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          }
+        },
+        "confirmed_by": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "confirmed"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "confirmed_by"
+        ]
+      }
+    },
+    "Actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "kind",
+        "meta"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "human_role",
+            "team",
+            "system",
+            "external_party"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "sme_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      }
+    },
+    "Attribute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "type": {
+          "enum": [
+            "string",
+            "number",
+            "boolean",
+            "date",
+            "datetime",
+            "enum",
+            "document",
+            "reference",
+            "money"
+          ]
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "pii": {
+          "type": "boolean"
+        },
+        "enum_values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "Entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "attributes",
+        "meta"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Attribute"
+          }
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      }
+    },
+    "Node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "name",
+        "meta"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "start",
+            "end",
+            "task",
+            "decision",
+            "wait",
+            "event",
+            "subprocess"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "actor_id": {
+          "type": "string",
+          "pattern": "^act_[a-z0-9_]{1,60}$"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^ent_[a-z0-9_]{1,60}$"
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^ent_[a-z0-9_]{1,60}$"
+          }
+        },
+        "rule_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^rule_[a-z0-9_]{1,60}$"
+          }
+        },
+        "sla_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sla_[a-z0-9_]{1,60}$"
+          }
+        },
+        "exception_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^exc_[a-z0-9_]{1,60}$"
+          }
+        },
+        "automation_hint": {
+          "enum": [
+            "ai_candidate",
+            "deterministic_code",
+            "integration",
+            "human",
+            "unknown"
+          ]
+        },
+        "subprocess_ref": {
+          "type": "string",
+          "pattern": "^proc_[a-z0-9_]{1,60}$"
+        },
+        "outcome": {
+          "type": "string",
+          "description": "What this step achieves for the business; used for the story's 'so that'."
+        },
+        "goal_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^goal_[a-z0-9_]{1,60}$"
+          }
+        },
+        "system_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^act_[a-z0-9_]{1,60}$"
+          },
+          "description": "System actors used by the step (distinct from the performer)."
+        },
+        "priority": {
+          "enum": [
+            "must",
+            "should",
+            "could",
+            "wont"
+          ],
+          "description": "MoSCoW, set in Validate; inherited by the step's story."
+        },
+        "hitl": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode"
+          ],
+          "description": "Human-in-the-loop control for a task. Drives the process-flow diagram (M10) and DOR-16.",
+          "properties": {
+            "mode": {
+              "enum": [
+                "automated",
+                "hitl_review",
+                "human_task",
+                "approval"
+              ],
+              "description": "automated: no person involved; hitl_review: AI/system does it and a named person reviews before it takes effect; human_task: a person does it; approval: an approval gate, a named approver approves or rejects before the flow continues."
+            },
+            "actor_id": {
+              "type": "string",
+              "pattern": "^act_[a-z0-9_]{1,60}$",
+              "description": "Reviewer (hitl_review) or approver (approval)."
+            },
+            "trigger": {
+              "enum": [
+                "always",
+                "on_exception",
+                "low_confidence",
+                "sample"
+              ],
+              "description": "When the review happens (hitl_review)."
+            },
+            "criteria": {
+              "type": "string",
+              "description": "What the reviewer/approver checks. Required for approval."
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "mode": {
+                    "const": "approval"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "actor_id",
+                  "criteria"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "mode": {
+                    "const": "hitl_review"
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "actor_id",
+                  "trigger"
+                ]
+              }
+            }
+          ]
+        },
+        "as_is_effort": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "minutes_per_case": {
+              "type": "number",
+              "minimum": 0
+            },
+            "pain_points": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "As-is only (copied to to-be for comparison): manual effort and pain points, used by the AI improvement step (M11)."
+        },
+        "change": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "suggestion_id"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "automated",
+                "automated_with_review",
+                "new",
+                "modified",
+                "control_added"
+              ]
+            },
+            "suggestion_id": {
+              "type": "string",
+              "pattern": "^S[0-9]{2}$"
+            },
+            "was": {
+              "type": "string"
+            }
+          },
+          "description": "To-be only: how this step differs from the as-is, and the accepted suggestion that changed it."
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      }
+    },
+    "Edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from",
+        "to",
+        "meta"
+      ],
+      "properties": {
+        "from": {
+          "type": "string",
+          "pattern": "^node_[a-z0-9_]{1,60}$"
+        },
+        "to": {
+          "type": "string",
+          "pattern": "^node_[a-z0-9_]{1,60}$"
+        },
+        "label": {
+          "type": "string"
+        },
+        "condition": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "rule_id": {
+              "type": "string",
+              "pattern": "^rule_[a-z0-9_]{1,60}$"
+            },
+            "outcome": {
+              "type": "string"
+            }
+          },
+          "description": "Decision edges carry rule_id + outcome. Approval-gate edges carry outcome 'approved' or 'rejected' and no rule_id."
+        },
+        "is_default": {
+          "type": "boolean"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      }
+    },
+    "DecisionRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "logic",
+        "outcomes",
+        "meta"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^ent_[a-z0-9_]{1,60}\\.[a-z][a-z0-9_]*$"
+          }
+        },
+        "outcomes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "logic": {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "table"
+                },
+                "columns": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "rows": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "when",
+                      "then"
+                    ],
+                    "properties": {
+                      "when": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "then": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "hit_policy": {
+                  "enum": [
+                    "first",
+                    "unique",
+                    "priority"
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "columns",
+                "rows"
+              ]
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "expression"
+                },
+                "expression": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind",
+                "expression"
+              ]
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "natural_language"
+                },
+                "text": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind",
+                "text"
+              ]
+            }
+          ]
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      }
+    },
+    "ExceptionCase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "trigger",
+        "applies_to",
+        "handling",
+        "meta"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "trigger": {
+          "type": "string"
+        },
+        "trigger_kind": {
+          "enum": [
+            "condition",
+            "timeout",
+            "system_failure",
+            "data_quality"
+          ]
+        },
+        "timeout": {
+          "$ref": "#/$defs/Duration"
+        },
+        "applies_to": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^node_[a-z0-9_]{1,60}$"
+          }
+        },
+        "handling": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action"
+          ],
+          "properties": {
+            "action": {
+              "enum": [
+                "retry",
+                "escalate",
+                "route_to_node",
+                "terminate",
+                "manual_review",
+                "undefined"
+              ]
+            },
+            "target_node_id": {
+              "type": "string",
+              "pattern": "^node_[a-z0-9_]{1,60}$"
+            },
+            "notify_actor_id": {
+              "type": "string",
+              "pattern": "^act_[a-z0-9_]{1,60}$"
+            },
+            "max_attempts": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "notes": {
+              "type": "string"
+            }
+          }
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      }
+    },
+    "SLA": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "applies_to",
+        "duration",
+        "breach_action",
+        "meta"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "applies_to": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^node_[a-z0-9_]{1,60}$"
+          }
+        },
+        "duration": {
+          "$ref": "#/$defs/Duration"
+        },
+        "calendar": {
+          "enum": [
+            "working_days",
+            "calendar_days"
+          ]
+        },
+        "clock_starts": {
+          "type": "string"
+        },
+        "clock_stops": {
+          "type": "string"
+        },
+        "breach_action": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action"
+          ],
+          "properties": {
+            "action": {
+              "enum": [
+                "notify",
+                "escalate",
+                "route_to_node",
+                "terminate",
+                "undefined"
+              ]
+            },
+            "target_node_id": {
+              "type": "string",
+              "pattern": "^node_[a-z0-9_]{1,60}$"
+            },
+            "notify_actor_id": {
+              "type": "string",
+              "pattern": "^act_[a-z0-9_]{1,60}$"
+            }
+          }
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      }
+    },
+    "AcceptanceCriterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "applies_to",
+        "given",
+        "when",
+        "then",
+        "meta"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "applies_to": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/Id"
+          }
+        },
+        "given": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "when": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "then": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "kind": {
+          "enum": [
+            "happy_path",
+            "edge_case",
+            "negative",
+            "nfr"
+          ],
+          "default": "happy_path"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      }
+    },
+    "GlossaryTerm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "term",
+        "ambiguous",
+        "meta"
+      ],
+      "properties": {
+        "term": {
+          "type": "string"
+        },
+        "definition": {
+          "type": "string"
+        },
+        "ambiguous": {
+          "type": "boolean"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      }
+    },
+    "Story": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "as_a",
+        "i_want",
+        "so_that",
+        "priority",
+        "goal_ids",
+        "persona_ids",
+        "node_ids",
+        "ac_ids",
+        "edge_cases",
+        "nfr_ids",
+        "data_requirements",
+        "dependencies",
+        "open_questions",
+        "confidence",
+        "dor_status",
+        "human_control",
+        "change"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "as_a": {
+          "type": "string",
+          "pattern": "^act_[a-z0-9_]{1,60}$"
+        },
+        "i_want": {
+          "type": "string"
+        },
+        "so_that": {
+          "type": "string"
+        },
+        "priority": {
+          "enum": [
+            "must",
+            "should",
+            "could",
+            "wont",
+            null
+          ]
+        },
+        "goal_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^goal_[a-z0-9_]{1,60}$"
+          }
+        },
+        "persona_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^pers_[a-z0-9_]{1,60}$"
+          }
+        },
+        "node_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^node_[a-z0-9_]{1,60}$"
+          },
+          "minItems": 1
+        },
+        "ac_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^ac_[a-z0-9_]{1,60}$"
+          }
+        },
+        "edge_cases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref",
+              "title",
+              "handling"
+            ],
+            "properties": {
+              "ref": {
+                "$ref": "#/$defs/Id"
+              },
+              "title": {
+                "type": "string"
+              },
+              "handling": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "nfr_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^nfr_[a-z0-9_]{1,60}$"
+          }
+        },
+        "data_requirements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "entity_id",
+              "access",
+              "attributes"
+            ],
+            "properties": {
+              "entity_id": {
+                "type": "string",
+                "pattern": "^ent_[a-z0-9_]{1,60}$"
+              },
+              "access": {
+                "enum": [
+                  "read",
+                  "write",
+                  "read_write"
+                ]
+              },
+              "attributes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "dependencies": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "upstream_story_ids",
+            "downstream_story_ids",
+            "system_actor_ids"
+          ],
+          "properties": {
+            "upstream_story_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^story_[a-z0-9_]{1,60}$"
+              }
+            },
+            "downstream_story_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^story_[a-z0-9_]{1,60}$"
+              }
+            },
+            "system_actor_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^act_[a-z0-9_]{1,60}$"
+              }
+            }
+          }
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "gap_id",
+              "text",
+              "severity",
+              "status"
+            ],
+            "properties": {
+              "gap_id": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "severity": {
+                "enum": [
+                  "blocking",
+                  "major",
+                  "minor"
+                ]
+              },
+              "status": {
+                "type": "string"
+              },
+              "asked_to": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        "automation_hint": {
+          "enum": [
+            "ai_candidate",
+            "deterministic_code",
+            "integration",
+            "human",
+            "unknown"
+          ]
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "dor_status": {
+          "enum": [
+            "ready",
+            "waived",
+            "not_ready"
+          ]
+        },
+        "open_gap_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rendered_from_version": {
+          "type": "integer"
+        },
+        "human_control": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "queues"
+          ],
+          "properties": {
+            "mode": {
+              "enum": [
+                "automated",
+                "hitl_review",
+                "human_task",
+                "approval",
+                null
+              ]
+            },
+            "actor_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "trigger": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "criteria": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "queues": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "exception_id",
+                  "actor_id"
+                ],
+                "properties": {
+                  "exception_id": {
+                    "type": "string"
+                  },
+                  "actor_id": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "description": "Exceptions in the story that route work to a person (handling manual_review or escalate)."
+            }
+          }
+        },
+        "change": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string"
+            },
+            "suggestion_id": {
+              "type": "string"
+            },
+            "was": {
+              "type": "string"
+            },
+            "minutes_saved_per_case": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "Goal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "statement",
+        "metrics",
+        "meta"
+      ],
+      "properties": {
+        "statement": {
+          "type": "string",
+          "description": "Imperative verb phrase, e.g. 'Cut the time it takes to complete KYC for a new client'."
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "baseline": {
+                "type": "number"
+              },
+              "target": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "persona_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^pers_[a-z0-9_]{1,60}$"
+          }
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      }
+    },
+    "Persona": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "meta"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "actor_id": {
+          "type": "string",
+          "pattern": "^act_[a-z0-9_]{1,60}$"
+        },
+        "needs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      }
+    },
+    "NFR": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "statement",
+        "applies_to",
+        "meta"
+      ],
+      "properties": {
+        "category": {
+          "enum": [
+            "volume",
+            "performance",
+            "availability",
+            "security",
+            "privacy",
+            "audit",
+            "compliance",
+            "accessibility",
+            "retention",
+            "usability"
+          ]
+        },
+        "statement": {
+          "type": "string"
+        },
+        "measure": {
+          "type": "string"
+        },
+        "applies_to": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^node_[a-z0-9_]{1,60}$"
+          },
+          "description": "Empty = process-wide."
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      }
+    },
+    "Scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "in",
+        "out",
+        "assumptions",
+        "constraints",
+        "confirmed_none"
+      ],
+      "properties": {
+        "in": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "out": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "confirmed_none": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "decisions",
+              "exceptions",
+              "systems"
+            ]
+          },
+          "description": "Coverage slots the requester confirmed do not apply."
+        }
+      }
+    }
+  }
+}

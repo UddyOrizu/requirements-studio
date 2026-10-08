@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bdo.internal/requirements-studio/schemas/idea/1.0",
+  "title": "Idea",
+  "description": "The top-level object users see in the Ideas list. Owns the conversation, the as-is and to-be process models and the outputs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "idea_id",
+    "title",
+    "summary",
+    "owner_user_id",
+    "status",
+    "has_as_is",
+    "to_be_process_id",
+    "session_id",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "idea_id": {
+      "type": "string",
+      "pattern": "^idea_[a-z0-9_]{1,60}$"
+    },
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "owner_user_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "discovering",
+        "improving",
+        "refining",
+        "ready",
+        "exported"
+      ]
+    },
+    "has_as_is": {
+      "type": "boolean",
+      "description": "True when the requester said a process exists today; the interview then captures the as-is first."
+    },
+    "as_is_process_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "to_be_process_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Null until the as-is is confirmed and forked (as-is mode); set from the start in idea mode."
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stories": {
+          "type": "integer"
+        },
+        "stories_ready": {
+          "type": "integer"
+        },
+        "open_questions": {
+          "type": "integer"
+        },
+        "suggestions_accepted": {
+          "type": "integer"
+        },
+        "suggestions_rejected": {
+          "type": "integer"
+        },
+        "hours_saved_per_month": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "coverage": {
+          "type": "number"
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

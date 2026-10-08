@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bdo.internal/requirements-studio/schemas/patch/1.0",
+  "title": "IR Patch Envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["patch_id", "process_id", "base_version", "ops", "author", "reason", "auto_apply", "status"],
+  "properties": {
+    "patch_id": { "type": "string" },
+    "process_id": { "type": "string", "pattern": "^proc_[a-z0-9_]{1,60}$" },
+    "base_version": { "type": "integer", "minimum": 0 },
+    "ops": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "required": ["op", "path"],
+        "properties": {
+          "op": { "enum": ["add", "remove", "replace", "move", "copy", "test"] },
+          "path": { "type": "string", "pattern": "^/(?!stories)(?!process/version)(?!process/updated_at).*" },
+          "from": { "type": "string" },
+          "value": {}
+        }
+      }
+    },
+    "author": {
+      "type": "object", "additionalProperties": false, "required": ["kind", "id"],
+      "properties": { "kind": { "enum": ["user", "agent"] }, "id": { "type": "string" } }
+    },
+    "reason": { "type": "string" },
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "question_id": { "type": "string" },
+        "answer_id": { "type": "string" },
+        "gap_ids": { "type": "array", "items": { "type": "string" } },
+        "source_ids": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "interpretation_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "auto_apply": { "type": "boolean" },
+    "status": { "enum": ["proposed", "accepted", "rejected", "applied", "conflicted", "superseded"] },
+    "reviewed_by": { "type": ["string", "null"] }
+  }
+}

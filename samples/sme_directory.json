@@ -1,0 +1,149 @@
+[
+  {
+    "sme_id": "sme_priya_shah",
+    "name": "Priya Shah",
+    "email": "priya.shah@example.com",
+    "role_title": "MLRO",
+    "actor_ids": [
+      "act_mlro"
+    ],
+    "topic_tags": [
+      "aml",
+      "risk_rating",
+      "high_risk_approval",
+      "pep",
+      "adverse_media",
+      "sanctions"
+    ],
+    "process_ids_owned": [],
+    "channels": [
+      "teams",
+      "email"
+    ],
+    "max_open_questions": 5,
+    "working_hours": {
+      "tz": "Europe/London",
+      "days": "Mon-Fri",
+      "start": "09:00",
+      "end": "17:30"
+    },
+    "out_of_office_until": null,
+    "delegate_sme_id": "sme_tom_reed"
+  },
+  {
+    "sme_id": "sme_daniel_okafor",
+    "name": "Daniel Okafor",
+    "email": "daniel.okafor@example.com",
+    "role_title": "Client Onboarding Lead",
+    "actor_ids": [
+      "act_onboarding_team"
+    ],
+    "topic_tags": [
+      "kyc_documents",
+      "id_verification",
+      "screening",
+      "chasing",
+      "onboarding_sla"
+    ],
+    "process_ids_owned": [
+      "proc_client_onboarding"
+    ],
+    "channels": [
+      "teams",
+      "email"
+    ],
+    "max_open_questions": 8,
+    "working_hours": {
+      "tz": "Europe/London",
+      "days": "Mon-Fri",
+      "start": "08:30",
+      "end": "17:00"
+    },
+    "out_of_office_until": null,
+    "delegate_sme_id": null
+  },
+  {
+    "sme_id": "sme_tom_reed",
+    "name": "Tom Reed",
+    "email": "tom.reed@example.com",
+    "role_title": "Deputy MLRO",
+    "actor_ids": [
+      "act_mlro"
+    ],
+    "topic_tags": [
+      "aml",
+      "risk_rating",
+      "pep"
+    ],
+    "process_ids_owned": [],
+    "channels": [
+      "email"
+    ],
+    "max_open_questions": 5,
+    "working_hours": {
+      "tz": "Europe/London",
+      "days": "Mon-Fri",
+      "start": "09:00",
+      "end": "17:30"
+    },
+    "out_of_office_until": null,
+    "delegate_sme_id": null
+  },
+  {
+    "sme_id": "sme_hannah_cole",
+    "name": "Hannah Cole",
+    "email": "hannah.cole@example.com",
+    "role_title": "Independence Manager",
+    "actor_ids": [
+      "act_independence_team"
+    ],
+    "topic_tags": [
+      "independence",
+      "conflicts",
+      "engagement_acceptance"
+    ],
+    "process_ids_owned": [],
+    "channels": [
+      "teams"
+    ],
+    "max_open_questions": 5,
+    "working_hours": {
+      "tz": "Europe/London",
+      "days": "Mon-Fri",
+      "start": "09:00",
+      "end": "17:30"
+    },
+    "out_of_office_until": null,
+    "delegate_sme_id": null
+  },
+  {
+    "sme_id": "sme_james_patel",
+    "name": "James Patel",
+    "email": "james.patel@example.com",
+    "role_title": "Head of Onboarding Technology",
+    "actor_ids": [
+      "act_screening_service",
+      "act_id_verification_service"
+    ],
+    "topic_tags": [
+      "systems",
+      "screening_service",
+      "outage",
+      "integration"
+    ],
+    "process_ids_owned": [],
+    "channels": [
+      "teams",
+      "email"
+    ],
+    "max_open_questions": 5,
+    "working_hours": {
+      "tz": "Europe/London",
+      "days": "Mon-Fri",
+      "start": "09:00",
+      "end": "17:30"
+    },
+    "out_of_office_until": null,
+    "delegate_sme_id": null
+  }
+]

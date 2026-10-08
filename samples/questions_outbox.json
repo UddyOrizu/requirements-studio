@@ -1,0 +1,72 @@
+[
+  {
+    "question_id": "q_01", "process_id": "proc_client_onboarding", "batch_id": "batch_priya_2026_10_01_am",
+    "gap_ids": ["gap_high_risk_approver_conflict"], "sme_id": "sme_priya_shah", "routing_score": 0.82,
+    "routing_reason": "Actor in dispute (act_mlro) is linked to this SME; strong topic match (high_risk_approval, aml).",
+    "channel": "teams",
+    "text": "The SOP says the Engagement Partner approves high-risk clients; in the 24 Sep workshop you said the MLRO does since July. Which is correct?",
+    "context_snippet": "SOP v4 §4.2: \"High-risk clients must be approved by the Engagement Partner…\" · Workshop 00:14:32 (you): \"high-risk approval is done by me as MLRO, not the engagement partner\"",
+    "answer_type": "choice",
+    "suggested_answers": ["MLRO approves; Engagement Partner is informed", "Engagement Partner approves", "Both must approve", "Other"],
+    "status": "answered", "sent_at": "2026-10-01T08:30:00Z", "due_at": "2026-10-05T08:30:00Z",
+    "answer": { "answer_id": "ans_q_01",
+      "text": "Correct – since July high-risk approval is by me as MLRO. The Engagement Partner is informed of the decision but doesn't approve.",
+      "structured_value": "MLRO approves; Engagement Partner is informed",
+      "answered_by": "sme_priya_shah", "answered_at": "2026-10-01T10:04:12Z" }
+  },
+  {
+    "question_id": "q_02", "process_id": "proc_client_onboarding", "batch_id": "batch_priya_2026_10_01_am",
+    "gap_ids": ["gap_risk_medium_branch"], "sme_id": "sme_priya_shah", "routing_score": 0.71,
+    "routing_reason": "Topic match risk_rating; risk-policy question preferred to MLRO over Onboarding Lead (0.69).",
+    "channel": "teams",
+    "text": "When a client is rated Medium risk, what decides that rating and what happens next?",
+    "context_snippet": "The SOP defines Low and High only. Workshop 00:09:43: \"Medium is a bit of a judgement call, honestly.\"",
+    "answer_type": "choice",
+    "suggested_answers": ["Proceed to conflict check, no extra approval", "MLRO approval required, same as High", "Other"],
+    "status": "sent", "sent_at": "2026-10-01T08:30:00Z", "due_at": "2026-10-05T08:30:00Z", "answer": null
+  },
+  {
+    "question_id": "q_03", "process_id": "proc_client_onboarding", "batch_id": "batch_priya_2026_10_01_am",
+    "gap_ids": ["gap_significant_adverse_media"], "sme_id": "sme_priya_shah", "routing_score": 0.79,
+    "routing_reason": "Actor match act_mlro; topic match adverse_media.",
+    "channel": "teams",
+    "text": "What counts as 'significant' adverse media for the client risk rating?",
+    "context_snippet": "SOP v4 §4.1: a client is rated High where screening returns significant adverse media.",
+    "answer_type": "choice",
+    "suggested_answers": ["Any allegation of financial crime in the last 6 years", "Any regulatory enforcement or criminal proceedings", "Other"],
+    "status": "sent", "sent_at": "2026-10-01T08:30:00Z", "due_at": "2026-10-05T08:30:00Z", "answer": null
+  },
+  {
+    "question_id": "q_04", "process_id": "proc_client_onboarding", "batch_id": "batch_daniel_2026_10_01_am",
+    "gap_ids": ["gap_wait_docs_timeout"], "sme_id": "sme_daniel_okafor", "routing_score": 0.84,
+    "routing_reason": "Actor match act_onboarding_team; process owner; topic match chasing, kyc_documents.",
+    "channel": "email",
+    "text": "If a client hasn't returned their KYC documents, how many working days do we wait, and what happens then?",
+    "context_snippet": "Email 22 Sep (Aisha Bello): \"Is it 5 days then we close it, or do we escalate to the engagement manager?\"",
+    "answer_type": "choice",
+    "suggested_answers": ["Chase after 3 working days, escalate to the Engagement Manager after 5", "Chase after 5 working days, close the request after 10", "Other"],
+    "status": "reminded", "sent_at": "2026-09-29T10:00:00Z", "due_at": "2026-10-01T10:00:00Z", "answer": null
+  },
+  {
+    "question_id": "q_05", "process_id": "proc_client_onboarding", "batch_id": "batch_daniel_2026_10_01_am",
+    "gap_ids": ["gap_request_docs_sla_breach"], "sme_id": "sme_daniel_okafor", "routing_score": 0.80,
+    "routing_reason": "Actor match act_onboarding_team; topic match onboarding_sla.",
+    "channel": "email",
+    "text": "If the document request isn't sent within 1 working day, who should be told?",
+    "context_snippet": "SOP v4 §3.1: request KYC documents within one working day of the CRM request being logged.",
+    "answer_type": "actor",
+    "suggested_answers": ["Onboarding Lead", "Engagement Manager", "No action, report only"],
+    "status": "sent", "sent_at": "2026-10-01T08:30:00Z", "due_at": "2026-10-05T08:30:00Z", "answer": null
+  },
+  {
+    "question_id": "q_06", "process_id": "proc_client_onboarding", "batch_id": "batch_james_2026_10_01_pm",
+    "gap_ids": ["gap_screening_down_handling"], "sme_id": "sme_james_patel", "routing_score": 0.77,
+    "routing_reason": "Actor match act_screening_service; topic match outage, screening_service.",
+    "channel": "teams",
+    "text": "If the screening service is unavailable, what should happen: retry later, use a manual fallback, or escalate to someone?",
+    "context_snippet": "Workshop 00:26:02: outage last month cost two days; 00:26:41: \"Nobody's written that down.\"",
+    "answer_type": "choice",
+    "suggested_answers": ["Retry every 2 hours for 1 working day, then escalate to Onboarding Lead", "Switch to manual screening", "Other"],
+    "status": "queued", "sent_at": null, "due_at": null, "answer": null
+  }
+]

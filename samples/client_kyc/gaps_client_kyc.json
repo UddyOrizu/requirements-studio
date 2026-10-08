@@ -1,0 +1,204 @@
+[
+  {
+    "gap_id": "gap_await_no_timeout",
+    "process_id": "proc_client_kyc_as_is",
+    "fingerprint": "8946676e33bc4bc157d9a02dc2ff53b506d7c095",
+    "type": "wait_without_timeout",
+    "severity": "blocking",
+    "detector": "structural",
+    "target_refs": [
+      "/nodes/node_await_docs"
+    ],
+    "title": "No time limit while waiting for documents",
+    "why_it_matters": "An automated workflow would wait forever.",
+    "question": {
+      "text": "How long does the client have to send documents, and what happens then?",
+      "answer_type": "duration",
+      "suggested_answers": []
+    },
+    "routing": {
+      "topic_tags": [
+        "kyc_documents"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_analyst"
+      ]
+    },
+    "priority": 91.7,
+    "status": "resolved",
+    "ir_version_detected": 5,
+    "resolved_by_patch_id": "patch_kyc_asis_v8"
+  },
+  {
+    "gap_id": "gap_risk_rule_nl",
+    "process_id": "proc_client_kyc_as_is",
+    "fingerprint": "73fac390b2da9533f5caed279bfcf4f359434e86",
+    "type": "natural_language_rule_gating_edge",
+    "severity": "major",
+    "detector": "structural",
+    "target_refs": [
+      "/decision_rules/rule_risk_rating"
+    ],
+    "title": "Risk rating rule is prose",
+    "why_it_matters": "The low/medium/high routing can't be automated or tested without explicit criteria.",
+    "question": {
+      "text": "How is the risk rating decided?",
+      "answer_type": "free_text",
+      "suggested_answers": []
+    },
+    "routing": {
+      "topic_tags": [
+        "risk_rating"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_analyst",
+        "act_mlro"
+      ]
+    },
+    "priority": 32.0,
+    "status": "resolved",
+    "ir_version_detected": 5,
+    "resolved_by_patch_id": "patch_kyc_asis_v7"
+  },
+  {
+    "gap_id": "gap_screening_api",
+    "process_id": "proc_client_kyc_as_is",
+    "fingerprint": "c2b9f8b5f499721c35033648f3a217824a3a1983",
+    "type": "integration_capability_unknown",
+    "severity": "major",
+    "detector": "intake",
+    "target_refs": [
+      "/actors/act_screening_tool"
+    ],
+    "title": "Unknown whether the screening tool can be called automatically",
+    "why_it_matters": "Without an API, screening stays manual.",
+    "question": {
+      "text": "Can the screening tool be called automatically?",
+      "answer_type": "yes_no",
+      "suggested_answers": [
+        "Yes, via API",
+        "No"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "systems",
+        "screening",
+        "integration"
+      ],
+      "candidate_actor_ids": [
+        "act_screening_tool"
+      ]
+    },
+    "priority": 4.0,
+    "status": "resolved",
+    "ir_version_detected": 11,
+    "resolved_by_patch_id": "patch_kyc_asis_v18"
+  },
+  {
+    "gap_id": "gap_kyc_sla_breach",
+    "process_id": "proc_client_kyc_to_be",
+    "fingerprint": "ade955e0a6569574bac193c8edcc01998a7b2f13",
+    "type": "sla_without_breach_action",
+    "severity": "major",
+    "detector": "structural",
+    "target_refs": [
+      "/slas/sla_kyc_checks"
+    ],
+    "title": "No action when the 3-day KYC target is missed",
+    "why_it_matters": "A time limit without an action can't be monitored.",
+    "question": {
+      "text": "If KYC isn't finished within 3 working days of the documents arriving, who should be told?",
+      "answer_type": "actor",
+      "suggested_answers": [
+        "MLRO",
+        "Onboarding team lead"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "onboarding_sla"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_analyst",
+        "act_mlro"
+      ]
+    },
+    "priority": 16.0,
+    "status": "resolved",
+    "ir_version_detected": 0,
+    "resolved_by_patch_id": "patch_kyc_tobe_v9"
+  },
+  {
+    "gap_id": "gap_match_threshold",
+    "process_id": "proc_client_kyc_to_be",
+    "fingerprint": "17ab1031e1c8092229b7cf1975c1a0ff2bacb343",
+    "type": "undefined_threshold",
+    "severity": "major",
+    "detector": "semantic",
+    "target_refs": [
+      "/nodes/node_screen"
+    ],
+    "title": "No match-score threshold for analyst review",
+    "why_it_matters": "The threshold decides how many cases reach a person.",
+    "question": {
+      "text": "What match score counts as a possible match that an analyst must review?",
+      "answer_type": "number",
+      "suggested_answers": [
+        "80 and above",
+        "70 and above"
+      ]
+    },
+    "routing": {
+      "topic_tags": [
+        "screening",
+        "aml"
+      ],
+      "candidate_actor_ids": [
+        "act_mlro"
+      ]
+    },
+    "priority": 33.36,
+    "status": "asked",
+    "ir_version_detected": 6,
+    "resolved_by_patch_id": null
+  },
+  {
+    "gap_id": "gap_story_priority",
+    "process_id": "proc_client_kyc_to_be",
+    "fingerprint": "62681ca13443c2c46e83cae95abd272cb11ed2c2",
+    "type": "story_priority_missing",
+    "severity": "major",
+    "detector": "story",
+    "target_refs": [
+      "/nodes/node_request_docs",
+      "/nodes/node_chase_docs",
+      "/nodes/node_verify_id",
+      "/nodes/node_screen",
+      "/nodes/node_risk_rate",
+      "/nodes/node_analyst_review",
+      "/nodes/node_mlro_approval",
+      "/nodes/node_record_kyc",
+      "/nodes/node_decline"
+    ],
+    "title": "Story priorities not set",
+    "why_it_matters": "Priority tells MOTHER what to build first.",
+    "question": {
+      "text": "Which stories are must-haves for the first release?",
+      "answer_type": "choice",
+      "suggested_answers": []
+    },
+    "routing": {
+      "topic_tags": [
+        "prioritisation"
+      ],
+      "candidate_actor_ids": [
+        "act_onboarding_analyst"
+      ]
+    },
+    "priority": 188.02,
+    "status": "resolved",
+    "ir_version_detected": 7,
+    "resolved_by_patch_id": "patch_kyc_tobe_v10"
+  }
+]

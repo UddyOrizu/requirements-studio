@@ -1,0 +1,1130 @@
+{
+  "process_id": "proc_client_onboarding",
+  "ir_version": 3,
+  "evaluated_at": "2026-09-30T15:43:10Z",
+  "ready_threshold": 0.8,
+  "mandatory_nfr_categories": [
+    "volume",
+    "security",
+    "audit"
+  ],
+  "summary": {
+    "stories": 9,
+    "ready": 0,
+    "waived": 0,
+    "not_ready": 9
+  },
+  "process_ready": false,
+  "signoffs": [
+    "story_capture_request"
+  ],
+  "stories": [
+    {
+      "story_id": "story_capture_request",
+      "status": "not_ready",
+      "confidence": 0.89,
+      "band": "green",
+      "lowest_confidence_elements": [
+        {
+          "id": "ac_capture_request",
+          "confidence": 0.95
+        },
+        {
+          "id": "act_engagement_manager",
+          "confidence": 0.95
+        }
+      ],
+      "failed_checks": [
+        "DOR-12",
+        "DOR-13",
+        "DOR-14",
+        "DOR-16"
+      ],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": false,
+          "waivable": false,
+          "message": "Story is not linked to a business goal (no real 'so that')."
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": false,
+          "waivable": false,
+          "message": "Priority not set."
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": false,
+          "waivable": true,
+          "message": "Missing NFR categories: ['audit', 'security', 'volume']."
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": false,
+          "waivable": false,
+          "message": "node_capture_request: human-in-the-loop mode not set"
+        }
+      ]
+    },
+    {
+      "story_id": "story_request_docs",
+      "status": "not_ready",
+      "confidence": 0.46,
+      "band": "red",
+      "lowest_confidence_elements": [
+        {
+          "id": "ac_request_docs",
+          "confidence": 0.68
+        },
+        {
+          "id": "ent_kyc_document_set",
+          "confidence": 0.72
+        }
+      ],
+      "failed_checks": [
+        "DOR-05",
+        "DOR-08",
+        "DOR-09",
+        "DOR-11",
+        "DOR-12",
+        "DOR-13",
+        "DOR-14",
+        "DOR-15",
+        "DOR-16"
+      ],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": false,
+          "waivable": false,
+          "message": "Wait node(s) ['node_wait_docs'] have no timeout."
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": false,
+          "waivable": false,
+          "message": "Open blocking gap(s): ['gap_wait_docs_timeout']."
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": false,
+          "waivable": true,
+          "message": "Story confidence 0.46 is below 0.80; confirm low-confidence elements."
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": false,
+          "waivable": false,
+          "message": "No process owner sign-off at the current closure."
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": false,
+          "waivable": false,
+          "message": "Story is not linked to a business goal (no real 'so that')."
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": false,
+          "waivable": false,
+          "message": "Priority not set."
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": false,
+          "waivable": true,
+          "message": "Missing NFR categories: ['audit', 'security', 'volume']."
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": false,
+          "waivable": true,
+          "message": "Story has a decision, wait or exception but no edge-case acceptance criterion."
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": false,
+          "waivable": false,
+          "message": "node_request_docs: human-in-the-loop mode not set"
+        }
+      ]
+    },
+    {
+      "story_id": "story_id_verify",
+      "status": "not_ready",
+      "confidence": 0.62,
+      "band": "amber",
+      "lowest_confidence_elements": [
+        {
+          "id": "ac_id_expired",
+          "confidence": 0.68
+        },
+        {
+          "id": "ac_id_verified",
+          "confidence": 0.68
+        }
+      ],
+      "failed_checks": [
+        "DOR-09",
+        "DOR-11",
+        "DOR-12",
+        "DOR-13",
+        "DOR-14",
+        "DOR-16"
+      ],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": false,
+          "waivable": true,
+          "message": "Story confidence 0.62 is below 0.80; confirm low-confidence elements."
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": false,
+          "waivable": false,
+          "message": "No process owner sign-off at the current closure."
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": false,
+          "waivable": false,
+          "message": "Story is not linked to a business goal (no real 'so that')."
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": false,
+          "waivable": false,
+          "message": "Priority not set."
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": false,
+          "waivable": true,
+          "message": "Missing NFR categories: ['audit', 'security', 'volume']."
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": false,
+          "waivable": false,
+          "message": "node_id_verify: human-in-the-loop mode not set"
+        }
+      ]
+    },
+    {
+      "story_id": "story_screening",
+      "status": "not_ready",
+      "confidence": 0.547,
+      "band": "amber",
+      "lowest_confidence_elements": [
+        {
+          "id": "exc_screening_service_down",
+          "confidence": 0.667
+        },
+        {
+          "id": "ac_screening_complete",
+          "confidence": 0.68
+        }
+      ],
+      "failed_checks": [
+        "DOR-06",
+        "DOR-09",
+        "DOR-11",
+        "DOR-12",
+        "DOR-13",
+        "DOR-14",
+        "DOR-15",
+        "DOR-16"
+      ],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": false,
+          "waivable": true,
+          "message": "Exception(s) ['exc_screening_service_down'] have undefined handling."
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": false,
+          "waivable": true,
+          "message": "Story confidence 0.547 is below 0.80; confirm low-confidence elements."
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": false,
+          "waivable": false,
+          "message": "No process owner sign-off at the current closure."
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": false,
+          "waivable": false,
+          "message": "Story is not linked to a business goal (no real 'so that')."
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": false,
+          "waivable": false,
+          "message": "Priority not set."
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": false,
+          "waivable": true,
+          "message": "Missing NFR categories: ['audit', 'security', 'volume']."
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": false,
+          "waivable": true,
+          "message": "Story has a decision, wait or exception but no edge-case acceptance criterion."
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": false,
+          "waivable": false,
+          "message": "node_screening: human-in-the-loop mode not set"
+        }
+      ]
+    },
+    {
+      "story_id": "story_risk_rate",
+      "status": "not_ready",
+      "confidence": 0.45,
+      "band": "red",
+      "lowest_confidence_elements": [
+        {
+          "id": "node_risk_decision",
+          "confidence": 0.64
+        },
+        {
+          "id": "ac_risk_rating_high",
+          "confidence": 0.68
+        }
+      ],
+      "failed_checks": [
+        "DOR-04",
+        "DOR-08",
+        "DOR-09",
+        "DOR-11",
+        "DOR-12",
+        "DOR-13",
+        "DOR-14",
+        "DOR-16"
+      ],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": false,
+          "waivable": false,
+          "message": "node_risk_decision: outcome(s) ['medium'] of rule_risk_rating not wired"
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": false,
+          "waivable": false,
+          "message": "Open blocking gap(s): ['gap_risk_medium_branch']."
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": false,
+          "waivable": true,
+          "message": "Story confidence 0.45 is below 0.80; confirm low-confidence elements."
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": false,
+          "waivable": false,
+          "message": "No process owner sign-off at the current closure."
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": false,
+          "waivable": false,
+          "message": "Story is not linked to a business goal (no real 'so that')."
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": false,
+          "waivable": false,
+          "message": "Priority not set."
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": false,
+          "waivable": true,
+          "message": "Missing NFR categories: ['audit', 'security', 'volume']."
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": false,
+          "waivable": false,
+          "message": "node_risk_rate: human-in-the-loop mode not set"
+        }
+      ]
+    },
+    {
+      "story_id": "story_conflict_check",
+      "status": "not_ready",
+      "confidence": 0.56,
+      "band": "amber",
+      "lowest_confidence_elements": [
+        {
+          "id": "ac_conflict_check",
+          "confidence": 0.68
+        },
+        {
+          "id": "node_accept_decision",
+          "confidence": 0.68
+        }
+      ],
+      "failed_checks": [
+        "DOR-04",
+        "DOR-09",
+        "DOR-11",
+        "DOR-12",
+        "DOR-13",
+        "DOR-14",
+        "DOR-15",
+        "DOR-16"
+      ],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": false,
+          "waivable": false,
+          "message": "rule_accept_engagement is natural language"
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": false,
+          "waivable": true,
+          "message": "Story confidence 0.56 is below 0.80; confirm low-confidence elements."
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": false,
+          "waivable": false,
+          "message": "No process owner sign-off at the current closure."
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": false,
+          "waivable": false,
+          "message": "Story is not linked to a business goal (no real 'so that')."
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": false,
+          "waivable": false,
+          "message": "Priority not set."
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": false,
+          "waivable": true,
+          "message": "Missing NFR categories: ['audit', 'security', 'volume']."
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": false,
+          "waivable": true,
+          "message": "Story has a decision, wait or exception but no edge-case acceptance criterion."
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": false,
+          "waivable": false,
+          "message": "node_conflict_check: human-in-the-loop mode not set"
+        }
+      ]
+    },
+    {
+      "story_id": "story_high_risk_approval",
+      "status": "not_ready",
+      "confidence": 0.17,
+      "band": "red",
+      "lowest_confidence_elements": [
+        {
+          "id": "node_high_risk_approval",
+          "confidence": 0.36
+        },
+        {
+          "id": "ac_high_risk_approval",
+          "confidence": 0.64
+        }
+      ],
+      "failed_checks": [
+        "DOR-08",
+        "DOR-09",
+        "DOR-11",
+        "DOR-12",
+        "DOR-13",
+        "DOR-14",
+        "DOR-16"
+      ],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": false,
+          "waivable": false,
+          "message": "Open blocking gap(s): ['gap_high_risk_approver_conflict']."
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": false,
+          "waivable": true,
+          "message": "Story confidence 0.17 is below 0.80; confirm low-confidence elements."
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": false,
+          "waivable": false,
+          "message": "No process owner sign-off at the current closure."
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": false,
+          "waivable": false,
+          "message": "Story is not linked to a business goal (no real 'so that')."
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": false,
+          "waivable": false,
+          "message": "Priority not set."
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": false,
+          "waivable": true,
+          "message": "Missing NFR categories: ['audit', 'security', 'volume']."
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": false,
+          "waivable": false,
+          "message": "node_high_risk_approval: human-in-the-loop mode not set"
+        }
+      ]
+    },
+    {
+      "story_id": "story_decline",
+      "status": "not_ready",
+      "confidence": 0.59,
+      "band": "amber",
+      "lowest_confidence_elements": [
+        {
+          "id": "node_decline",
+          "confidence": 0.68
+        },
+        {
+          "id": "act_engagement_manager",
+          "confidence": 0.95
+        }
+      ],
+      "failed_checks": [
+        "DOR-02",
+        "DOR-09",
+        "DOR-11",
+        "DOR-12",
+        "DOR-13",
+        "DOR-14",
+        "DOR-16"
+      ],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": false,
+          "waivable": false,
+          "message": "No acceptance criteria with Given/When/Then."
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": false,
+          "waivable": true,
+          "message": "Story confidence 0.59 is below 0.80; confirm low-confidence elements."
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": false,
+          "waivable": false,
+          "message": "No process owner sign-off at the current closure."
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": false,
+          "waivable": false,
+          "message": "Story is not linked to a business goal (no real 'so that')."
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": false,
+          "waivable": false,
+          "message": "Priority not set."
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": false,
+          "waivable": true,
+          "message": "Missing NFR categories: ['audit', 'security', 'volume']."
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": false,
+          "waivable": false,
+          "message": "node_decline: human-in-the-loop mode not set"
+        }
+      ]
+    },
+    {
+      "story_id": "story_engagement_letter",
+      "status": "not_ready",
+      "confidence": 0.62,
+      "band": "amber",
+      "lowest_confidence_elements": [
+        {
+          "id": "ac_engagement_letter",
+          "confidence": 0.68
+        },
+        {
+          "id": "ent_engagement_letter",
+          "confidence": 0.68
+        }
+      ],
+      "failed_checks": [
+        "DOR-09",
+        "DOR-11",
+        "DOR-12",
+        "DOR-13",
+        "DOR-14",
+        "DOR-16"
+      ],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": false,
+          "waivable": true,
+          "message": "Story confidence 0.62 is below 0.80; confirm low-confidence elements."
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": false,
+          "waivable": false,
+          "message": "No process owner sign-off at the current closure."
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": false,
+          "waivable": false,
+          "message": "Story is not linked to a business goal (no real 'so that')."
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": false,
+          "waivable": false,
+          "message": "Priority not set."
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": false,
+          "waivable": true,
+          "message": "Missing NFR categories: ['audit', 'security', 'volume']."
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": false,
+          "waivable": false,
+          "message": "node_engagement_letter: human-in-the-loop mode not set"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bdo.internal/requirements-studio/schemas/question/1.0",
+  "title": "SME Question",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "question_id",
+    "process_id",
+    "gap_ids",
+    "sme_id",
+    "channel",
+    "text",
+    "answer_type",
+    "status",
+    "routing_score"
+  ],
+  "properties": {
+    "question_id": {
+      "type": "string",
+      "pattern": "^q_[a-z0-9_]{1,60}$"
+    },
+    "process_id": {
+      "type": "string"
+    },
+    "batch_id": {
+      "type": "string"
+    },
+    "gap_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "sme_id": {
+      "type": "string"
+    },
+    "routing_score": {
+      "type": "number"
+    },
+    "routing_reason": {
+      "type": "string"
+    },
+    "channel": {
+      "enum": [
+        "in_app",
+        "email",
+        "teams"
+      ]
+    },
+    "text": {
+      "type": "string",
+      "maxLength": 400
+    },
+    "context_snippet": {
+      "type": "string",
+      "maxLength": 600
+    },
+    "answer_type": {
+      "enum": [
+        "free_text",
+        "choice",
+        "duration",
+        "number",
+        "yes_no",
+        "actor"
+      ]
+    },
+    "suggested_answers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "enum": [
+        "queued",
+        "sent",
+        "reminded",
+        "escalated",
+        "answered",
+        "expired"
+      ]
+    },
+    "sent_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "due_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "answer": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "answer_id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "structured_value": {},
+        "answered_by": {
+          "type": "string"
+        },
+        "answered_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "origin": {
+      "enum": [
+        "gap_routing",
+        "intake_ask_someone"
+      ],
+      "default": "gap_routing"
+    },
+    "asked_by": {
+      "type": "string",
+      "description": "For intake_ask_someone: the requester who parked it."
+    }
+  }
+}

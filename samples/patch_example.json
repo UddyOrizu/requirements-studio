@@ -1,0 +1,37 @@
+{
+  "patch_id": "0192a8f4-6c1e-7b3a-9d2e-5f01c4a7b9e1",
+  "process_id": "proc_client_onboarding",
+  "base_version": 3,
+  "author": { "kind": "agent", "id": "agent:interviewer" },
+  "reason": "Answer from Priya Shah (MLRO) to q_01: high-risk approval is by the MLRO; Engagement Partner is informed.",
+  "evidence": { "question_id": "q_01", "answer_id": "ans_q_01", "gap_ids": ["gap_high_risk_approver_conflict"], "source_ids": ["src_answer_q_01"] },
+  "interpretation_confidence": 0.93,
+  "auto_apply": false,
+  "status": "proposed",
+  "reviewed_by": null,
+  "ops": [
+    { "op": "add", "path": "/sources/src_answer_q_01", "value": {
+        "title": "SME answer q_01 – Priya Shah (MLRO), 1 Oct 2026", "kind": "interview_answer", "authority_weight": 0.9,
+        "uri": "rs://questions/q_01/answer", "ingested_at": "2026-10-01T10:05:00Z" } },
+    { "op": "replace", "path": "/nodes/node_high_risk_approval/actor_id", "value": "act_mlro" },
+    { "op": "replace", "path": "/nodes/node_high_risk_approval/description",
+      "value": "The MLRO approves the engagement for a high-risk client before it proceeds; the Engagement Partner is informed of the decision. The Engagement Partner should escalate promptly if they have concerns." },
+    { "op": "replace", "path": "/nodes/node_high_risk_approval/meta", "value": {
+        "status": "confirmed", "confidence": 0.95, "confirmed_by": "sme_priya_shah",
+        "notes": "Approver changed from Engagement Partner to MLRO per July 2026 policy change (SOP v4 §4.2 outdated).",
+        "provenance": [
+          { "source_id": "src_sop_onboarding_v4", "locator": { "kind": "paragraph", "value": "§4.2" },
+            "excerpt": "High-risk clients must be approved by the Engagement Partner before the engagement can proceed",
+            "stance": "contradicts", "field": "actor_id", "extraction_certainty": 0.9 },
+          { "source_id": "src_workshop_2026_09_24", "locator": { "kind": "timestamp", "value": "00:14:32-00:15:10" },
+            "excerpt": "high-risk approval is done by me as MLRO, not the engagement partner",
+            "stance": "supports", "extraction_certainty": 0.85 },
+          { "source_id": "src_answer_q_01", "locator": { "kind": "message", "value": "ans_q_01" },
+            "excerpt": "Correct – since July high-risk approval is by me as MLRO. The Engagement Partner is informed of the decision but doesn't approve.",
+            "stance": "supports", "extraction_certainty": 0.9 }
+        ] } },
+    { "op": "replace", "path": "/actors/act_mlro/meta/status", "value": "confirmed" },
+    { "op": "add", "path": "/actors/act_mlro/meta/confirmed_by", "value": "sme_priya_shah" },
+    { "op": "add", "path": "/acceptance_criteria/ac_high_risk_approval/then/-", "value": "the Engagement Partner is informed of the MLRO's decision" }
+  ]
+}

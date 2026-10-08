@@ -1,0 +1,1066 @@
+{
+  "process_id": "proc_client_kyc_to_be",
+  "ir_version": 12,
+  "evaluated_at": "2026-10-06T09:12:05Z",
+  "ready_threshold": 0.8,
+  "mandatory_nfr_categories": [
+    "volume",
+    "security",
+    "audit"
+  ],
+  "summary": {
+    "stories": 9,
+    "ready": 9,
+    "waived": 0,
+    "not_ready": 0
+  },
+  "process_ready": true,
+  "signoffs": [
+    "story_analyst_review",
+    "story_chase_docs",
+    "story_decline",
+    "story_mlro_approval",
+    "story_record_kyc",
+    "story_request_docs",
+    "story_risk_rate",
+    "story_screen",
+    "story_verify_id"
+  ],
+  "stories": [
+    {
+      "story_id": "story_request_docs",
+      "status": "ready",
+      "confidence": 0.95,
+      "band": "green",
+      "lowest_confidence_elements": [
+        {
+          "id": "ac_docs_overdue",
+          "confidence": 0.95
+        },
+        {
+          "id": "ac_request_docs",
+          "confidence": 0.95
+        }
+      ],
+      "failed_checks": [],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        }
+      ]
+    },
+    {
+      "story_id": "story_verify_id",
+      "status": "ready",
+      "confidence": 0.95,
+      "band": "green",
+      "lowest_confidence_elements": [
+        {
+          "id": "ac_id_check_failed",
+          "confidence": 0.95
+        },
+        {
+          "id": "ac_verify_id",
+          "confidence": 0.95
+        }
+      ],
+      "failed_checks": [],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        }
+      ]
+    },
+    {
+      "story_id": "story_screen",
+      "status": "ready",
+      "confidence": 0.92,
+      "band": "green",
+      "lowest_confidence_elements": [
+        {
+          "id": "ac_screen_clear",
+          "confidence": 0.95
+        },
+        {
+          "id": "ac_screen_possible_match",
+          "confidence": 0.95
+        }
+      ],
+      "failed_checks": [],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        }
+      ]
+    },
+    {
+      "story_id": "story_risk_rate",
+      "status": "ready",
+      "confidence": 0.95,
+      "band": "green",
+      "lowest_confidence_elements": [
+        {
+          "id": "ac_risk_high",
+          "confidence": 0.95
+        },
+        {
+          "id": "ac_risk_low",
+          "confidence": 0.95
+        }
+      ],
+      "failed_checks": [],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        }
+      ]
+    },
+    {
+      "story_id": "story_analyst_review",
+      "status": "ready",
+      "confidence": 0.95,
+      "band": "green",
+      "lowest_confidence_elements": [
+        {
+          "id": "ac_analyst_approved",
+          "confidence": 0.95
+        },
+        {
+          "id": "ac_analyst_rejected",
+          "confidence": 0.95
+        }
+      ],
+      "failed_checks": [],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        }
+      ]
+    },
+    {
+      "story_id": "story_mlro_approval",
+      "status": "ready",
+      "confidence": 0.95,
+      "band": "green",
+      "lowest_confidence_elements": [
+        {
+          "id": "ac_mlro_approved",
+          "confidence": 0.95
+        },
+        {
+          "id": "ac_mlro_rejected",
+          "confidence": 0.95
+        }
+      ],
+      "failed_checks": [],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        }
+      ]
+    },
+    {
+      "story_id": "story_record_kyc",
+      "status": "ready",
+      "confidence": 0.95,
+      "band": "green",
+      "lowest_confidence_elements": [
+        {
+          "id": "ac_crm_unavailable",
+          "confidence": 0.95
+        },
+        {
+          "id": "ac_record_kyc",
+          "confidence": 0.95
+        }
+      ],
+      "failed_checks": [],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        }
+      ]
+    },
+    {
+      "story_id": "story_decline",
+      "status": "ready",
+      "confidence": 0.95,
+      "band": "green",
+      "lowest_confidence_elements": [
+        {
+          "id": "ac_decline",
+          "confidence": 0.95
+        },
+        {
+          "id": "act_engagement_manager",
+          "confidence": 0.95
+        }
+      ],
+      "failed_checks": [],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        }
+      ]
+    },
+    {
+      "story_id": "story_chase_docs",
+      "status": "ready",
+      "confidence": 0.95,
+      "band": "green",
+      "lowest_confidence_elements": [
+        {
+          "id": "ac_chase_docs",
+          "confidence": 0.95
+        },
+        {
+          "id": "act_onboarding_analyst",
+          "confidence": 0.95
+        }
+      ],
+      "failed_checks": [],
+      "checks": [
+        {
+          "check_id": "DOR-01",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-02",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-03",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-04",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-05",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-06",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-07",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-08",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-09",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-10",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-11",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-12",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-13",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-14",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-15",
+          "passed": true,
+          "waivable": true,
+          "message": ""
+        },
+        {
+          "check_id": "DOR-16",
+          "passed": true,
+          "waivable": false,
+          "message": ""
+        }
+      ]
+    }
+  ]
+}
