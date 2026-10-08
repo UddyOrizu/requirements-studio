@@ -5,10 +5,11 @@ from dataclasses import asdict
 
 from fastapi import APIRouter, FastAPI
 
-from services.common.db import make_engine, make_sessionmaker
+from services.common.db import make_engine, make_sessionmaker, utcnow
 from services.common.settings import Settings, get_settings
 from services.identity_audit.auth import JwksVerifier
 from services.identity_audit.dev_oidc import DevOidc
+from services.intake.api import router as intake_router
 from services.ir_store.api import router as ir_store_router
 from services.llm_gateway import build_gateway
 
@@ -31,6 +32,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app = FastAPI(title="Requirements Studio", version="0.1.0", lifespan=lifespan)
     app.state.settings = settings
     app.state.sessionmaker = make_sessionmaker(engine)
+    app.state.clock = utcnow
     app.state.llm = build_gateway(settings, sessionmaker=app.state.sessionmaker)  # validates every prompt file
     problems.register(app)
 
@@ -53,6 +55,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return asdict(user)
 
     api.include_router(ir_store_router)
+    api.include_router(intake_router)
     app.include_router(api)
     return app
 

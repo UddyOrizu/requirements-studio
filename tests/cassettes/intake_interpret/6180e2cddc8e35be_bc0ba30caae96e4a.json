@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_interpret",
+  "prompt_sha256": "6180e2cddc8e35be192757ac9792645b010a4d2e51acc9b04d51ed6f1aabf057",
+  "variables_sha256": "bc0ba30caae96e4a230f39360b8f670b9b68a7c6fcf0dc1d0097aa844306170d",
+  "responses": [
+    {
+      "text": "{\"ops\": [{\"op\": \"add\", \"path\": \"/nfrs/nfr_evidence\", \"value\": {\"category\": \"audit\", \"statement\": \"Every check, result and approval is kept as evidence for 5 years after the relationship ends\", \"measure\": \"Retention: relationship end + 5 years\", \"applies_to\": [], \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T12\"}, \"excerpt\": \"Every check, result and approval has to be kept as evidence for 5 years after the relationship ends\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}, {\"op\": \"add\", \"path\": \"/nfrs/nfr_access\", \"value\": {\"category\": \"security\", \"statement\": \"KYC documents are visible only to onboarding and compliance\", \"applies_to\": [], \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T12\"}, \"excerpt\": \"only onboarding and compliance can see them\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}], \"captured\": [\"Security: documents visible only to onboarding and compliance\", \"Audit: evidence kept 5 years after the relationship ends\"], \"assumptions\": [], \"follow_up_question\": null}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

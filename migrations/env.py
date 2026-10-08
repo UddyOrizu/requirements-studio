@@ -7,8 +7,11 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import create_async_engine
 
 import services.common.outbox  # noqa: F401  (register mapped tables)
+import services.gaps.db  # noqa: F401
 import services.ideas.db  # noqa: F401
 import services.identity_audit.db  # noqa: F401
+import services.intake.db  # noqa: F401
+import services.interviewer.db  # noqa: F401
 import services.ir_store.db  # noqa: F401
 import services.llm_gateway.db  # noqa: F401
 from services.common.db import Base

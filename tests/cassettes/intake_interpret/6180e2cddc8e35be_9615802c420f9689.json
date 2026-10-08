@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_interpret",
+  "prompt_sha256": "6180e2cddc8e35be192757ac9792645b010a4d2e51acc9b04d51ed6f1aabf057",
+  "variables_sha256": "9615802c420f96896435fcecd663492299df77299f41040a347198cf47a23f71",
+  "responses": [
+    {
+      "text": "{\"ops\": [{\"op\": \"add\", \"path\": \"/personas/pers_analyst\", \"value\": {\"name\": \"Onboarding Analyst\", \"actor_id\": \"act_onboarding_analyst\", \"needs\": [\"Stop chasing and rekeying\"], \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T14\"}, \"excerpt\": \"Analysts stop chasing and rekeying\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}, {\"op\": \"add\", \"path\": \"/personas/pers_client\", \"value\": {\"name\": \"Client\", \"actor_id\": \"act_client\", \"needs\": [\"Get onboarded faster\"], \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T14\"}, \"excerpt\": \"clients get onboarded faster\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}, {\"op\": \"add\", \"path\": \"/personas/pers_mlro\", \"value\": {\"name\": \"MLRO\", \"actor_id\": \"act_mlro\", \"needs\": [\"Only see the cases that matter\"], \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T14\"}, \"excerpt\": \"the MLRO only sees the cases that matter\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}, {\"op\": \"add\", \"path\": \"/goals/goal_focus_analysts/persona_ids\", \"value\": [\"pers_analyst\", \"pers_mlro\"]}, {\"op\": \"add\", \"path\": \"/goals/goal_faster_kyc/persona_ids\", \"value\": [\"pers_client\", \"pers_analyst\"]}], \"captured\": [\"Beneficiaries: Onboarding Analyst (no chasing or rekeying), MLRO (only cases that matter), Client (faster onboarding)\"], \"assumptions\": [], \"follow_up_question\": null}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

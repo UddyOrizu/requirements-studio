@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_interpret",
+  "prompt_sha256": "6180e2cddc8e35be192757ac9792645b010a4d2e51acc9b04d51ed6f1aabf057",
+  "variables_sha256": "2d00ca8fadb562c65921d2e109a7ff368c0fe09d921e0f6a95a3d2554c2fb890",
+  "responses": [
+    {
+      "text": "{\"ops\": [{\"op\": \"add\", \"path\": \"/scope/out/0\", \"value\": \"The final decision on high-risk clients (stays with the MLRO)\"}, {\"op\": \"add\", \"path\": \"/scope/out/1\", \"value\": \"Periodic KYC refresh for existing clients (later phase)\"}, {\"op\": \"add\", \"path\": \"/scope/out/2\", \"value\": \"Individuals as clients\"}, {\"op\": \"add\", \"path\": \"/scope/assumptions/0\", \"value\": \"New clients in scope are companies\"}, {\"op\": \"add\", \"path\": \"/scope/in/0\", \"value\": \"KYC for new corporate clients: documents, ID verification, screening, risk rating, approval and recording\"}], \"captured\": [\"Out: final call on high-risk clients (MLRO); periodic refresh (later); individuals\", \"In: KYC for new corporate clients\"], \"assumptions\": [], \"follow_up_question\": null}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

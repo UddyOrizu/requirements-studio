@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_interpret",
+  "prompt_sha256": "6180e2cddc8e35be192757ac9792645b010a4d2e51acc9b04d51ed6f1aabf057",
+  "variables_sha256": "577a84a20ea51079fb9a06ff606ad425d3476b5b4597c157a69d4d4b5ee06d50",
+  "responses": [
+    {
+      "text": "{\"ops\": [{\"op\": \"add\", \"path\": \"/nodes/node_record_kyc/inputs\", \"value\": [\"ent_kyc_documents\", \"ent_screening_result\", \"ent_risk_assessment\"]}, {\"op\": \"add\", \"path\": \"/nodes/node_record_kyc/meta/provenance/2\", \"value\": {\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T9\"}, \"excerpt\": \"The documents received, the screening results\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}}, {\"op\": \"add\", \"path\": \"/entities/ent_risk_assessment/attributes/1\", \"value\": {\"name\": \"reason\", \"type\": \"string\", \"required\": true, \"pii\": false}}, {\"op\": \"add\", \"path\": \"/entities/ent_risk_assessment/attributes/2\", \"value\": {\"name\": \"approved_by\", \"type\": \"reference\", \"required\": false, \"pii\": false}}, {\"op\": \"add\", \"path\": \"/entities/ent_risk_assessment/attributes/3\", \"value\": {\"name\": \"approved_at\", \"type\": \"datetime\", \"required\": false, \"pii\": false}}, {\"op\": \"add\", \"path\": \"/entities/ent_risk_assessment/meta/provenance/1\", \"value\": {\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T9\"}, \"excerpt\": \"the risk rating with the reason, who approved it and when\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}}, {\"op\": \"add\", \"path\": \"/entities/ent_kyc_documents/attributes/2\", \"value\": {\"name\": \"received_at\", \"type\": \"datetime\", \"required\": true, \"pii\": false}}], \"captured\": [\"Risk assessment: rating, reason, approved by, approved at\", \"KYC documents: received at\"], \"assumptions\": [], \"follow_up_question\": null}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

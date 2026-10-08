@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "528a791004f20c9a89a539f638613f83c167fb7395f16d5815297c07c86fd4d0",
+  "responses": [
+    {
+      "text": "{\"text\": \"Are there rules about who can see KYC data, or what must be kept as evidence?\", \"why\": \"Security and audit rules become non-functional criteria.\", \"answer_type\": \"choice\", \"suggested_answers\": [\"Restricted to onboarding and compliance\", \"Keep evidence for 5 years\"]}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

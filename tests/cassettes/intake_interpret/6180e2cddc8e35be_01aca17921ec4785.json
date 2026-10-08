@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_interpret",
+  "prompt_sha256": "6180e2cddc8e35be192757ac9792645b010a4d2e51acc9b04d51ed6f1aabf057",
+  "variables_sha256": "01aca17921ec478562236d89e6365052d519a2a4df1afbed75d5e5cc6f1fa6ca",
+  "responses": [
+    {
+      "text": "{\"ops\": [{\"op\": \"add\", \"path\": \"/nfrs/nfr_volume\", \"value\": {\"category\": \"volume\", \"statement\": \"About 150 new clients a month, roughly double in April and May\", \"measure\": \"~150 clients/month; ~300/month in April–May\", \"applies_to\": [], \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T11\"}, \"excerpt\": \"About 150 new clients a month, with roughly double that in April and May.\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}], \"captured\": [\"Volume: ~150 new clients a month; about double in April and May\"], \"assumptions\": [], \"follow_up_question\": null}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

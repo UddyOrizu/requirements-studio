@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "da363a72647ce18c679da7fc6f8953cfa6eb2bfe64c53efc2597a25f798ae72c",
+  "responses": [
+    {
+      "text": "{\"text\": \"How would you measure success, and what does it look like today?\", \"why\": \"A baseline and a target let us prove the change worked.\", \"answer_type\": \"free_text\", \"suggested_answers\": [\"Working days to complete KYC\", \"Share of cases an analyst has to touch\"]}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

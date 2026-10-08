@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_interpret",
+  "prompt_sha256": "6180e2cddc8e35be192757ac9792645b010a4d2e51acc9b04d51ed6f1aabf057",
+  "variables_sha256": "86eccace163b6ee09a95b8d9d9248293db3aa840e82a44d7b7bb94b1b536768f",
+  "responses": [
+    {
+      "text": "{\"ops\": [{\"op\": \"add\", \"path\": \"/nodes/node_await_docs/exception_ids\", \"value\": [\"exc_docs_overdue\"]}, {\"op\": \"add\", \"path\": \"/exceptions/exc_docs_overdue\", \"value\": {\"name\": \"No documents after 10 working days\", \"trigger\": \"The client has not sent the KYC documents 10 working days after the request\", \"trigger_kind\": \"timeout\", \"timeout\": \"P10D\", \"applies_to\": [\"node_await_docs\"], \"handling\": {\"action\": \"escalate\", \"notify_actor_id\": \"act_engagement_manager\", \"notes\": \"Onboarding is put on hold.\"}, \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T8\"}, \"excerpt\": \"After 10 working days with no documents, the engagement manager is told and onboarding is put on hold.\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}, {\"op\": \"add\", \"path\": \"/acceptance_criteria/ac_docs_overdue\", \"value\": {\"title\": \"No documents after 10 working days puts onboarding on hold\", \"kind\": \"edge_case\", \"applies_to\": [\"node_await_docs\", \"exc_docs_overdue\"], \"given\": [\"a client who has not sent their KYC documents 10 working days after the request\"], \"when\": [\"the daily overdue check runs\"], \"then\": [\"the engagement manager is notified\", \"onboarding for the client is set to on hold\"], \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T8\"}, \"excerpt\": \"After 10 working days with no documents, the engagement manager is told and onboarding is put on hold.\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}], \"captured\": [\"Exception: no documents after 10 working days → Engagement Manager told, onboarding on hold\"], \"assumptions\": [], \"follow_up_question\": null}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

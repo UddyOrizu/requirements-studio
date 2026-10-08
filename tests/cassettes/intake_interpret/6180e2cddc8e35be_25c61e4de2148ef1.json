@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_interpret",
+  "prompt_sha256": "6180e2cddc8e35be192757ac9792645b010a4d2e51acc9b04d51ed6f1aabf057",
+  "variables_sha256": "25c61e4de2148ef18a71c270a1bbab9c6289c95e600ce15c8386997ca6b71ed4",
+  "responses": [
+    {
+      "text": "{\"ops\": [{\"op\": \"add\", \"path\": \"/goals/goal_focus_analysts\", \"value\": {\"statement\": \"Focus analyst time on the cases that need a human\", \"metrics\": [{\"name\": \"Cases needing manual review\", \"unit\": \"%\", \"baseline\": 100, \"target\": 30}], \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T3\"}, \"excerpt\": \"I'd like them to touch no more than 30% of cases\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}, {\"op\": \"add\", \"path\": \"/goals/goal_faster_kyc/meta/provenance/1\", \"value\": {\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T3\"}, \"excerpt\": \"KYC takes about 8 working days per client today and I want it under 3\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}}, {\"op\": \"add\", \"path\": \"/goals/goal_faster_kyc/metrics/0\", \"value\": {\"name\": \"KYC elapsed time per client\", \"unit\": \"working days\", \"baseline\": 8, \"target\": 3}}], \"captured\": [\"Metric: KYC elapsed time, 8 → 3 working days\", \"New goal: focus analyst time on cases that need a human (100% → 30% touched)\"], \"assumptions\": [], \"follow_up_question\": null}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

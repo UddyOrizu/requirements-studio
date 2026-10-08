@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "68c6cb5f296b8687e18aea40903116f26d231fabea249c2ff09f77aa89a27a41",
+  "responses": [
+    {
+      "text": "{\"text\": \"Do reminders carry on indefinitely, or is there a point where someone steps in?\", \"why\": \"A chase needs a stop point, so real problems get a person's attention.\", \"answer_type\": \"choice\", \"suggested_answers\": [\"Escalate after N working days\", \"Stop after N reminders\"]}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import hashlib
 from dataclasses import dataclass, field
 
 from .findings import OPEN_STATUSES, Finding, fingerprint
@@ -7,6 +8,13 @@ from .structural import conflicts, low_confidence, structural
 from .texts import TOPIC, word
 
 DETERMINISTIC_DETECTORS = frozenset({"structural", "conflict", "story"})
+
+
+def gap_id(ir: dict, gap_type: str, fp: str) -> str:
+    """Unique per process and occurrence: an as-is and its to-be share element ids (so fingerprints), and a resolved
+    gap that comes back is a new gap. Reconcile matches by fingerprint, so a stored gap keeps its first id."""
+    scoped = hashlib.sha1(f"{ir['process']['id']}|{fp}".encode()).hexdigest()[:8]
+    return f"gap_{gap_type}_{scoped}_v{ir['process']['version']}"
 
 
 def detect_gaps(ir: dict, *, document_led: bool = False) -> list[dict]:
@@ -27,7 +35,7 @@ def detect_gaps(ir: dict, *, document_led: bool = False) -> list[dict]:
 def _to_gap(ir: dict, f: Finding, model: PriorityModel) -> dict:
     fp = fingerprint(f.type, f.target_refs)
     gap = {
-        "gap_id": f"gap_{f.type}_{fp[:8]}",
+        "gap_id": gap_id(ir, f.type, fp),
         "process_id": ir["process"]["id"],
         "fingerprint": fp,
         "type": f.type,

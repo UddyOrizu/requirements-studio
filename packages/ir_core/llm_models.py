@@ -170,7 +170,8 @@ class Playback(Strict):
 
 
 class DraftedAC(Strict):
-    node_id: str
+    ac_id: Annotated[str, Field(pattern=r"^ac_[a-z0-9_]{1,60}$")]
+    applies_to: Annotated[list[str], Field(min_length=1)]  # the step, plus the exception or rule it exercises
     title: str
     given: Annotated[list[str], Field(min_length=1)]
     when: Annotated[list[str], Field(min_length=1)]

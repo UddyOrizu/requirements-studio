@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "cbb168213c1f5631956716cd6835dfe11269de57ad663d9c6dabd0956e4228f7",
+  "responses": [
+    {
+      "text": "{\"text\": \"Today, what has to happen before KYC starts for a new client?\", \"why\": \"I need the trigger so the workflow knows when to start.\", \"answer_type\": \"choice\", \"suggested_answers\": [\"Client record created in the CRM\", \"Engagement letter signed\"]}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

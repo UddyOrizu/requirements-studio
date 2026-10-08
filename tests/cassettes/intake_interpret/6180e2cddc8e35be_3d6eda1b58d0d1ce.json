@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_interpret",
+  "prompt_sha256": "6180e2cddc8e35be192757ac9792645b010a4d2e51acc9b04d51ed6f1aabf057",
+  "variables_sha256": "3d6eda1b58d0d1ce0e820cdb5b6b246648f2bfa07293f0c9b976a355bb25c786",
+  "responses": [
+    {
+      "text": "{\"ops\": [{\"op\": \"add\", \"path\": \"/edges/edge_start_request\", \"value\": {\"from\": \"node_start\", \"to\": \"node_request_docs\", \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T1\"}, \"excerpt\": \"the first step is asking the client for their documents\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}, {\"op\": \"add\", \"path\": \"/nodes/node_start\", \"value\": {\"type\": \"start\", \"name\": \"Client record created\", \"description\": \"The engagement team has accepted the client and created the client record in the CRM.\", \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T1\"}, \"excerpt\": \"creates the client record in the CRM\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}, {\"op\": \"add\", \"path\": \"/nodes/node_request_docs/inputs\", \"value\": [\"ent_client\"]}, {\"op\": \"add\", \"path\": \"/entities/ent_client\", \"value\": {\"name\": \"Client\", \"attributes\": [{\"name\": \"crm_id\", \"type\": \"string\", \"required\": true, \"pii\": false}, {\"name\": \"legal_name\", \"type\": \"string\", \"required\": true, \"pii\": false}], \"meta\": {\"status\": \"proposed\", \"confidence\": 0.0, \"provenance\": [{\"source_id\": \"src_intake_is_client_kyc\", \"locator\": {\"kind\": \"turn\", \"value\": \"T1\"}, \"excerpt\": \"the client record\", \"stance\": \"supports\", \"extraction_certainty\": 0.9}]}}}], \"captured\": [\"Start: client record created in the CRM\", \"First step: Request KYC documents\", \"Data: Client (CRM id, legal name)\"], \"assumptions\": [], \"follow_up_question\": null}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

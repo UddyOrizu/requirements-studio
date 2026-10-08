@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "fb12855ae8a5f91599f0c3cb4172b9e5bd27233b0d87d2d13d7e8f961de2c097",
+  "responses": [
+    {
+      "text": "{\"text\": \"What should a new solution not do, at least in the first version?\", \"why\": \"Scope tells the improvement step and MOTHER where automation must stop.\", \"answer_type\": \"free_text\", \"suggested_answers\": []}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

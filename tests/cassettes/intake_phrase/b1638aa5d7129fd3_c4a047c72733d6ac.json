@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_phrase",
+  "prompt_sha256": "b1638aa5d7129fd355c005311f36c31efb52995b455a38bbc64187287d32fbb9",
+  "variables_sha256": "c4a047c72733d6ac3b95f63ff0a83c4fbc0f2a0631e9c8f9ef3774391ed24450",
+  "responses": [
+    {
+      "text": "{\"text\": \"Which systems are involved today: how do documents come in, and which tools are used for ID checks and screening?\", \"why\": \"Integration points show what could be automated and what MOTHER would need tools for.\", \"answer_type\": \"multi_choice\", \"suggested_answers\": [\"Email\", \"Client portal\", \"e-ID verification service\", \"Screening tool\", \"CRM\"]}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "prompt_file": "intake_playback",
+  "prompt_sha256": "6375fec581658953df1d7a7904939708196b7c0ce9908b8b0db4c1106811680d",
+  "variables_sha256": "571ee6376fc08c138d15c28af23ad27004a521fdbfb8bcda2c3c027e2d38eea9",
+  "responses": [
+    {
+      "text": "{\"summary\": \"Today, when a client record is created in the CRM, the analyst emails a document checklist and waits up to 5 working days, chasing by email every 3 days; after 10 days the engagement manager is told. The analyst checks IDs by hand on the e-ID website, searches each name in the screening tool, applies the risk rule and types the outcome into the CRM. Medium risk needs an analyst's approval, high risk the MLRO's, and the engagement manager declines rejected clients. It takes about 110 analyst minutes and 8 working days per client.\"}",
+      "model": "sample-replay",
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}
