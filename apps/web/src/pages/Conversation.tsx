@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
 import FlowCanvas from "../components/FlowCanvas";
+import PersonPicker from "../components/PersonPicker";
+import RequestApproval from "../components/RequestApproval";
 import { ErrorNote, Loading, Meter } from "../components/ui";
 import type { Flow, IntakeSession, Overview, StoryRow, TimelineEntry } from "../types";
 
@@ -21,12 +23,11 @@ export default function Conversation({ idea }: { idea: Overview }) {
   const session = useQuery({ queryKey: key, queryFn: () => api.get<IntakeSession>(`/intake-sessions/${idea.session_id}`), retry: false });
   const flow = useQuery({ queryKey: ["flow", idea.idea_id, "live"], queryFn: () => api.get<Flow>(`/ideas/${idea.idea_id}/flow`) });
   const [text, setText] = useState("");
-  const [askSme, setAskSme] = useState("");
-  const smes = useQuery({ queryKey: ["smes"], queryFn: () => api.get<{ sme_id: string; name: string; role_title: string }[]>("/smes") });
+  const [askUser, setAskUser] = useState("");
   const answer = useMutation({
     mutationFn: (body: object) => api.post(`/intake-sessions/${idea.session_id}/answers`, body),
     onSuccess: () => {
-      setText(""); setAskSme("");
+      setText(""); setAskUser("");
       qc.invalidateQueries({ queryKey: key }); qc.invalidateQueries({ queryKey: ["flow", idea.idea_id] });
       qc.invalidateQueries({ queryKey: ["idea", idea.idea_id] }); qc.invalidateQueries({ queryKey: ["stories", idea.idea_id] });
     },
@@ -66,22 +67,25 @@ export default function Conversation({ idea }: { idea: Overview }) {
                 ))}
                 <button className="btn-ghost" disabled={answer.isPending} onClick={() => answer.mutate({ special: "skip" })}>Skip for now</button>
               </div>
-              <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); answer.mutate(askSme ? { text: text || undefined, special: "not_sure_ask", ask_sme_id: askSme } : { text }); }}>
+              <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); answer.mutate(askUser ? { text: text || undefined, special: "not_sure_ask", ask_user_id: askUser } : { text }); }}>
                 <input className="input" value={text} onChange={(e) => setText(e.target.value)} placeholder="Type your answer…" aria-label="Your answer" />
-                <button className="btn-primary" disabled={(!text.trim() && !askSme) || answer.isPending}>Send</button>
+                <button className="btn-primary" disabled={(!text.trim() && !askUser) || answer.isPending}>Send</button>
               </form>
               <label className="flex items-center gap-2 text-xs text-slate-500">
                 Not sure — ask
-                <select className="input w-56 py-1 text-xs" value={askSme} onChange={(e) => setAskSme(e.target.value)} aria-label="Ask someone">
-                  <option value="">nobody</option>
-                  {smes.data?.map((m) => <option key={m.sme_id} value={m.sme_id}>{m.name} ({m.role_title})</option>)}
-                </select>
+                <PersonPicker value={askUser} onChange={setAskUser} label="Ask someone" placeholder="nobody" className="input w-64 py-1 text-xs" />
+                {askUser && <span>— they get the question by email</span>}
               </label>
             </div>
           ) : q?.target.kind === "signoff" ? (
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-sm text-slate-600">Every story is ready. Sign them off to mark the idea ready.</p>
-              <button className="btn-primary" disabled={signOff.isPending} onClick={() => signOff.mutate()}>Sign off stories</button>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm text-slate-600">Every story is ready. Sign them off to mark the idea ready.</p>
+                <button className="btn-primary" disabled={signOff.isPending} onClick={() => signOff.mutate()}>Sign off stories</button>
+              </div>
+              <div className="flex justify-end">
+                <RequestApproval kind="story_signoff" subjectId={idea.session_id} ideaId={idea.idea_id} label="Ask someone else to sign off" />
+              </div>
             </div>
           ) : (
             <p className="text-sm text-slate-500">{s.phase === "improve" ? "Waiting for the improvement decisions (Improvements tab)." : s.phase === "done" ? "This conversation is complete." : "No open question."}</p>

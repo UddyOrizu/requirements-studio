@@ -131,7 +131,7 @@ class IdeasService:
         pid = self.process_id(idea, variant)
         ir = await self.patches.get_ir(pid)
         gaps = [g.as_gap() for g in await stored_gaps(self.s, pid)]
-        questions = [{"gap_ids": q.gap_ids, "sme_id": q.sme_id, "status": q.status}
+        questions = [{"gap_ids": q.gap_ids, "sme_id": q.sme_id or q.assignee_user_id, "status": q.status}
                      for q in (await self.s.execute(select(Question).where(Question.process_id == pid))).scalars()]
         try:
             stories = derive_stories(ir, gaps, questions, version=ir["process"]["version"])
@@ -312,7 +312,8 @@ class IdeasService:
             return [{"op": "replace", "path": f"/acceptance_criteria/{ac_id}/{part}", "value": value}]
         raise bad(f"{field} cannot be edited here; use the refine chat")
 
-    async def ask(self, idea_id: str, sid: str, *, user_id: str, text: str, sme_id: str) -> dict:
+    async def ask(self, idea_id: str, sid: str, *, user_id: str, text: str, sme_id: str | None = None,
+                  ask_user_id: str | None = None) -> dict:
         """Ask someone about this story: an M6 question, shown as the story's open question (M12 way 3)."""
         idea = await self.idea(idea_id)
         ctx = await self.context(idea)
@@ -328,7 +329,7 @@ class IdeasService:
             answer_type="free_text", options=[], now=self.clock(),
             new_gap=NewGap(gap_id=f"gap_ask_{sid}_{n}", type="unclear_business_rule", target_refs=[f"/nodes/{task}"],
                            title=text.strip(), why_it_matters="Asked from the story detail.", topic="story"),
-            correlation_id=self.patches.correlation_id)
+            correlation_id=self.patches.correlation_id, user_id=ask_user_id)
         return {"captured": captured, "story": await self.story(idea_id, sid)}
 
     async def smes(self) -> list[dict]:

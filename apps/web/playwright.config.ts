@@ -24,7 +24,8 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
       timeout: 120_000,
       env: {
-        RS_DATABASE_URL: dbUrl, RS_ENV: "dev", RS_OIDC_ISSUER: "", RS_LLM_MODE: "replay",
+        RS_DATABASE_URL: dbUrl, RS_ENV: "dev", RS_LLM_MODE: "replay", RS_EMAIL_SENDER: "off",
+        RS_WEB_BASE_URL: `http://localhost:${WEB_PORT}`,
         RS_PUBLIC_BASE_URL: `http://localhost:${API_PORT}`,
       },
     },

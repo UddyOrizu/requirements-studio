@@ -1,14 +1,17 @@
 """M6 tables used by M0's "Not sure — ask someone" (docs/04). Routing, batching and delivery arrive in P9."""
 from datetime import date, datetime
 from typing import Any
+from uuid import UUID
 
 from pgvector.sqlalchemy import Vector
-from sqlalchemy import ARRAY, Date, DateTime, ForeignKey, Index, Integer, Text, text
+from sqlalchemy import ARRAY, Date, DateTime, ForeignKey, Index, Integer, Numeric, Text, text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
+import services.identity_audit.db  # noqa: F401  (FK target)
 import services.ir_store.db  # noqa: F401  (FK target)
 from services.common.db import Base, Timestamps
+from services.common.uuid7 import uuid7
 
 
 class Sme(Timestamps, Base):
@@ -40,7 +43,8 @@ class Question(Timestamps, Base):
     origin: Mapped[str] = mapped_column(Text)  # gap_routing | intake_ask_someone
     asked_by: Mapped[str | None] = mapped_column(Text)
     gap_ids: Mapped[list[str]] = mapped_column(ARRAY(Text))
-    sme_id: Mapped[str] = mapped_column(ForeignKey("smes.id"))
+    sme_id: Mapped[str | None] = mapped_column(ForeignKey("smes.id"))  # the directory entry, when there is one
+    assignee_user_id: Mapped[str | None] = mapped_column(ForeignKey("users.id"))  # the person asked (internal user)
     batch_id: Mapped[str | None] = mapped_column(Text)
     channel: Mapped[str] = mapped_column(Text)  # in_app (portal) | email
     text: Mapped[str] = mapped_column(Text)
@@ -52,3 +56,20 @@ class Question(Timestamps, Base):
     due_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     reminded_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     escalated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+
+class Answer(Timestamps, Base):
+    """An answer to a question (docs/04). From "ask someone", the person answers in the app; turning the answer into
+    an IR change stays with the requester (or M6's interpretation, P9), so patch_id is often null."""
+
+    __tablename__ = "answers"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid7)
+    question_id: Mapped[str] = mapped_column(ForeignKey("questions.id"))
+    answered_by: Mapped[str] = mapped_column(Text)
+    text: Mapped[str] = mapped_column(Text)
+    structured_value: Mapped[Any | None] = mapped_column(JSONB)
+    answered_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    patch_id: Mapped[str | None] = mapped_column(ForeignKey("ir_patches.id"))
+    interpretation_confidence: Mapped[Any | None] = mapped_column(Numeric)
+    follow_up_question: Mapped[str | None] = mapped_column(Text)

@@ -272,7 +272,13 @@ def render_story(ir: dict, sid: str, dor_row: dict | None) -> str:
     return "\n".join(lines[:-3]) + "\n"  # without the trailing "---" separator
 
 
-def render_markdown(ir: dict, dor_rows: list[dict], *, as_is: dict | None = None, origin: str | None = None) -> str:
+def draft_banner(not_ready: int) -> str:
+    return (f"> **Draft — {not_ready} {'story' if not_ready == 1 else 'stories'} not ready.** Exported for review: "
+            "see each story's *Not ready because*.")
+
+
+def render_markdown(ir: dict, dor_rows: list[dict], *, as_is: dict | None = None, origin: str | None = None,
+                    draft: bool = False) -> str:
     """Stories markdown for an IR whose `stories` are derived and DoR-evaluated.
 
     `dor_rows`: evaluate_dor output (for "Not ready because"). `as_is`: the as-is IR, when one exists, for the
@@ -284,6 +290,9 @@ def render_markdown(ir: dict, dor_rows: list[dict], *, as_is: dict | None = None
     stories = ir.get("stories", {})
     out = [f"# User stories — {p['name']}", "",
            f"_Rendered by M7 from {origin}. Do not edit — change the IR._", ""]
+    not_ready = sum(r["status"] not in ("ready", "waived") for r in dor_rows)
+    if draft and not_ready:  # M9: exports of a not-ready idea carry a banner
+        out += [draft_banner(not_ready), ""]
     out += _context(ir, stories, as_is) + ["", "---", ""]
     for sid, s in stories.items():
         out += _story(ir, sid, s, rows.get(sid), p.get("variant"))

@@ -15,7 +15,6 @@ from .refine import RefinementService
 from .service import IdeasService
 
 router = APIRouter(tags=["ideas (M12)"])
-STAFF = {"ba", "admin"}
 
 
 class NewIdea(BaseModel):
@@ -37,7 +36,8 @@ class EditBody(BaseModel):
 
 class AskBody(BaseModel):
     text: str = Field(min_length=1, max_length=400)
-    sme_id: str
+    user_id: str | None = Field(None, description="The person to ask (emailed the question)")
+    sme_id: str | None = Field(None, description="An SME directory entry instead of a user")
 
 
 def _ideas(request: Request, session, cid: str) -> IdeasService:
@@ -46,8 +46,8 @@ def _ideas(request: Request, session, cid: str) -> IdeasService:
 
 async def _can_change(svc: IdeasService, idea_id: str, user: Principal) -> None:
     idea = await svc.idea(idea_id)
-    if user.user_id != idea.owner_user_id and not STAFF & set(user.roles):
-        raise HTTPException(403, "only the idea's owner (or a BA) can change it")
+    if user.user_id != idea.owner_user_id and not user.is_admin:
+        raise HTTPException(403, "only the idea's owner (or an admin) can change it")
 
 
 @router.get("/ideas")
@@ -155,7 +155,8 @@ async def ask(idea_id: str, sid: str, body: AskBody, request: Request, user: Cur
               cid: CorrelationId) -> dict:
     svc = _ideas(request, session, cid)
     await _can_change(svc, idea_id, user)
-    result = await svc.ask(idea_id, sid, user_id=user.user_id, text=body.text, sme_id=body.sme_id)
+    result = await svc.ask(idea_id, sid, user_id=user.user_id, text=body.text, sme_id=body.sme_id,
+                           ask_user_id=body.user_id)
     await session.commit()
     return result
 

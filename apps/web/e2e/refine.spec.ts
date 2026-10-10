@@ -104,7 +104,7 @@ test.describe("Story refinement (M12)", () => {
   test("ask someone adds an open question to the story", async ({ page }) => {
     await page.goto("/ideas/idea_client_kyc/stories/story_decline");
     await page.getByLabel("Question").fill("Must the decline letter be reviewed by legal?");
-    await page.getByLabel("Who").selectOption("sme_priya_shah");
+    await page.getByLabel("Who").selectOption("user_priya_shah");
     await page.getByRole("button", { name: "Ask", exact: true }).click();
     await expect(page.getByText("Asked Priya Shah (MLRO)")).toBeVisible();
     await expect(page.getByTestId("story-markdown")).toContainText("Must the decline letter be reviewed by legal? (major, asked, waiting on sme_priya_shah)");

@@ -5,6 +5,8 @@ Scenarios:
   signed off (as-is v19, to-be v12).
 - "kyc_before_refinement": client KYC just before the story refinement (to-be v10, Validate, next turn T21).
 
+Both create the dev users (services/identity_audit/dev.py; password "requirements-studio-dev").
+
 KYC is rebuilt by replaying the recorded session's patches through the Patch Service, so versions, patch history and
 audit are real. Nothing here calls an LLM.
 """
@@ -18,6 +20,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from confidence_dor import closure_hash
 from services.gaps.db import GapRow
 from services.ideas.db import Idea
+from services.identity_audit.dev import seed_dev_users
 from services.improve.db import SuggestionRow
 from services.intake.db import IntakeSession, IntakeTurn, Signoff
 from services.interviewer.db import Question, Sme
@@ -49,6 +52,7 @@ async def seed(s: AsyncSession, scenario: str) -> None:
     if scenario not in SCENARIOS:
         raise ValueError(f"unknown scenario {scenario}; one of {SCENARIOS}")
     await reset(s)
+    await seed_dev_users(s)
     await _smes(s)
     index = {i["idea_id"]: i for i in _load(SAMPLES / "ideas_index.json")}
     patches = PatchService(s, correlation_id="seed")

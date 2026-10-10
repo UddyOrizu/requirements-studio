@@ -1,6 +1,5 @@
 // Thin client for /api/v1. Errors are RFC 7807 problems; ApiError keeps the body so screens can explain them.
-
-const TOKEN_KEY = "rs.token";
+import { accessToken, clearSession } from "./auth";
 
 export class ApiError extends Error {
   constructor(public status: number, public body: any) {
@@ -16,21 +15,15 @@ function problemText(body: any): string | undefined {
   return body.title;
 }
 
-export const token = {
-  get: () => localStorage.getItem(TOKEN_KEY),
-  set: (t: string) => localStorage.setItem(TOKEN_KEY, t),
-  clear: () => localStorage.removeItem(TOKEN_KEY),
-};
-
 async function request<T>(method: string, path: string, body?: unknown, raw = false): Promise<T> {
   const headers: Record<string, string> = {};
-  const t = token.get();
+  const t = await accessToken();
   if (t) headers.Authorization = `Bearer ${t}`;
   if (body !== undefined) headers["Content-Type"] = "application/json";
   const res = await fetch(`/api/v1${path}`, { method, headers, body: body === undefined ? undefined : JSON.stringify(body) });
   if (res.status === 401) {
-    token.clear();
-    window.location.assign("/signin");
+    clearSession(); // expired, signed out elsewhere, or disabled
+    window.location.assign(`/signin?next=${encodeURIComponent(window.location.pathname)}`);
   }
   if (!res.ok) {
     let problem: any;
@@ -44,21 +37,15 @@ export const api = {
   get: <T>(path: string) => request<T>("GET", path),
   text: (path: string) => request<string>("GET", path, undefined, true),
   post: <T>(path: string, body?: unknown) => request<T>("POST", path, body ?? {}),
+  patch: <T>(path: string, body: unknown) => request<T>("PATCH", path, body),
 };
-
-export async function signIn(username: string): Promise<void> {
-  const form = new URLSearchParams({ username, password: "dev", grant_type: "password" });
-  const res = await fetch("/dev/oidc/token", { method: "POST", body: form });
-  if (!res.ok) throw new Error("Sign-in failed");
-  token.set((await res.json()).access_token);
-}
 
 export function downloadUrl(path: string): string {
   return `/api/v1${path}`;
 }
 
 export async function download(path: string, filename: string): Promise<void> {
-  const res = await fetch(`/api/v1${path}`, { headers: { Authorization: `Bearer ${token.get()}` } });
+  const res = await fetch(`/api/v1${path}`, { headers: { Authorization: `Bearer ${await accessToken()}` } });
   const blob = await res.blob();
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);

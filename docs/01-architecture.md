@@ -23,8 +23,8 @@ Shared services:
 | ID | Service | Notes |
 |---|---|---|
 | S1 | LLM Gateway | Loads prompts by file name from `prompts/`, model routing, JSON-mode validation, logging to `llm_calls` |
-| S2 | Notifications | Adapter interface: in-app, email, Microsoft Teams |
-| S3 | Identity & Audit | SSO (Entra ID / OIDC), RBAC, `audit_log` |
+| S2 | Notifications | Email over SMTP from a transactional `email_outbox` (in-app via approvals; Teams later) |
+| S3 | Identity & Audit | Internal users (roles user, admin), password sign-in, optional Entra ID SSO, `audit_log` |
 | S4 | Event Bus | Redis Streams; at-least-once; consumers idempotent on `event_id` |
 
 ## 2. End-to-end data flow
@@ -169,7 +169,7 @@ stateDiagram-v2
 | Parsing | `unstructured` / `pypdf` / `python-docx` / `mail-parser` / `webvtt-py` / `openpyxl` | Per-format parsers behind one interface |
 | LLM | via S1 gateway; model configurable per prompt key | No vendor lock in modules |
 | Frontend | React + TS + Vite, React Flow, TanStack Query, Tailwind, `elkjs` for auto-layout | Canvas editing |
-| Auth | OIDC (Entra ID) | Enterprise SSO |
+| Auth | Internal accounts; optional OIDC (Entra ID) | Works without a directory; enterprise SSO when wanted |
 | Notifications | Graph API (Teams, Outlook) behind S2 adapter | Reach SMEs where they work |
 
 ## 7. Repository layout
@@ -224,4 +224,6 @@ All events: `{event_id, type, process_id, ir_version?, occurred_at, correlation_
 | `gaps.updated` | M5 | `opened[], resolved[], ir_version` | M6, UI |
 | `question.sent` / `question.answered` / `question.escalated` | M6 | `question_id, sme_id` | UI, S3 |
 | `dor.evaluated` | M8 | `report_id, ready_count, total` | UI, M9 |
+| `approval.requested` | Approvals | `approval_id, kind, subject_id, assignee_user_id, requested_by` | S2, UI |
+| `approval.decided` | Approvals | `approval_id, kind, subject_id, status, decided_by` | S2, UI |
 | `export.created` | M9 | `export_id, package_uri, ir_hash` | MOTHER webhook, UI |

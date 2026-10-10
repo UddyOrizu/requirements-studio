@@ -14,6 +14,8 @@
 }
 
 /* Story markdown rendered from the IR (M7) */
+.prose-story h1 { @apply mb-2 text-xl font-semibold text-slate-900; }
+.prose-story h2 { @apply mb-2 mt-5 text-base font-semibold text-slate-900; }
 .prose-story h3 { @apply text-lg font-semibold text-slate-900; }
 .prose-story p { @apply my-2 text-sm leading-relaxed; }
 .prose-story blockquote { @apply my-3 border-l-4 border-accent-500 bg-accent-50 px-4 py-2 text-slate-700; }

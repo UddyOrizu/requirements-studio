@@ -77,3 +77,24 @@ export interface IntakeSession {
 export interface HistoryEntry {
   patch_id: string; version: number; reason: string; author: { kind: string; id: string }; at: string; touched: string[];
 }
+
+export type Person = { user_id: string; name: string; email: string; role: "user" | "admin" };
+
+export type AdminUser = Person & {
+  status: "invited" | "active" | "disabled"; sso_linked: boolean; has_password: boolean; locked: boolean;
+  last_sign_in_at: string | null; created_at: string; created_by: string | null;
+};
+
+export type ApprovalKind = "patch_review" | "story_signoff" | "suggestion" | "question";
+export type ApprovalStatus = "pending" | "approved" | "rejected" | "answered" | "cancelled" | "closed";
+type Who = { user_id: string; name: string };
+
+export type Approval = {
+  approval_id: string; kind: ApprovalKind; status: ApprovalStatus; title: string; summary: string | null;
+  message: string | null; response: string | null; idea_id: string | null; idea_title: string;
+  process_id: string | null; subject_id: string; details: Record<string, any>;
+  requested_by: Who; assignee: Who; decided_by: Who | null;
+  created_at: string; decided_at: string | null; due_at: string | null;
+};
+
+export type ApprovalDetail = Approval & { subject: Record<string, any>; can_decide: boolean; can_cancel: boolean };

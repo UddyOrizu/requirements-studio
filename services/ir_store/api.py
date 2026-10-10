@@ -2,19 +2,19 @@
 from dataclasses import asdict
 from typing import Any, Literal
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
-from apps.api.deps import CorrelationId, CurrentUser, Session, require_any_role
+from apps.api.deps import CorrelationId, CurrentUser, Session
 from apps.api.problems import problem
+from services.approvals.service import ApprovalService
 from services.identity_audit.auth import Principal
 
 from .db import IrPatch, Process
 from .service import Actor, PatchResult, PatchService
 
 router = APIRouter(tags=["processes (M3)"])
-REVIEWER_ROLES = ("ba", "admin")
 
 
 class CreateProcess(BaseModel):
@@ -67,9 +67,14 @@ def _patch(row: IrPatch) -> dict:
             "changed_paths": row.changed_paths}
 
 
-def _require_owner_or_reviewer(user: Principal, proc: Process) -> None:
-    if user.user_id != proc.owner_user_id and not set(REVIEWER_ROLES) & set(user.roles):
-        raise HTTPException(403, "only the process owner, a BA or an admin can do this")
+def _require_owner_or_admin(user: Principal, proc: Process) -> None:
+    if user.user_id != proc.owner_user_id and not user.is_admin:
+        raise HTTPException(403, "only the process owner or an admin can do this")
+
+
+def _approvals(request: Request, session, cid: str) -> ApprovalService:
+    return ApprovalService(session, request.app.state.llm, clock=request.app.state.clock, correlation_id=cid,
+                           web_base_url=request.app.state.settings.web_base_url)
 
 
 def _patch_response(r: PatchResult) -> JSONResponse:
@@ -85,7 +90,8 @@ def _patch_response(r: PatchResult) -> JSONResponse:
 
 @router.post("/processes", status_code=201)
 async def create_process(body: CreateProcess, user: CurrentUser, session: Session, cid: CorrelationId) -> dict:
-    require_any_role(user, *REVIEWER_ROLES)
+    if body.owner_user_id != user.user_id and not user.is_admin:
+        raise HTTPException(403, "you can create processes you own; an admin can create them for others")
     ir = await _svc(session, cid).create_process(actor=_actor(user), **body.model_dump())
     await session.commit()
     return {"process_id": ir["process"]["id"], "ir": ir}
@@ -115,16 +121,24 @@ async def diff(pid: str, user: CurrentUser, session: Session, cid: CorrelationId
 
 
 @router.post("/processes/{pid}/patches")
-async def submit_patch(pid: str, patch: dict[str, Any], user: CurrentUser, session: Session,
-                       cid: CorrelationId) -> JSONResponse:
+async def submit_patch(pid: str, patch: dict[str, Any], request: Request, user: CurrentUser, session: Session,
+                       cid: CorrelationId,
+                       reviewer: str | None = Query(None, description="Who to ask to review it if it is proposed "
+                                                                      "(default: the process owner)")) -> JSONResponse:
     svc = _svc(session, cid)
-    _require_owner_or_reviewer(user, await svc.get_process(pid))
+    proc = await svc.get_process(pid)
+    _require_owner_or_admin(user, proc)
     if patch.get("process_id") != pid:
         raise HTTPException(422, "patch.process_id does not match the URL")
     # Agents submit through PatchService in-process; over HTTP the author is the signed-in user.
     if patch.get("author") != {"kind": "user", "id": user.user_id}:
         raise HTTPException(403, "author must be {kind: user, id: <your user id>}")
     result = await svc.submit(patch, actor=_actor(user))
+    if result.status == "proposed":  # awaits review: email the reviewer an approval request
+        assignee = reviewer or proc.owner_user_id
+        if assignee != user.user_id:
+            await _approvals(request, session, cid).request("patch_review", actor=user, assignee_user_id=assignee,
+                                                            subject_id=result.patch_id)
     await session.commit()
     return _patch_response(result)
 
@@ -136,24 +150,27 @@ async def list_patches(pid: str, user: CurrentUser, session: Session, cid: Corre
 
 
 @router.post("/patches/{patch_id}/accept")
-async def accept_patch(patch_id: str, user: CurrentUser, session: Session, cid: CorrelationId,
+async def accept_patch(patch_id: str, request: Request, user: CurrentUser, session: Session, cid: CorrelationId,
                        body: AcceptBody | None = None) -> JSONResponse:
     svc = _svc(session, cid)
     row = await svc.get_patch(patch_id)
-    _require_owner_or_reviewer(user, await svc.get_process(row.process_id))
+    _require_owner_or_admin(user, await svc.get_process(row.process_id))
     body = body or AcceptBody()
     result = await svc.accept(patch_id, reviewer=_actor(user), ops=body.ops, reason=body.reason)
+    if result.status == "applied":
+        await _approvals(request, session, cid).settle("patch_review", patch_id, by=user.user_id)
     await session.commit()
     return _patch_response(result)
 
 
 @router.post("/patches/{patch_id}/reject")
-async def reject_patch(patch_id: str, body: RejectBody, user: CurrentUser, session: Session,
+async def reject_patch(patch_id: str, body: RejectBody, request: Request, user: CurrentUser, session: Session,
                        cid: CorrelationId) -> dict:
     svc = _svc(session, cid)
     row = await svc.get_patch(patch_id)
-    _require_owner_or_reviewer(user, await svc.get_process(row.process_id))
+    _require_owner_or_admin(user, await svc.get_process(row.process_id))
     row = await svc.reject(patch_id, reviewer=_actor(user), reason=body.reason)
+    await _approvals(request, session, cid).settle("patch_review", patch_id, by=user.user_id)
     await session.commit()
     return _patch(row)
 
@@ -162,7 +179,7 @@ async def reject_patch(patch_id: str, body: RejectBody, user: CurrentUser, sessi
 async def fork(pid: str, user: CurrentUser, session: Session, cid: CorrelationId,
                body: ForkBody | None = None) -> dict:
     svc = _svc(session, cid)
-    _require_owner_or_reviewer(user, await svc.get_process(pid))
+    _require_owner_or_admin(user, await svc.get_process(pid))
     result = await svc.fork(pid, actor=_actor(user), **(body or ForkBody()).model_dump())
     await session.commit()
     return asdict(result)

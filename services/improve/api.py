@@ -4,6 +4,7 @@ from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel, Field
 
 from apps.api.deps import CorrelationId, CurrentUser, Session
+from services.approvals.service import ApprovalService
 from services.identity_audit.auth import Principal
 
 from .service import ImproveService
@@ -25,9 +26,17 @@ def _service(request: Request, session, cid: str) -> ImproveService:
 
 async def _owner(svc: ImproveService, idea_id: str, user: Principal):
     idea = await svc._idea(idea_id)
-    if user.user_id != idea.owner_user_id and not {"ba", "admin"} & set(user.roles):
-        raise HTTPException(403, "only the requester (or a BA) decides suggestions")
+    if user.user_id != idea.owner_user_id and not user.is_admin:
+        raise HTTPException(403, "only the idea's owner (or an admin) decides suggestions")
     return idea
+
+
+async def _settle(request: Request, session, cid: str, idea_id: str, sids: list[str], user: Principal) -> None:
+    """Decided directly: close requests that asked someone else to decide them."""
+    approvals = ApprovalService(session, request.app.state.llm, clock=request.app.state.clock, correlation_id=cid,
+                                web_base_url=request.app.state.settings.web_base_url)
+    for sid in sids:
+        await approvals.settle("suggestion", sid, by=user.user_id, idea_id=idea_id)
 
 
 @router.post("/ideas/{idea_id}/suggestions:generate")
@@ -51,6 +60,7 @@ async def accept(idea_id: str, sid: str, request: Request, user: CurrentUser, se
     svc = _service(request, session, cid)
     await _owner(svc, idea_id, user)
     result = await svc.accept(idea_id, sid, user_id=user.user_id)
+    await _settle(request, session, cid, idea_id, [sid], user)
     await session.commit()
     return result
 
@@ -61,6 +71,7 @@ async def reject(idea_id: str, sid: str, body: RejectBody, request: Request, use
     svc = _service(request, session, cid)
     await _owner(svc, idea_id, user)
     result = await svc.reject(idea_id, sid, user_id=user.user_id, reason=body.reason)
+    await _settle(request, session, cid, idea_id, [sid], user)
     await session.commit()
     return result
 
@@ -81,6 +92,7 @@ async def accept_remaining(idea_id: str, request: Request, user: CurrentUser, se
     svc = _service(request, session, cid)
     await _owner(svc, idea_id, user)
     result = await svc.accept_remaining(idea_id, user_id=user.user_id)
+    await _settle(request, session, cid, idea_id, [s["suggestion_id"] for s in result], user)
     await session.commit()
     return result
 

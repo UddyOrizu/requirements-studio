@@ -3,7 +3,9 @@ from alembic.autogenerate import compare_metadata
 from alembic.migration import MigrationContext
 from sqlalchemy import inspect, text
 
+import services.approvals.db  # noqa: F401
 import services.common.outbox  # noqa: F401
+import services.export.db  # noqa: F401
 import services.gaps.db  # noqa: F401
 import services.ideas.db  # noqa: F401
 import services.identity_audit.db  # noqa: F401
@@ -12,6 +14,7 @@ import services.intake.db  # noqa: F401
 import services.interviewer.db  # noqa: F401
 import services.ir_store.db  # noqa: F401
 import services.llm_gateway.db  # noqa: F401
+import services.notifications.db  # noqa: F401
 from services.common.db import Base
 
 # Every table in docs/04-data-model.md.
@@ -24,6 +27,7 @@ DOCS_04_TABLES = {
     "smes", "questions", "answers", "interviews",
     "stories_cache", "dor_reports", "signoffs", "waivers",
     "exports", "llm_calls", "audit_log", "events_outbox",
+    "users", "user_tokens", "approval_requests", "email_outbox",
 }
 
 

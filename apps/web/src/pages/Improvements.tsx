@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { api } from "../api";
+import RequestApproval from "../components/RequestApproval";
 import { ErrorNote, Loading, Section } from "../components/ui";
 import type { Overview, Suggestion } from "../types";
 
@@ -91,10 +92,11 @@ function Card({ idea, s, onChange }: { idea: Overview; s: Suggestion; onChange: 
       )}
       <ErrorNote error={act.error} />
       {mode === "idle" && (
-        <div className="mt-4 flex gap-2">
+        <div className="mt-4 flex flex-wrap items-start gap-2">
           <button className="btn-primary" disabled={act.isPending} onClick={() => act.mutate("accept")}>Accept</button>
           <button className="btn-secondary" onClick={() => setMode("reject")}>Reject</button>
           <button className="btn-ghost" onClick={() => setMode("edit")}>Edit</button>
+          <RequestApproval kind="suggestion" subjectId={s.suggestion_id} ideaId={idea.idea_id} label="Ask someone to decide" />
         </div>
       )}
     </article>

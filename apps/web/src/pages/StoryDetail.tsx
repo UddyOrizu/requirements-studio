@@ -3,6 +3,7 @@ import { marked } from "marked";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api } from "../api";
+import PersonPicker from "../components/PersonPicker";
 import { ConfidenceChip, DorChip, ErrorNote, Loading, Section } from "../components/ui";
 import { PRIORITY_LABEL } from "../hooks";
 import type { HistoryEntry, Overview, StoryDetail as Story } from "../types";
@@ -172,11 +173,10 @@ function Refine({ idea, storyId, onApplied }: { idea: Overview; storyId: string;
 }
 
 function Ask({ idea, storyId, onAsked }: { idea: Overview; storyId: string; onAsked: () => void }) {
-  const smes = useQuery({ queryKey: ["smes"], queryFn: () => api.get<{ sme_id: string; name: string; role_title: string }[]>("/smes") });
   const [text, setText] = useState("");
-  const [sme, setSme] = useState("");
+  const [who, setWho] = useState("");
   const ask = useMutation({
-    mutationFn: () => api.post<{ captured: string }>(`/ideas/${idea.idea_id}/stories/${storyId}/ask`, { text, sme_id: sme }),
+    mutationFn: () => api.post<{ captured: string }>(`/ideas/${idea.idea_id}/stories/${storyId}/ask`, { text, user_id: who }),
     onSuccess: () => { setText(""); onAsked(); },
   });
   return (
@@ -184,14 +184,11 @@ function Ask({ idea, storyId, onAsked }: { idea: Overview; storyId: string; onAs
       <form className="space-y-2" onSubmit={(e) => { e.preventDefault(); ask.mutate(); }}>
         <input className="input" value={text} onChange={(e) => setText(e.target.value)} placeholder="Your question" aria-label="Question" />
         <div className="flex gap-2">
-          <select className="input" value={sme} onChange={(e) => setSme(e.target.value)} aria-label="Who">
-            <option value="">Choose who…</option>
-            {smes.data?.map((m) => <option key={m.sme_id} value={m.sme_id}>{m.name} ({m.role_title})</option>)}
-          </select>
-          <button className="btn-secondary" disabled={!text.trim() || !sme || ask.isPending}>Ask</button>
+          <PersonPicker value={who} onChange={setWho} />
+          <button className="btn-secondary" disabled={!text.trim() || !who || ask.isPending}>Ask</button>
         </div>
       </form>
-      {ask.data && <p className="mt-2 text-xs text-emerald-700">{ask.data.captured}</p>}
+      {ask.data && <p className="mt-2 text-xs text-emerald-700">{ask.data.captured}. They get it by email and answer in the app.</p>}
       <ErrorNote error={ask.error} />
     </Section>
   );

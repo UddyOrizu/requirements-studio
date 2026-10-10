@@ -254,19 +254,21 @@ async def client(db_url, tx_sessionmaker):
 
     from apps.api.main import create_app
     from services.common.settings import Settings
-    app = create_app(Settings(env="dev", oidc_issuer="", database_url=db_url, public_base_url="http://test"))
+    from services.identity_audit.dev import seed_dev_users
+    app = create_app(Settings(env="dev", database_url=db_url, public_base_url="http://test"))
     app.state.sessionmaker = tx_sessionmaker
     app.state.clock = K.Clock()
     app.state.llm = gateway("record" if RECORD else "replay")
     async with tx_sessionmaker() as s:
         await K.seed_smes(s)
+        await seed_dev_users(s)
         await s.commit()
     async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as c:
         yield c
 
 
 async def _auth(client, user):
-    r = await client.post("/dev/oidc/token", data={"username": user, "password": "x"})
+    r = await client.post("/dev/token", data={"username": user})
     return {"Authorization": f"Bearer {r.json()['access_token']}"}
 
 

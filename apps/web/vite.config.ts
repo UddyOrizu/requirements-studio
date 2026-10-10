@@ -6,8 +6,9 @@ const backend = process.env.BACKEND_URL ?? "http://localhost:8000";
 
 export default defineConfig({
   plugins: [react()],
+  build: { target: "es2022" }, // top-level await in main.tsx (auth start-up)
   server: {
     port: Number(process.env.WEB_PORT ?? 5173),
-    proxy: { "/api": backend, "/dev": backend },
+    proxy: { "/api": backend, "/dev": backend, "/auth": backend },
   },
 });

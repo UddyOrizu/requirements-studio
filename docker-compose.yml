@@ -1,5 +1,6 @@
 # Local infrastructure for Requirements Studio. The API and worker run on the host: see README "Local development".
-# Host ports can be moved if taken, e.g. RS_PG_PORT=5434 docker compose up -d (then update RS_DATABASE_URL).
+# Host ports can be moved if taken, e.g. RS_PG_PORT=5434 docker compose up -d (then update RS_DATABASE_URL);
+# RS_REDIS_PORT, RS_AZURITE_PORT and RS_MAILPIT_*_PORT work the same way.
 name: requirements-studio
 
 services:
@@ -26,28 +27,25 @@ services:
       timeout: 3s
       retries: 30
 
-  minio:
-    image: minio/minio:latest
-    command: server /data --console-address ":9001"
-    environment:
-      MINIO_ROOT_USER: rs-minio
-      MINIO_ROOT_PASSWORD: rs-minio-secret
-    ports: ["${RS_MINIO_PORT:-9000}:9000", "${RS_MINIO_CONSOLE_PORT:-9001}:9001"]
-    volumes: [miniodata:/data]
+  # Azure Blob Storage emulator (Azurite) for sources and export packages. Production uses an Azure Storage account
+  # with the app's managed identity; containers are created on first use.
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite:latest
+    command: azurite-blob --blobHost 0.0.0.0 --blobPort 10000 --location /data --skipApiVersionCheck --loose
+    ports: ["${RS_AZURITE_PORT:-10000}:10000"]
+    volumes: [azurite:/data]
     healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
+      test: ["CMD", "node", "-e", "require('net').connect(10000,'127.0.0.1').on('connect',()=>process.exit(0)).on('error',()=>process.exit(1))"]
       interval: 2s
       timeout: 3s
       retries: 30
 
-  minio-init:
-    image: minio/mc:latest
-    depends_on:
-      minio: { condition: service_healthy }
-    entrypoint: >
-      /bin/sh -c "mc alias set local http://minio:9000 rs-minio rs-minio-secret &&
-                  mc mb --ignore-existing local/rs-sources local/rs-exports"
+  # Catches every email the app sends (invitations, password resets, approval requests): http://localhost:8025.
+  # Production uses a real SMTP relay (RS_SMTP_*).
+  mailpit:
+    image: axllent/mailpit:latest
+    ports: ["${RS_MAILPIT_SMTP_PORT:-1025}:1025", "${RS_MAILPIT_UI_PORT:-8025}:8025"]
 
 volumes:
   pgdata:
-  miniodata:
+  azurite:

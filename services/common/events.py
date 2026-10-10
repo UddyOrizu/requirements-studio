@@ -11,7 +11,7 @@ from .uuid7 import uuid7
 EventType = Literal[
     "intake.turn_completed", "intake.phase_changed", "source.uploaded", "source.parsed", "extraction.completed",
     "ir.patched", "patch.proposed", "gaps.updated", "question.sent", "question.answered", "question.escalated",
-    "dor.evaluated", "export.created",
+    "dor.evaluated", "export.created", "approval.requested", "approval.decided",
 ]
 
 

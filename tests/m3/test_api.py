@@ -5,6 +5,7 @@ import pytest
 from apps.api.main import create_app
 from services.common.settings import Settings
 from services.ideas.db import Idea
+from services.identity_audit.dev import seed_dev_users
 from services.ir_store.service import Actor, PatchService
 from tests.conftest import KYC, SAMPLES, load
 
@@ -13,9 +14,10 @@ PROBLEM = "application/problem+json"
 
 @pytest.fixture
 async def client(db_url, tx_sessionmaker):
-    app = create_app(Settings(env="dev", oidc_issuer="", database_url=db_url, public_base_url="http://test"))
+    app = create_app(Settings(env="dev", database_url=db_url, public_base_url="http://test"))
     app.state.sessionmaker = tx_sessionmaker
     async with tx_sessionmaker() as s:
+        await seed_dev_users(s)
         for idea_id, owner in (("idea_client_kyc", "user_sarah_lin"), ("idea_client_onboarding", "user_daniel_okafor")):
             s.add(Idea(id=idea_id, title=idea_id, summary="", owner_user_id=owner, status="discovering",
                        has_as_is=True, session_id=f"is_{idea_id}"))
@@ -29,7 +31,7 @@ async def client(db_url, tx_sessionmaker):
 
 
 async def auth(client, user: str) -> dict:
-    r = await client.post("/dev/oidc/token", data={"username": user, "password": "x"})
+    r = await client.post("/dev/token", data={"username": user})
     return {"Authorization": f"Bearer {r.json()['access_token']}"}
 
 

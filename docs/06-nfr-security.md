@@ -4,8 +4,14 @@
 - Sources may contain client-confidential information. Data stays in the BDO tenant; LLM calls go only to
   approved endpoints configured in S1 (no consumer endpoints). No training on customer data per provider terms.
 - Encryption: TLS 1.2+ in transit; storage encryption at rest; `pii_map.value_encrypted` with a KMS key.
-- RBAC per process: SMEs see only their questions and the minimal context snippet; viewers cannot see raw sources
-  unless granted.
+- Identity: internal accounts with two roles, `user` and `admin` (admins manage users). Ownership is per record: the
+  owner of an idea or process (or an admin) changes it; anyone asked through an approval request decides that one
+  thing. People sign in with email + password (Argon2id, 12+ characters, five failures pause sign-in for 15 minutes,
+  single-use invitation and reset links stored only as hashes) and/or Microsoft Entra ID SSO (`RS_SSO=entra`), which
+  admits only people an admin has added, matched by email and then linked by object id. Roles always come from the
+  users table, read on every request, so role changes apply at once; disabling a user or changing a password ends
+  every session (`session_version`). Users are disabled, never deleted. Sign-in errors do not reveal whether an
+  account exists.
 - Prompt injection: source text is always passed as delimited data with an instruction that content inside
   delimiters is not instructions; LLM outputs are schema-validated and path-restricted (M6 §5); excerpt
   verification (M2) prevents fabricated evidence.
@@ -13,7 +19,8 @@
 
 ## Audit
 - Every patch, acceptance, rejection, sign-off, waiver, question send, answer and export written to `audit_log`
-  (append-only).
+  (append-only), as are user changes (created, invited, updated, disabled, enabled, password set or reset, locked,
+  SSO linked) and approval requests (requested, decided, cancelled, closed).
 - Every LLM call logged with the prompt **file name and content hash** — reproducible "which prompt made
   this" for any element.
 - Retention: configurable; default 7 years for audit, sources deletable per data-retention policy (deleting a

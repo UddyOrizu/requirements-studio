@@ -1,0 +1,12 @@
+Subject: {{ requester_name }} asks you to {{ verb }}: {{ title }}
+
+Hello {{ name }},
+
+{{ requester_name }} asks you to {{ ask }}{% if idea_title %} for "{{ idea_title }}"{% endif %}.
+
+{{ title }}{% if summary %}
+{{ summary }}{% endif %}{% if message %}
+
+Their note: "{{ message }}"{% endif %}
+
+Open it in Requirements Studio to {{ action }}: {{ link }}

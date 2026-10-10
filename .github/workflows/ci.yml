@@ -18,6 +18,9 @@ jobs:
         ports: ["5432:5432"]
         options: >-
           --health-cmd "pg_isready -U rs -d rs" --health-interval 2s --health-timeout 3s --health-retries 30
+      azurite:
+        image: mcr.microsoft.com/azure-storage/azurite:latest
+        ports: ["10000:10000"]
       redis:
         image: redis:7-alpine
         ports: ["6379:6379"]
@@ -25,9 +28,10 @@ jobs:
           --health-cmd "redis-cli ping" --health-interval 2s --health-timeout 3s --health-retries 30
     env:
       RS_ENV: test
-      RS_OIDC_ISSUER: https://issuer.invalid/ci
       RS_DATABASE_URL: postgresql+asyncpg://rs:rs@localhost:5432/rs
       RS_REDIS_URL: redis://localhost:6379/0
+      # Azurite's published development account (not a secret)
+      RS_AZURE_STORAGE_CONNECTION_STRING: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;"
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6

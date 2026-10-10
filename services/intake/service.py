@@ -224,7 +224,7 @@ class IntakeService:
 
     # ================================================================== answers
     async def answer(self, session_id: str, *, text: str | None = None, special: str | None = None,
-                     ask_sme_id: str | None = None) -> TurnResult:
+                     ask_sme_id: str | None = None, ask_user_id: str | None = None) -> TurnResult:
         sess = await self._session(session_id, lock=True)
         pending = await self._pending_turn(sess)
         if pending is None:
@@ -232,10 +232,11 @@ class IntakeService:
                            phase=sess.phase)
         if not text and special is None:
             raise PatchRejected([Issue("envelope", "/text", "an answer needs text, a choice or a special option")])
-        return await self._answer(sess, pending, text=text, special=special, ask_sme_id=ask_sme_id)
+        return await self._answer(sess, pending, text=text, special=special, ask_sme_id=ask_sme_id,
+                                  ask_user_id=ask_user_id)
 
     async def _answer(self, sess: IntakeSession, turn: IntakeTurn, *, text: str | None, special: str | None,
-                      ask_sme_id: str | None) -> TurnResult:
+                      ask_sme_id: str | None, ask_user_id: str | None = None) -> TurnResult:
         target = Target(**turn.target)
         state = self._state(sess)
         ir = await self.patches.get_ir(sess.process_id)
@@ -267,7 +268,8 @@ class IntakeService:
                     patch_id = await self._apply(sess, ops, f"{turn.turn}: {_norm(text)[:120]}", requester)
                 follow_up = result.follow_up_question if special is None else None
             if special == "not_sure_ask":
-                captured.append(await self._ask_someone(sess, turn, text, ask_sme_id))
+                line, ask_sme_id = await self._ask_someone(sess, turn, text, ask_sme_id, ask_user_id)
+                captured.append(line)
                 self._park(sess, target)
 
         state["follow_up_of"] = turn.turn if follow_up else None
@@ -342,8 +344,9 @@ class IntakeService:
 
     # ================================================================== ask someone (M6)
     async def _ask_someone(self, sess: IntakeSession, turn: IntakeTurn, text: str | None,
-                           sme_id: str | None) -> str:
-        """Create the SME question and the intake gap behind it; the target is parked by the caller."""
+                           sme_id: str | None, user_id: str | None = None) -> tuple[str, str | None]:
+        """Create the question (emailed to the person when they are a user) and the intake gap behind it; the target
+        is parked by the caller. Returns (captured line, the SME directory id when the person has one)."""
         ir = await self.patches.get_ir(sess.process_id)
         target = Target(**turn.target)
         question = turn.question or {}
@@ -358,11 +361,12 @@ class IntakeService:
             answer_type=question.get("answer_type"),
             options=[o for o in question.get("suggested_answers", []) if o not in STANDARD_OPTIONS],
             now=self.clock(), existing_gap_id=target.id if target.kind == "gap" else None, new_gap=new_gap,
-            correlation_id=self.correlation_id)
-        turn.payload = {**turn.payload, "question_id": q.id, "parked": [gap.id]}
-        return captured
+            correlation_id=self.correlation_id, user_id=user_id)
+        turn.payload = {**turn.payload, "question_id": q.id, "parked": [gap.id],
+                        **({"ask_user_id": user_id} if user_id else {})}
+        return captured, q.sme_id
 
-    async def record_sme_answer(self, session_id: str, *, question_id: str, patch_id: str, answered_by: str,
+    async def record_sme_answer(self, session_id: str, *, question_id: str, patch_id: str | None, answered_by: str,
                                 answer_text: str, captured: list[str]) -> None:
         """M6 hook (question.answered): show the SME's answer as a captured card. The patch is accepted through M3."""
         sess = await self._session(session_id, lock=True)
@@ -428,8 +432,9 @@ class IntakeService:
         await self._enter_phase(sess, "deepen")
         return TurnResult(sess.id, sess.phase, None, [], [], None, sess.coverage, await self._advance(sess))
 
-    async def sign_off(self, session_id: str, *, user_id: str) -> TurnResult:
-        """The requester signs off every story; allowed once only DOR-11 (sign-off itself) is failing."""
+    async def sign_off(self, session_id: str, *, user_id: str, signer_name: str | None = None) -> TurnResult:
+        """The requester, or the person they asked (an approval request), signs off every story; allowed once only
+        DOR-11 (sign-off itself) is failing."""
         sess = await self._session(session_id, lock=True)
         if sess.phase != "validate" or Target(**(sess.current_target or {"kind": "x", "id": ""})).kind != "signoff":
             raise Conflict("/problems/not-ready-for-signoff", "sign-off comes after the final playback in Validate")
@@ -444,7 +449,7 @@ class IntakeService:
         for sid, story in stories.items():
             self.s.add(Signoff(process_id=sess.process_id, story_id=sid, ir_version=ir["process"]["version"],
                                closure_hash=closure_hash(ir, story), signed_by=user_id, signed_at=now))
-        name = self._state(sess).get("requester_name") or user_id
+        name = signer_name or self._state(sess).get("requester_name") or user_id
         variant = ir["process"]["variant"].replace("_", "-")
         await self._new_entry(sess, "signoff", target=Target("signoff", "all").as_dict(),
                               captured=[f"{name} signed off {len(stories)} stories at {variant} version "

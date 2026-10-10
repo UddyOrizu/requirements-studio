@@ -1,0 +1,9 @@
+Subject: {{ assignee_name }} {{ outcome }}: {{ title }}
+
+Hello {{ name }},
+
+{{ assignee_name }} {{ outcome }} your request{% if idea_title %} for "{{ idea_title }}"{% endif %}: {{ title }}.{% if note %}
+
+{{ "Their answer" if outcome == "answered" else "Their note" }}: "{{ note }}"{% endif %}
+
+See it in Requirements Studio: {{ link }}

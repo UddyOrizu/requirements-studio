@@ -6,13 +6,13 @@ from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field
 
 from apps.api.deps import CorrelationId, CurrentUser, Session
+from services.approvals.service import ApprovalService
 from services.identity_audit.auth import Principal
 
 from .db import IntakeSession
 from .service import IntakeService, TurnResult
 
 router = APIRouter(tags=["intake (M0)"])
-STAFF_ROLES = {"ba", "admin"}
 
 
 class StartBody(BaseModel):
@@ -29,6 +29,7 @@ class AnswerBody(BaseModel):
     choice: str | None = Field(None, description="A suggested answer the requester clicked")
     special: Literal["not_sure_ask", "skip"] | None = None
     ask_sme_id: str | None = None
+    ask_user_id: str | None = Field(None, description="'Not sure — ask someone': the user to email the question to")
 
 
 class JumpBody(BaseModel):
@@ -41,8 +42,8 @@ def _service(request: Request, session, cid: str) -> IntakeService:
 
 async def _authorised(svc: IntakeService, session_id: str, user: Principal) -> IntakeSession:
     sess = await svc._session(session_id)
-    if user.user_id != sess.requester_user_id and not STAFF_ROLES & set(user.roles):
-        raise HTTPException(403, "only the requester (or a BA) can work in this session")
+    if user.user_id != sess.requester_user_id and not user.is_admin:
+        raise HTTPException(403, "only the requester (or an admin) can work in this session")
     return sess
 
 
@@ -76,7 +77,7 @@ async def answer(session_id: str, body: AnswerBody, request: Request, user: Curr
     svc = _service(request, session, cid)
     await _authorised(svc, session_id, user)
     result = await svc.answer(session_id, text=body.text or body.choice, special=body.special,
-                              ask_sme_id=body.ask_sme_id)
+                              ask_sme_id=body.ask_sme_id, ask_user_id=body.ask_user_id)
     await session.commit()
     return _turn(result)
 
@@ -108,6 +109,9 @@ async def sign_off(session_id: str, request: Request, user: CurrentUser, session
     sess = await _authorised(svc, session_id, user)
     if user.user_id != sess.requester_user_id:
         raise HTTPException(403, "only the requester (the process owner) signs off")
-    result = await svc.sign_off(session_id, user_id=user.user_id)
+    result = await svc.sign_off(session_id, user_id=user.user_id, signer_name=user.name)
+    await ApprovalService(session, clock=request.app.state.clock, correlation_id=cid,
+                          web_base_url=request.app.state.settings.web_base_url).settle(
+        "story_signoff", session_id, by=user.user_id)
     await session.commit()
     return _turn(result)

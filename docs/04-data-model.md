@@ -50,8 +50,9 @@ gaps(id text pk, process_id fk, fingerprint char(40), type, severity, detector, 
 smes(id text pk, name, email, role_title, actor_ids text[], topic_tags text[], topic_embedding vector(1536),
      process_ids_owned text[], channels text[], max_open_questions int, working_hours jsonb,
      out_of_office_until date null, delegate_sme_id null)
-questions(id text pk, process_id fk, origin, asked_by null, gap_ids text[], sme_id fk, batch_id, channel, text, context_snippet,
-          answer_type, suggested_answers jsonb, status, sent_at, due_at, reminded_at, escalated_at)
+questions(id text pk, process_id fk, origin, asked_by null, gap_ids text[], sme_id fk null, assignee_user_id fk null,
+          batch_id, channel, text, context_snippet, answer_type, suggested_answers jsonb, status, sent_at, due_at,
+          reminded_at, escalated_at)        -- the person asked: an SME entry and/or an internal user
 answers(id pk, question_id fk, answered_by, text, structured_value jsonb, answered_at, patch_id fk null,
         interpretation_confidence numeric, follow_up_question null)
 interviews(id pk, process_id fk, participants text[], gap_ids text[], transcript jsonb, status,
@@ -67,6 +68,23 @@ waivers(id pk, process_id fk, story_id, check_id, reason, waived_by, waived_at, 
 exports(id pk, process_id fk, ir_version, ir_hash, package_hash, mode, uri, status, mother_import_id null,
         superseded_by null, unique(process_id, ir_hash, mode))
 
+-- S3 Identity: internal accounts (roles user | admin); Entra ID sign-ins link by object id
+users(id text pk, email, name, role, status, password_hash null, entra_oid null, session_version int,
+      failed_sign_ins int, locked_until null, last_sign_in_at null, created_by null,
+      unique(lower(email)), unique(entra_oid) where entra_oid is not null)   -- status: invited | active | disabled
+user_tokens(id pk, user_id fk, purpose, token_hash unique, expires_at, used_at null, created_by null)
+                                     -- invitation and password-reset links; only a SHA-256 of the token is kept
+
+-- Approvals: ask a named user to decide (patch_review | story_signoff | suggestion | question)
+approval_requests(id text pk, kind, idea_id fk null, process_id fk null, subject_id, title, summary null, message null,
+                  details jsonb, requested_by, assignee_user_id fk, status, response null, decided_by null,
+                  decided_at null, due_at null, unique(kind, subject_id, assignee_user_id) where status = 'pending')
+                                     -- status: pending | approved | rejected | answered | cancelled | closed
+
+-- S2 Notifications
+email_outbox(id pk, to_address, to_name, subject, text_body, html_body, template, related_id null, status,
+             attempts int, next_attempt_at, last_error null, sent_at null)   -- queued with the change it announces
+
 -- Shared
 llm_calls(id pk, correlation_id, process_id null, prompt_file, prompt_sha256, model,
           input_tokens, output_tokens, latency_ms, status, error null)
@@ -76,4 +94,5 @@ events_outbox(id pk, type, payload jsonb, published_at null)   -- transactional 
 ```
 
 Indexes: `source_chunks USING hnsw (embedding vector_cosine_ops)`, `smes USING hnsw (topic_embedding …)`,
-`gaps(process_id, status, priority desc)`, `questions(sme_id, status)`, `ir_patches(process_id, status)`.
+`gaps(process_id, status, priority desc)`, `questions(sme_id, status)`, `ir_patches(process_id, status)`,
+`approval_requests(assignee_user_id, status)`, `email_outbox(next_attempt_at) where status = 'queued'`.

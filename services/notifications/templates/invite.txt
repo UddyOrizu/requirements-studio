@@ -1,0 +1,9 @@
+Subject: You have been invited to Requirements Studio
+
+Hello {{ name }},
+
+{{ inviter_name }} has added you to Requirements Studio as {{ "an administrator" if role == "admin" else "a user" }}.
+
+{% if sso and not link_is_password %}Sign in with your Microsoft work account: {{ link }}{% else %}Choose your password to get started (this link works for {{ expires_days }} days): {{ link }}{% if sso %}
+
+You can also sign in with your Microsoft work account.{% endif %}{% endif %}
